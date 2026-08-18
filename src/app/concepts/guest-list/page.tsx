@@ -12,6 +12,8 @@ const courseNames = [
   "Second Course",
   "Third Course",
   "Fourth Course",
+  "Fifth Course",
+  "Sixth Course",
   "After Dinner",
 ];
 
@@ -68,11 +70,33 @@ export default function GuestList() {
                       <div className="grid gap-6 pb-6 sm:grid-cols-[1fr_auto] sm:items-start">
                         <div>
                           <p className="text-sm leading-relaxed text-[#4a4136]">{p.summary}</p>
+                          {p.videos && (
+                            <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                              {p.videos.map((v) => (
+                                <div key={v.wistiaId}>
+                                  <div className="overflow-hidden rounded border border-[#d8c9b3]">
+                                    <iframe
+                                      title={v.title}
+                                      allowFullScreen
+                                      frameBorder="0"
+                                      scrolling="no"
+                                      className="wistia_embed aspect-video w-full"
+                                      name="wistia_embed"
+                                      src={`https://fast.wistia.net/embed/iframe/${v.wistiaId}`}
+                                    />
+                                  </div>
+                                  <span className="mt-1 block text-xs text-[#6b5f4f]">
+                                    {v.title}
+                                  </span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
                           <ul className="mt-4 space-y-1.5">
                             {p.items.map((item) => (
                               <li
                                 key={item}
-                                className="flex items-center gap-2 text-sm text-[#6b5f4f]"
+                                className="flex items-start gap-2 text-sm text-[#6b5f4f]"
                               >
                                 <span className="text-[#a5714f]">·</span>
                                 {item}

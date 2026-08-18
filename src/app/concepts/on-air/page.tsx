@@ -74,16 +74,33 @@ export default function OnAir() {
               <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-neutral-400">
                 {activePillar.summary}
               </p>
-              <div className="mt-6 grid gap-2 sm:grid-cols-3">
+              {activePillar.videos && (
+                <div className="mt-6 grid gap-3 sm:grid-cols-3">
+                  {activePillar.videos.map((v) => (
+                    <div key={v.wistiaId} className="text-left">
+                      <div className="overflow-hidden rounded border border-neutral-800 bg-neutral-950">
+                        <iframe
+                          title={v.title}
+                          allowFullScreen
+                          frameBorder="0"
+                          scrolling="no"
+                          className="wistia_embed aspect-video w-full"
+                          name="wistia_embed"
+                          src={`https://fast.wistia.net/embed/iframe/${v.wistiaId}`}
+                        />
+                      </div>
+                      <span className="mt-1 block text-xs text-neutral-400">{v.title}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="mt-4 grid gap-2 text-left sm:grid-cols-2">
                 {activePillar.items.map((item) => (
                   <div
                     key={item}
-                    className="rounded border border-neutral-800 bg-neutral-950/60 px-3 py-4 text-left"
+                    className="rounded border border-neutral-800 bg-neutral-950/60 px-3 py-3 text-xs text-neutral-300"
                   >
-                    <div className="mb-2 flex h-16 items-center justify-center rounded bg-neutral-900 text-neutral-600">
-                      ▶
-                    </div>
-                    <span className="text-xs text-neutral-300">{item}</span>
+                    {item}
                   </div>
                 ))}
               </div>
@@ -110,12 +127,12 @@ export default function OnAir() {
         </AnimatePresence>
       </div>
 
-      <div className="relative z-10 flex items-stretch border-t border-neutral-800 bg-neutral-950/80 backdrop-blur">
+      <div className="relative z-10 flex flex-wrap items-stretch border-t border-neutral-800 bg-neutral-950/80 backdrop-blur">
         {pillars.map((p) => (
           <button
             key={p.id}
             onClick={() => tuneTo(p.id)}
-            className={`flex flex-1 flex-col items-center gap-1 border-r border-neutral-800 py-4 text-xs transition last:border-r-0 hover:bg-neutral-900 ${
+            className={`flex basis-1/4 flex-col items-center gap-1 border-r border-b border-neutral-800 py-3 text-[11px] transition hover:bg-neutral-900 sm:basis-0 sm:flex-1 sm:border-b-0 sm:py-4 sm:text-xs ${
               active === p.id ? "bg-neutral-900 text-white" : "text-neutral-500"
             }`}
           >
