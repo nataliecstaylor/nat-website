@@ -2,7 +2,113 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
+import Image from "next/image";
 import { pillars } from "../_data";
+
+const influencerPosts = [
+  {
+    name: "Amanda Goetz",
+    role: "@AmandaMGoetz",
+    quote: "It was so fun and FAST.",
+    image: "/content/influencer/post-amanda.png",
+    href: "https://x.com/AmandaMGoetz/status/1704198677953237443",
+  },
+  {
+    name: "Dave Gerhardt",
+    role: "Founder, Exit Five",
+    quote: "Gonna change the video game for enterprise teams.",
+    image: "/content/influencer/post-dg.png",
+    href: "https://www.linkedin.com/feed/update/urn:li:activity:7115319375976361984/",
+  },
+  {
+    name: "Rayna van Beuzekom",
+    role: "Founder, Crux Content",
+    quote: "Goodbye keyframes fr.",
+    image: "/content/influencer/post-rayna.png",
+    href: "https://www.linkedin.com/posts/raynavb_sponsored-activity-7165721762016534528-BFSD",
+  },
+  {
+    name: "Christina Le",
+    role: "Head of Marketing, Slate",
+    quote: "Every creator needs this.",
+    image: "/content/influencer/post-christina.png",
+    href: "https://www.linkedin.com/posts/thesechapters_im-the-type-who-looks-for-shortcuts-to-cut-activity-7206307805337690115-7fbD",
+  },
+];
+
+function InfluencerCaseStudy() {
+  return (
+    <div className="mt-8 border-t border-neutral-800 pt-8 text-left">
+      <div className="mb-2 inline-flex items-center gap-2 bg-neutral-900 px-2 py-1 text-[10px] font-bold tracking-widest text-neutral-400">
+        CASE STUDY — INFLUENCER MARKETING
+      </div>
+      <p className="max-w-2xl text-sm leading-relaxed text-neutral-300">
+        Built a B2B influencer marketing program end-to-end — before it was cool. Managed
+        list-building, outreach and relationships, creative briefs, and launch timelines,
+        generating <span className="text-white">~800K impressions</span> on a scrappy budget
+        over six months. Critical to building Capsule&apos;s earliest brand awareness.
+      </p>
+
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div>
+          <div className="overflow-hidden rounded border border-neutral-800">
+            <Image
+              src="/content/influencer/outreach-redacted.png"
+              alt="First outreach message to an influencer, November 2023"
+              width={916}
+              height={512}
+              className="w-full"
+            />
+          </div>
+          <span className="mt-1 block text-xs text-neutral-500">
+            First outreach message — Nov 2023
+          </span>
+        </div>
+        <div>
+          <div className="overflow-hidden rounded border border-neutral-800">
+            <Image
+              src="/content/influencer/spreadsheet-redacted.png"
+              alt="Influencer tracking spreadsheet"
+              width={2770}
+              height={558}
+              className="w-full"
+            />
+          </div>
+          <span className="mt-1 block text-xs text-neutral-500">
+            The full tracking system — outreach through payment
+          </span>
+        </div>
+      </div>
+
+      <span className="mt-8 block text-xs text-neutral-500">The posts it produced</span>
+      <div className="mt-3 grid gap-3 grid-cols-2 sm:grid-cols-4">
+        {influencerPosts.map((post) => (
+          <a
+            key={post.name}
+            href={post.href}
+            target="_blank"
+            rel="noreferrer"
+            className="group block"
+          >
+            <div className="relative aspect-[4/5] overflow-hidden rounded border border-neutral-800 bg-neutral-900">
+              <Image
+                src={post.image}
+                alt={`${post.name} post`}
+                fill
+                className="object-cover transition group-hover:scale-105"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-2 pt-6">
+                <p className="text-[11px] leading-snug text-white">&ldquo;{post.quote}&rdquo;</p>
+              </div>
+            </div>
+            <span className="mt-1 block text-[11px] text-neutral-300">{post.name}</span>
+            <span className="block text-[10px] text-neutral-500">{post.role}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function useTimecode() {
   const [time, setTime] = useState("00:00:00");
@@ -49,7 +155,7 @@ export default function OnAir() {
         <span>{timecode}</span>
       </div>
 
-      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 text-center">
+      <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-16 text-center">
         <motion.div
           key={active ?? "idle-flash"}
           className="pointer-events-none fixed inset-0 z-20 bg-white"
@@ -65,7 +171,7 @@ export default function OnAir() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.25 }}
-              className="w-full max-w-xl"
+              className="w-full max-w-3xl"
             >
               <div className="mb-3 inline-flex items-center gap-2 bg-red-600 px-2 py-1 text-xs font-bold tracking-widest text-white">
                 CH. {activePillar.number} — {activePillar.kicker.toUpperCase()}
@@ -104,6 +210,7 @@ export default function OnAir() {
                   </div>
                 ))}
               </div>
+              {activePillar.id === "programs" && <InfluencerCaseStudy />}
             </motion.div>
           ) : (
             <motion.div
@@ -127,7 +234,7 @@ export default function OnAir() {
         </AnimatePresence>
       </div>
 
-      <div className="relative z-10 flex flex-wrap items-stretch border-t border-neutral-800 bg-neutral-950/80 backdrop-blur">
+      <div className="sticky bottom-0 z-30 flex flex-wrap items-stretch border-t border-neutral-800 bg-neutral-950/95 backdrop-blur">
         {pillars.map((p) => (
           <button
             key={p.id}
