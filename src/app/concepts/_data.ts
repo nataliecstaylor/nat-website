@@ -43,9 +43,9 @@ export const pillars: Pillar[] = [
     id: "producer",
     number: "03",
     label: "Producer",
-    kicker: "Interviewer, editorial",
+    kicker: "Video & content production",
     summary:
-      "Interviewed guests across formats, then shaped the raw material into the narrative that made each piece land.",
+      "Interviewed guests across formats and produced the video that carried Capsule's biggest moments — from customer case studies to major product launches.",
     items: [
       "Capsule × HubSpot video case study",
       "Capsule dinner guest highlight reels",

@@ -110,6 +110,113 @@ function InfluencerCaseStudy() {
   );
 }
 
+function ExternalLinkCard({
+  href,
+  label,
+  sublabel,
+}: {
+  href: string;
+  label: string;
+  sublabel?: string;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noreferrer"
+      className="group flex items-center justify-between rounded border border-neutral-800 bg-neutral-950/60 px-4 py-3 text-left transition hover:border-neutral-600 hover:bg-neutral-900"
+    >
+      <div>
+        <span className="block text-xs text-neutral-200">{label}</span>
+        {sublabel && <span className="block text-[11px] text-neutral-500">{sublabel}</span>}
+      </div>
+      <span className="text-neutral-500 transition group-hover:translate-x-0.5 group-hover:text-white">
+        →
+      </span>
+    </a>
+  );
+}
+
+function VipDinnerCaseStudy() {
+  return (
+    <div className="mt-8 border-t border-neutral-800 pt-8 text-left">
+      <div className="mb-2 inline-flex items-center gap-2 bg-neutral-900 px-2 py-1 text-[10px] font-bold tracking-widest text-neutral-400">
+        CASE STUDY — VIP DINNER SERIES
+      </div>
+      <p className="max-w-2xl text-sm leading-relaxed text-neutral-300">
+        Capsule&apos;s most effective GTM channel. Chose the cities, built the invite lists, ran
+        outreach and venue logistics, and kept attendance at{" "}
+        <span className="text-white">98%</span>. Scaled the series from{" "}
+        <span className="text-white">0.5 to 2 events a month</span>, built relationships behind{" "}
+        <span className="text-white">millions in pipeline</span>, and hired the Head of Events
+        who continues to scale it today.
+      </p>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <ExternalLinkCard
+          href="https://capsule.video/learn#in-person-events"
+          label="Photos, highlight reels & attendee quotes"
+          sublabel="capsule.video/learn"
+        />
+        <ExternalLinkCard
+          href="https://www.linkedin.com/posts/nataliecstaylor_im-hiring-marketing-role-2-at-capsule-activity-7284961860334895104-sWbZ"
+          label="Hiring the Head of Events who now runs it"
+          sublabel="LinkedIn post"
+        />
+      </div>
+    </div>
+  );
+}
+
+const launchCampaigns = [
+  { title: "Video Skills", id: "fGLgSXL1B8M" },
+  { title: "Variants", id: "k4PeSXyD0PA" },
+  { title: "AI Productions", id: "UnodbgTbX4g" },
+  { title: "Capsule 1.0", id: "o5zCtmwTS1M" },
+  { title: "Audio features", id: "LifBjrJHnq0" },
+  { title: "Auto Frame", id: "CcegwpLqVGY" },
+  { title: "Design Systems Lite", id: "ui8D76C0MGg" },
+];
+
+function LaunchCampaignsCaseStudy() {
+  return (
+    <div className="mt-8 border-t border-neutral-800 pt-8 text-left">
+      <div className="mb-2 inline-flex items-center gap-2 bg-neutral-900 px-2 py-1 text-[10px] font-bold tracking-widest text-neutral-400">
+        CASE STUDY — PRODUCT LAUNCH CAMPAIGNS
+      </div>
+      <p className="max-w-2xl text-sm leading-relaxed text-neutral-300">
+        Managed <span className="text-white">7 major product launch campaigns</span> in three
+        years, driving millions of impressions and large increases in brand awareness, inbound
+        demo requests, and pipeline.
+      </p>
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {launchCampaigns.map((v) => (
+          <a
+            key={v.id}
+            href={`https://www.youtube.com/watch?v=${v.id}`}
+            target="_blank"
+            rel="noreferrer"
+            className="group block"
+          >
+            <div className="relative aspect-video overflow-hidden rounded border border-neutral-800 bg-neutral-900">
+              <Image
+                src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+                alt={v.title}
+                fill
+                unoptimized
+                className="object-cover transition group-hover:scale-105"
+              />
+              <div className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition group-hover:bg-black/30 group-hover:opacity-100">
+                ▶
+              </div>
+            </div>
+            <span className="mt-1 block text-[11px] text-neutral-300">{v.title}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function useTimecode() {
   const [time, setTime] = useState("00:00:00");
   useEffect(() => {
@@ -210,7 +317,13 @@ export default function OnAir() {
                   </div>
                 ))}
               </div>
-              {activePillar.id === "programs" && <InfluencerCaseStudy />}
+              {activePillar.id === "programs" && (
+                <>
+                  <InfluencerCaseStudy />
+                  <VipDinnerCaseStudy />
+                </>
+              )}
+              {activePillar.id === "producer" && <LaunchCampaignsCaseStudy />}
             </motion.div>
           ) : (
             <motion.div
