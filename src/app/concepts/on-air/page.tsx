@@ -662,6 +662,7 @@ export default function OnAir() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              className="w-full max-w-2xl"
             >
               <p className="font-mono text-xs tracking-[0.3em] text-neutral-500">
                 CHANNEL ONE
@@ -669,10 +670,28 @@ export default function OnAir() {
               <h1 className="mt-3 text-5xl font-semibold tracking-tight sm:text-6xl">
                 NATALIE TAYLOR
               </h1>
-              <p className="mt-3 text-sm tracking-wide text-neutral-400">
-                Marketing lead · producer · on-air talent
+              <p className="mt-3 text-sm tracking-wide text-neutral-300">
+                Versatile, relationship-driven marketing leader with a high bar for quality,
+                connection, and details.
               </p>
-              <p className="mt-6 text-xs text-neutral-600">Select a channel below to tune in</p>
+              <div className="mt-6 space-y-4 text-left text-sm leading-relaxed text-neutral-400">
+                <p>
+                  I take a lot of pride in my work and the brands I come to represent—it&apos;s
+                  actually how I got into marketing. After college, I danced professionally with
+                  a brand-new company. The work we were doing was the highest caliber in the
+                  entire state. But we were brand-new and no one knew about it. So for the next 3
+                  years, I did everything I could to fix that and fell in love with marketing
+                  along the way, eventually retiring from dance and going all in on this
+                  profession. I&apos;ve done the same at other brands I was drawn to: T3
+                  Advisors, a boutique real-estate firm that was eventually acquired, and most
+                  recently Capsule, a Series-A video software company.
+                </p>
+                <p>
+                  I&apos;m looking to throw that same commitment into the next company I join.
+                  Take a look at my work at the channels below and let me know if you think we
+                  might be a fit.
+                </p>
+              </div>
             </motion.div>
           )}
         </AnimatePresence>

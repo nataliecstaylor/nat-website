@@ -85,7 +85,7 @@ export const pillars: Pillar[] = [
     label: "Culture",
     kicker: "Internal impact",
     summary:
-      "I take team morale seriously and make the culture I want at work: fun, connected, and purposeful.",
+      "I care immensely about people and take on company pride as an unprompted, unofficial job duty. I make the culture I want at work: fun, connected, and purposeful.",
     items: [],
     stat: { value: "2", label: "company retreats organized" },
   },
