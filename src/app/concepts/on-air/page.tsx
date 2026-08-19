@@ -421,6 +421,19 @@ function T3CaseStudyVideos() {
             <span className="mt-1 block text-xs text-neutral-400">{v.title}</span>
           </div>
         ))}
+        <div className="text-left">
+          <div className="overflow-hidden rounded border border-neutral-800 bg-neutral-950">
+            <video
+              src="/content/producer/why-space-matters.mp4"
+              poster="/content/producer/why-space-matters-poster.jpg"
+              controls
+              className="aspect-video w-full"
+            />
+          </div>
+          <span className="mt-1 block text-xs text-neutral-400">
+            &ldquo;Why Space Matters&rdquo; — General Catalyst
+          </span>
+        </div>
       </div>
     </div>
   );
@@ -466,6 +479,73 @@ function HostingCaseStudy() {
             />
           ))}
         </div>
+      </div>
+    </div>
+  );
+}
+
+function AIBuiltBanner() {
+  return (
+    <div className="mt-6 max-w-2xl border-l-2 border-red-600 bg-neutral-900/60 py-2 pl-4 text-left">
+      <p className="text-sm text-neutral-200">
+        Built this entire portfolio site in Claude Code in a few days.
+      </p>
+    </div>
+  );
+}
+
+const retreatPhotos = Array.from({ length: 8 }, (_, i) => `/content/culture/retreat/retreat-${i + 1}.jpg`);
+
+function RetreatCarousel() {
+  return (
+    <div className="mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
+      {retreatPhotos.map((src) => (
+        <div
+          key={src}
+          className="relative aspect-[4/3] w-64 flex-none snap-start overflow-hidden rounded border border-neutral-800 bg-neutral-900"
+        >
+          <Image src={src} alt="Company retreat photo" fill sizes="256px" className="object-cover" />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function CultureCaseStudy() {
+  return (
+    <div className="mt-8 border-t border-neutral-800 pt-8 text-left">
+      <div className="mb-2 inline-flex items-center gap-2 bg-neutral-900 px-2 py-1 text-[10px] font-bold tracking-widest text-neutral-400">
+        LINKEDIN WORKSHOP & COMPETITION
+      </div>
+      <div className="mt-3 max-w-xs">
+        <div className="overflow-hidden rounded border border-neutral-800">
+          <Image
+            src="/content/culture/t3-linkedin-preso.jpg"
+            alt="Leading a LinkedIn training at T3"
+            width={1400}
+            height={1867}
+            className="w-full"
+          />
+        </div>
+        <span className="mt-1 block text-xs text-neutral-500">
+          Leading the LinkedIn workshop at T3
+        </span>
+      </div>
+
+      <span className="mt-8 block text-xs text-neutral-500">Company retreats</span>
+      <RetreatCarousel />
+
+      <span className="mt-8 block text-xs text-neutral-500">Awards</span>
+      <div className="mt-2 max-w-md">
+        <ExternalLinkCard
+          href="https://www.linkedin.com/posts/nataliecstaylor_if-youve-spoken-to-me-in-the-past-2-years-activity-7325938479899561988-_HWV"
+          label="Winner, Capsule's People's Choice award"
+          sublabel="LinkedIn post"
+        />
+        <p className="mt-2 text-xs text-neutral-500">
+          Also winner of Capsule&apos;s &ldquo;shout-out award&rdquo; (most shout-outs in a
+          year).
+        </p>
       </div>
     </div>
   );
@@ -573,6 +653,8 @@ export default function OnAir() {
                   <ProspectRelationshipsCaseStudy />
                 </>
               )}
+              {activePillar.id === "ai-systems" && <AIBuiltBanner />}
+              {activePillar.id === "culture" && <CultureCaseStudy />}
             </motion.div>
           ) : (
             <motion.div

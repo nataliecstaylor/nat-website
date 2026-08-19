@@ -16,7 +16,7 @@ export const pillars: Pillar[] = [
     label: "Programs",
     kicker: "Built from the ground up",
     summary:
-      "Influencer marketing, a VIP dinner series, and a virtual summit — each built from zero: strategy, execution, and the systems to run them.",
+      "I take marketing ideas and turn them into enduring brand- and pipeline-building programs.",
     items: [
       "Influencer marketing program — outreach, tracking, content, metrics, community",
       "VIP dinner series — attendee stats; hired and built out a Head of Events role to scale it",
@@ -30,7 +30,7 @@ export const pillars: Pillar[] = [
     label: "Talent",
     kicker: "Face of the brand",
     summary:
-      "Outsize brand awareness built through hosting, speaking, and personal relationships with the customers and prospects who matter most.",
+      "I personally drive outsize brand awareness and relationships with customers and prospects as a core face of the brand.",
     items: [
       "Hosted or MC'ed nearly 50 in-person or virtual events",
       "Personal relationships with key prospects — customers reach out when they change companies",
@@ -45,8 +45,8 @@ export const pillars: Pillar[] = [
     label: "Producer",
     kicker: "Video & content production",
     summary:
-      "Interviewed guests across formats and produced the video that carried Capsule's biggest moments — from customer case studies to major product launches.",
-    items: ["Willow blog posts"],
+      "I use market insights to shape the narrative for high-value marketing content—customer case studies and product launches—then distribute it via campaigns.",
+    items: [],
     videos: [
       { title: "T3 × HubSpot", wistiaId: "y1q3sb5y9j" },
       { title: "T3 × TripActions (Navan)", wistiaId: "d7ila4v7za" },
@@ -85,12 +85,8 @@ export const pillars: Pillar[] = [
     label: "Culture",
     kicker: "Internal impact",
     summary:
-      "Led LinkedIn training, ran two full-company retreats, and was voted by coworkers as the person who best represents the company's values.",
-    items: [
-      "LinkedIn workshop & competition — at both T3 and Capsule",
-      "Planned and organized two full-company retreats; made retreat highlight videos unprompted",
-      "Winner, Capsule's \"shout-out award\" and \"people's choice award\"",
-    ],
+      "I take team morale seriously and make the culture I want at work: fun, connected, and purposeful.",
+    items: [],
     stat: { value: "2", label: "company retreats organized" },
   },
   {
