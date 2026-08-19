@@ -46,11 +46,7 @@ export const pillars: Pillar[] = [
     kicker: "Video & content production",
     summary:
       "Interviewed guests across formats and produced the video that carried Capsule's biggest moments — from customer case studies to major product launches.",
-    items: [
-      "Capsule × HubSpot video case study",
-      "Capsule dinner guest highlight reels",
-      "Willow blog posts",
-    ],
+    items: ["Willow blog posts"],
     videos: [
       { title: "T3 × HubSpot", wistiaId: "y1q3sb5y9j" },
       { title: "T3 × TripActions (Navan)", wistiaId: "d7ila4v7za" },

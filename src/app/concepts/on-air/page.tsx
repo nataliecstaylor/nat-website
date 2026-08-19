@@ -288,6 +288,36 @@ function ProspectRelationshipsCaseStudy() {
   );
 }
 
+function YouTubeVideoGrid({ videos }: { videos: { title: string; id: string; short?: boolean }[] }) {
+  return (
+    <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+      {videos.map((v) => (
+        <a
+          key={v.id}
+          href={v.short ? `https://www.youtube.com/shorts/${v.id}` : `https://www.youtube.com/watch?v=${v.id}`}
+          target="_blank"
+          rel="noreferrer"
+          className="group block"
+        >
+          <div className="relative aspect-video overflow-hidden rounded border border-neutral-800 bg-neutral-900">
+            <Image
+              src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+              alt={v.title}
+              fill
+              unoptimized
+              className="object-cover transition group-hover:scale-105"
+            />
+            <div className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition group-hover:bg-black/30 group-hover:opacity-100">
+              ▶
+            </div>
+          </div>
+          <span className="mt-1 block text-[11px] text-neutral-300">{v.title}</span>
+        </a>
+      ))}
+    </div>
+  );
+}
+
 const launchCampaigns = [
   { title: "Video Skills", id: "fGLgSXL1B8M" },
   { title: "Variants", id: "k4PeSXyD0PA" },
@@ -309,30 +339,133 @@ function LaunchCampaignsCaseStudy() {
         driving millions of impressions, and large increases in brand awareness, inbound demo
         requests, and pipeline.
       </p>
-      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {launchCampaigns.map((v) => (
-          <a
-            key={v.id}
-            href={`https://www.youtube.com/watch?v=${v.id}`}
-            target="_blank"
-            rel="noreferrer"
-            className="group block"
-          >
-            <div className="relative aspect-video overflow-hidden rounded border border-neutral-800 bg-neutral-900">
-              <Image
-                src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
-                alt={v.title}
-                fill
-                unoptimized
-                className="object-cover transition group-hover:scale-105"
+      <YouTubeVideoGrid videos={launchCampaigns} />
+    </div>
+  );
+}
+
+const dinnerReels = [
+  { title: "Dinner highlight", id: "Xn6jv7nPS9s", short: true },
+  { title: "Dinner highlight", id: "Fhc9cEa0szw", short: true },
+  { title: "Dinner highlight", id: "23NQUbzF5Mc", short: true },
+  { title: "Dinner highlight", id: "K34v01iCmkY", short: true },
+];
+
+function DinnerReelsCaseStudy() {
+  return (
+    <div className="mt-8 border-t border-neutral-800 pt-8 text-left">
+      <div className="mb-2 inline-flex items-center gap-2 bg-neutral-900 px-2 py-1 text-[10px] font-bold tracking-widest text-neutral-400">
+        CASE STUDY — DINNER HIGHLIGHT REELS
+      </div>
+      <p className="max-w-2xl text-sm leading-relaxed text-neutral-300">
+        Interviewed key event guests around relevant topics and edited into highlight reels.
+      </p>
+      <YouTubeVideoGrid videos={dinnerReels} />
+    </div>
+  );
+}
+
+const hubspotCaseStudyVideos = [
+  { title: "HubSpot × Capsule", id: "8xXyFzqLibg" },
+  { title: "HubSpot stakeholder", id: "q8IMJseXO7E", short: true },
+  { title: "HubSpot stakeholder", id: "C4vSFFU8_0M", short: true },
+  { title: "HubSpot stakeholder", id: "TZZ77llGQ1Y", short: true },
+  { title: "HubSpot stakeholder", id: "Ni5bEbfPXYI", short: true },
+];
+
+function HubSpotCaseStudy() {
+  return (
+    <div className="mt-8 border-t border-neutral-800 pt-8 text-left">
+      <div className="mb-2 inline-flex items-center gap-2 bg-neutral-900 px-2 py-1 text-[10px] font-bold tracking-widest text-neutral-400">
+        CASE STUDY — HUBSPOT × CAPSULE
+      </div>
+      <p className="max-w-2xl text-sm leading-relaxed text-neutral-300">
+        Conducted interviews with 5 key stakeholders of one of Capsule&apos;s key accounts and
+        edited 5 different videos.
+      </p>
+      <YouTubeVideoGrid videos={hubspotCaseStudyVideos} />
+    </div>
+  );
+}
+
+function T3CaseStudyVideos() {
+  return (
+    <div className="mt-8 border-t border-neutral-800 pt-8 text-left">
+      <div className="mb-2 inline-flex items-center gap-2 bg-neutral-900 px-2 py-1 text-[10px] font-bold tracking-widest text-neutral-400">
+        T3 CUSTOMER CASE STUDY VIDEOS
+      </div>
+      <p className="max-w-2xl text-sm leading-relaxed text-neutral-300">
+        Ran customer case study videos end to end: pre-production, interview, and
+        post-production. One of my interview subjects was Hemant Taneja, now-CEO of General
+        Catalyst, who said he was genuinely surprised at how thoughtful and well-researched my
+        questions were.
+      </p>
+      <div className="mt-4 grid gap-3 sm:grid-cols-3">
+        {[
+          { title: "T3 × HubSpot", wistiaId: "y1q3sb5y9j" },
+          { title: "T3 × TripActions (Navan)", wistiaId: "d7ila4v7za" },
+          { title: "T3 × ASICS", wistiaId: "dhi585068o" },
+        ].map((v) => (
+          <div key={v.wistiaId} className="text-left">
+            <div className="overflow-hidden rounded border border-neutral-800 bg-neutral-950">
+              <iframe
+                title={v.title}
+                allowFullScreen
+                frameBorder="0"
+                scrolling="no"
+                className="wistia_embed aspect-video w-full"
+                name="wistia_embed"
+                src={`https://fast.wistia.net/embed/iframe/${v.wistiaId}`}
               />
-              <div className="absolute inset-0 flex items-center justify-center bg-black/0 text-white opacity-0 transition group-hover:bg-black/30 group-hover:opacity-100">
-                ▶
-              </div>
             </div>
-            <span className="mt-1 block text-[11px] text-neutral-300">{v.title}</span>
-          </a>
+            <span className="mt-1 block text-xs text-neutral-400">{v.title}</span>
+          </div>
         ))}
+      </div>
+    </div>
+  );
+}
+
+function HostingCaseStudy() {
+  const replays = [
+    { title: "Virtual event replay", id: "WTtcCe_Dix0" },
+    { title: "Virtual event replay", id: "bqaFlc-aHIs" },
+  ];
+  return (
+    <div className="mt-8 border-t border-neutral-800 pt-8 text-left">
+      <div className="mb-2 inline-flex items-center gap-2 bg-neutral-900 px-2 py-1 text-[10px] font-bold tracking-widest text-neutral-400">
+        HOSTING VIRTUAL + IRL EVENTS
+      </div>
+      <div className="mt-3 grid gap-4 sm:grid-cols-[auto_1fr]">
+        <a
+          href="https://www.linkedin.com/posts/nataliecstaylor_weve-been-quietly-hosting-private-dinners-ugcPost-7252684536986099713-bDUa/"
+          target="_blank"
+          rel="noreferrer"
+          className="group block w-40"
+        >
+          <div className="relative aspect-[9/16] overflow-hidden rounded border border-neutral-800 bg-neutral-900">
+            <Image
+              src="/content/talent/grwm.png"
+              alt="Get ready with me for a Capsule VIP dinner"
+              fill
+              className="object-cover transition group-hover:scale-105"
+            />
+          </div>
+          <span className="mt-1 block text-[11px] text-neutral-400">
+            &ldquo;We&apos;ve been quietly hosting private dinners in major cities&hellip;&rdquo;
+          </span>
+        </a>
+        <div className="flex flex-col gap-2 self-start">
+          <span className="text-xs text-neutral-500">Virtual event replays</span>
+          {replays.map((r) => (
+            <ExternalLinkCard
+              key={r.id}
+              href={`https://youtu.be/${r.id}`}
+              label={r.title}
+              sublabel="YouTube"
+            />
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -408,26 +541,6 @@ export default function OnAir() {
               <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-neutral-400">
                 {activePillar.summary}
               </p>
-              {activePillar.videos && (
-                <div className="mt-6 grid gap-3 sm:grid-cols-3">
-                  {activePillar.videos.map((v) => (
-                    <div key={v.wistiaId} className="text-left">
-                      <div className="overflow-hidden rounded border border-neutral-800 bg-neutral-950">
-                        <iframe
-                          title={v.title}
-                          allowFullScreen
-                          frameBorder="0"
-                          scrolling="no"
-                          className="wistia_embed aspect-video w-full"
-                          name="wistia_embed"
-                          src={`https://fast.wistia.net/embed/iframe/${v.wistiaId}`}
-                        />
-                      </div>
-                      <span className="mt-1 block text-xs text-neutral-400">{v.title}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
               <div className="mt-4 grid gap-2 text-left sm:grid-cols-2">
                 {activePillar.items.map((item) => (
                   <div
@@ -445,9 +558,17 @@ export default function OnAir() {
                   <VirtualSummitCaseStudy />
                 </>
               )}
-              {activePillar.id === "producer" && <LaunchCampaignsCaseStudy />}
+              {activePillar.id === "producer" && (
+                <>
+                  <T3CaseStudyVideos />
+                  <DinnerReelsCaseStudy />
+                  <HubSpotCaseStudy />
+                  <LaunchCampaignsCaseStudy />
+                </>
+              )}
               {activePillar.id === "talent" && (
                 <>
+                  <HostingCaseStudy />
                   <LinkedInPostsCaseStudy />
                   <ProspectRelationshipsCaseStudy />
                 </>
