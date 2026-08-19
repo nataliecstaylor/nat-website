@@ -43,10 +43,11 @@ function InfluencerCaseStudy() {
         CASE STUDY — INFLUENCER MARKETING
       </div>
       <p className="max-w-2xl text-sm leading-relaxed text-neutral-300">
-        Built a B2B influencer marketing program end-to-end — before it was cool. Managed
-        list-building, outreach and relationships, creative briefs, and launch timelines,
-        generating <span className="text-white">~800K impressions</span> on a scrappy budget
-        over six months. Critical to building Capsule&apos;s earliest brand awareness.
+        Built a B2B influencer marketing program from end to end (in Fall 2023, before it was
+        cool). Managed list building, outreach and relationships, creative briefs, and launch
+        timelines and deliverables to generate{" "}
+        <span className="text-white">~800k impressions</span> on a very scrappy budget over 6
+        months. This program was critical to building Capsule&apos;s initial brand awareness.
       </p>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
@@ -144,25 +145,63 @@ function VipDinnerCaseStudy() {
         CASE STUDY — VIP DINNER SERIES
       </div>
       <p className="max-w-2xl text-sm leading-relaxed text-neutral-300">
-        Capsule&apos;s most effective GTM channel. Chose the cities, built the invite lists, ran
-        outreach and venue logistics, and kept attendance at{" "}
-        <span className="text-white">98%</span>. Scaled the series from{" "}
-        <span className="text-white">0.5 to 2 events a month</span>, built relationships behind{" "}
-        <span className="text-white">millions in pipeline</span>, and hired the Head of Events
-        who continues to scale it today.
+        Capsule&apos;s most effective GTM channel. I chose key cities, built invite lists,
+        managed outreach campaigns and venues, maintained{" "}
+        <span className="text-white">98% attendance</span>, scaled from{" "}
+        <span className="text-white">0.5 events/month to 2/month</span>, built key relationships
+        and <span className="text-white">millions in pipeline</span>, and hired a{" "}
+        <a
+          href="https://www.linkedin.com/posts/nataliecstaylor_earlier-this-year-i-posted-a-jd-for-the-activity-7354141810954309633-3eIv"
+          target="_blank"
+          rel="noreferrer"
+          className="text-white underline decoration-neutral-600 underline-offset-2 hover:decoration-white"
+        >
+          Head of Events
+        </a>{" "}
+        who continues to scale and improve this program.
       </p>
-      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+      <div className="mt-4">
         <ExternalLinkCard
           href="https://capsule.video/learn#in-person-events"
           label="Photos, highlight reels & attendee quotes"
           sublabel="capsule.video/learn"
         />
-        <ExternalLinkCard
-          href="https://www.linkedin.com/posts/nataliecstaylor_im-hiring-marketing-role-2-at-capsule-activity-7284961860334895104-sWbZ"
-          label="Hiring the Head of Events who now runs it"
-          sublabel="LinkedIn post"
-        />
       </div>
+    </div>
+  );
+}
+
+function VirtualSummitCaseStudy() {
+  return (
+    <div className="mt-8 border-t border-neutral-800 pt-8 text-left">
+      <div className="mb-2 inline-flex items-center gap-2 bg-neutral-900 px-2 py-1 text-[10px] font-bold tracking-widest text-neutral-400">
+        CASE STUDY — VIRTUAL SUMMIT
+      </div>
+      <p className="max-w-2xl text-sm leading-relaxed text-neutral-300">
+        Launched Capsule&apos;s first-ever virtual summit, securing{" "}
+        <span className="text-white">9 top-tier speakers</span>, leading editorial direction and
+        messaging for all sessions, and a 4-week promo campaign across email and organic and
+        paid social, resulting in a <span className="text-white">5x increase</span> in our
+        virtual event registration and attendance.
+      </p>
+      <a
+        href="https://capsule.video/video-first-summit-2026"
+        target="_blank"
+        rel="noreferrer"
+        className="mt-4 block max-w-md overflow-hidden rounded border border-neutral-800"
+      >
+        <video
+          src="/content/summit/virtual-summit-loop.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full"
+        />
+      </a>
+      <span className="mt-1 block max-w-md text-xs text-neutral-500">
+        Capsule Video First Summit 2026 — click to view the recap page
+      </span>
     </div>
   );
 }
@@ -184,9 +223,9 @@ function LaunchCampaignsCaseStudy() {
         CASE STUDY — PRODUCT LAUNCH CAMPAIGNS
       </div>
       <p className="max-w-2xl text-sm leading-relaxed text-neutral-300">
-        Managed <span className="text-white">7 major product launch campaigns</span> in three
-        years, driving millions of impressions and large increases in brand awareness, inbound
-        demo requests, and pipeline.
+        Managed <span className="text-white">7 major product launch campaigns</span> in 3 years,
+        driving millions of impressions, and large increases in brand awareness, inbound demo
+        requests, and pipeline.
       </p>
       <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
         {launchCampaigns.map((v) => (
@@ -321,6 +360,7 @@ export default function OnAir() {
                 <>
                   <InfluencerCaseStudy />
                   <VipDinnerCaseStudy />
+                  <VirtualSummitCaseStudy />
                 </>
               )}
               {activePillar.id === "producer" && <LaunchCampaignsCaseStudy />}
