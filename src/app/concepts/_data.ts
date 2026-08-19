@@ -32,7 +32,7 @@ export const pillars: Pillar[] = [
     summary:
       "Outsize brand awareness built through hosting, speaking, and personal relationships with the customers and prospects who matter most.",
     items: [
-      "Hosting virtual + IRL events",
+      "Hosted or MC'ed nearly 50 in-person or virtual events",
       "Personal relationships with key prospects — customers reach out when they change companies",
       "LinkedIn presence, product videos, podcast & speaking appearances",
       "Featured in a book about the IRL dinner series",

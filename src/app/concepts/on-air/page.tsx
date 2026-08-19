@@ -206,6 +206,88 @@ function VirtualSummitCaseStudy() {
   );
 }
 
+const talentLinkedInPosts = [
+  {
+    title: "Video Wins",
+    quote:
+      "I'm bullying everyone in the company (including myself) into posting their Video Wins to LinkedIn.",
+    image: "/content/talent/li-video-wins.png",
+    href: "https://www.linkedin.com/feed/update/urn:li:activity:7450558856486834176",
+  },
+  {
+    title: "Why I sound like an audio pro",
+    quote:
+      "If a video has crappy audio, viewers are scientifically less likely to trust the speaker.",
+    image: "/content/talent/li-audio.png",
+    href: "https://www.linkedin.com/feed/update/urn:li:activity:7165741119090216962",
+  },
+];
+
+function LinkedInPostsCaseStudy() {
+  return (
+    <div className="mt-8 border-t border-neutral-800 pt-8 text-left">
+      <div className="mb-2 inline-flex items-center gap-2 bg-neutral-900 px-2 py-1 text-[10px] font-bold tracking-widest text-neutral-400">
+        LINKEDIN PRESENCE — PRODUCT VIDEOS
+      </div>
+      <div className="mt-3 grid grid-cols-2 gap-3 sm:max-w-md">
+        {talentLinkedInPosts.map((post) => (
+          <a key={post.title} href={post.href} target="_blank" rel="noreferrer" className="group block">
+            <div className="relative aspect-square overflow-hidden rounded border border-neutral-800 bg-neutral-900">
+              <Image
+                src={post.image}
+                alt={post.title}
+                fill
+                className="object-cover transition group-hover:scale-105"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-2 pt-8">
+                <p className="text-[11px] leading-snug text-white">&ldquo;{post.quote}&rdquo;</p>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <span className="mt-8 block text-xs text-neutral-500">Podcast appearances</span>
+      <div className="mt-2 max-w-md overflow-hidden rounded border border-neutral-800">
+        <iframe
+          title="Podcast appearances playlist"
+          src="https://open.spotify.com/embed/playlist/0RwqJjqM3kVB4ZyO6cNGjX?utm_source=generator&theme=0"
+          width="100%"
+          height="152"
+          frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  );
+}
+
+function ProspectRelationshipsCaseStudy() {
+  const dms = [
+    { src: "/content/talent/pat-dm-redacted.png", w: 1000, h: 446 },
+    { src: "/content/talent/phillip-dm-redacted.png", w: 998, h: 256 },
+    { src: "/content/talent/ann-dm-redacted.png", w: 1002, h: 562 },
+  ];
+  return (
+    <div className="mt-8 border-t border-neutral-800 pt-8 text-left">
+      <div className="mb-2 inline-flex items-center gap-2 bg-neutral-900 px-2 py-1 text-[10px] font-bold tracking-widest text-neutral-400">
+        CASE STUDY — PERSONAL RELATIONSHIPS WITH KEY PROSPECTS
+      </div>
+      <p className="max-w-2xl text-sm leading-relaxed text-neutral-300">
+        Community relationships and brand familiarity led to several new deals.
+      </p>
+      <div className="mt-4 grid gap-4 sm:grid-cols-3">
+        {dms.map((dm) => (
+          <div key={dm.src} className="overflow-hidden rounded border border-neutral-800">
+            <Image src={dm.src} alt="Prospect outreach message" width={dm.w} height={dm.h} className="w-full" />
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 const launchCampaigns = [
   { title: "Video Skills", id: "fGLgSXL1B8M" },
   { title: "Variants", id: "k4PeSXyD0PA" },
@@ -364,6 +446,12 @@ export default function OnAir() {
                 </>
               )}
               {activePillar.id === "producer" && <LaunchCampaignsCaseStudy />}
+              {activePillar.id === "talent" && (
+                <>
+                  <LinkedInPostsCaseStudy />
+                  <ProspectRelationshipsCaseStudy />
+                </>
+              )}
             </motion.div>
           ) : (
             <motion.div
