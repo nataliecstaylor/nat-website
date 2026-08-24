@@ -148,10 +148,7 @@ function VideoTile({ v }: { v: ReelVideo }) {
 function ReelSection() {
   return (
     <div className="-mx-6 mt-4 bg-neutral-950 px-6 py-12">
-      <span className="font-mono text-[10px] tracking-widest text-neutral-500">
-        BEYOND THE SPLIT
-      </span>
-      <h3 className="mt-2 text-lg font-semibold tracking-tight text-white">
+      <h3 className="text-lg font-semibold tracking-tight text-white">
         Case Studies &amp; Campaigns
       </h3>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-400">
@@ -266,7 +263,7 @@ export default function OffCameraOnCamera() {
 
   return (
     <main className="relative flex min-h-screen flex-col bg-black text-neutral-100">
-      <div className="sticky top-0 z-30 flex items-center justify-between border-b border-neutral-900 bg-black/95 px-6 py-4 backdrop-blur">
+      <div className="sticky top-0 z-30 flex h-14 items-center justify-between border-b border-neutral-900 bg-black/95 px-6 backdrop-blur">
         <button
           onClick={() => scrollTo("top")}
           className="text-sm font-medium tracking-tight text-white transition hover:text-neutral-300"
@@ -301,8 +298,7 @@ export default function OffCameraOnCamera() {
             company.
           </p>
           <p>
-            I&apos;m looking to throw that same commitment into the next company I join. Scroll
-            on to see how I work — equally comfortable behind the camera and in front of it.
+            I&apos;m looking to throw that same commitment into the next company I join.
           </p>
         </div>
       </div>
@@ -321,7 +317,7 @@ export default function OffCameraOnCamera() {
             "I both build the strategy and execute it, taking countless programs and campaigns from 0-1. In many cases, I'm moving between behind-the-scenes work and visible or even on-camera work."
           }
         />
-        <div className="sticky top-0 z-20 mt-8 grid grid-cols-2 border-b border-neutral-800 bg-black/95 py-3 backdrop-blur">
+        <div className="sticky top-14 z-20 mt-8 grid grid-cols-2 border-b border-neutral-800 bg-black/95 py-3 backdrop-blur">
           <span className="text-center font-mono text-xs tracking-widest text-neutral-400">
             OFF CAMERA
           </span>
@@ -449,51 +445,46 @@ export default function OffCameraOnCamera() {
           I&apos;ve been making pizza with my husband for nearly a decade and love the constant
           pursuit of improvement.
         </p>
-        <div className="mt-3 grid grid-cols-2 gap-2 sm:max-w-md">
-          <a
-            href="https://www.instagram.com/p/Cr-9hQdtJ95/"
-            target="_blank"
-            rel="noreferrer"
-            className="group overflow-hidden rounded border border-neutral-800 transition hover:border-neutral-600"
-          >
-            <Image
-              src="/content/personal/grating-parm.jpg"
-              alt="Grating parmesan onto a fresh pizza"
-              width={1200}
-              height={1600}
-              className="w-full transition group-hover:scale-105"
-            />
-          </a>
-          <a
-            href="https://www.instagram.com/p/Cr-9hQdtJ95/"
-            target="_blank"
-            rel="noreferrer"
-            className="group overflow-hidden rounded border border-neutral-800 transition hover:border-neutral-600"
-          >
-            <Image
-              src="/content/personal/pizza-polaroid.jpg"
-              alt="Polaroid of a finished pizza"
-              width={1200}
-              height={1600}
-              className="w-full transition group-hover:scale-105"
-            />
-          </a>
-        </div>
-        <div className="mt-2">
-          <ExternalLinkCard
-            href="https://www.instagram.com/p/Cr-9hQdtJ95/"
-            label="Watch the video"
-            sublabel="Instagram"
-          />
+        <div className="mt-3 grid grid-cols-3 gap-2 sm:max-w-lg">
+          {[
+            { src: "/content/personal/grating-parm.jpg", alt: "Grating parmesan onto a fresh pizza" },
+            { src: "/content/personal/pizza-polaroid.jpg", alt: "Polaroid of a finished pizza" },
+            { src: "/content/personal/wes-anderson-pizza.jpg", alt: "You better not act like you're in a Wes Anderson film while making pizza" },
+          ].map((img) => (
+            <a
+              key={img.src}
+              href="https://www.instagram.com/p/Cr-9hQdtJ95/"
+              target="_blank"
+              rel="noreferrer"
+              className="group overflow-hidden rounded border border-neutral-800 transition hover:border-neutral-600"
+            >
+              <Image
+                src={img.src}
+                alt={img.alt}
+                width={1200}
+                height={1600}
+                className="w-full transition group-hover:scale-105"
+              />
+            </a>
+          ))}
         </div>
 
         <span className="mt-8 block text-xs text-neutral-500">Writing</span>
         <div className="mt-2 grid gap-3 sm:grid-cols-2">
-          <ExternalLinkCard
+          <a
             href="https://teamtaylortravels.com/"
-            label="Old travel blog"
-            sublabel="teamtaylortravels.com"
-          />
+            target="_blank"
+            rel="noreferrer"
+            className="group overflow-hidden rounded border border-neutral-800 transition hover:border-neutral-600"
+          >
+            <Image
+              src="/content/personal/team-taylor-travels.jpg"
+              alt="Taylor Travels blog"
+              width={1600}
+              height={1205}
+              className="w-full transition group-hover:scale-105"
+            />
+          </a>
           <div>
             <div className="grid grid-cols-2 gap-2">
               <div className="overflow-hidden rounded border border-neutral-800">
