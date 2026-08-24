@@ -10,17 +10,27 @@ import {
   launchCampaigns,
   aiSystemsItems,
   retreatPhotos,
+  dancePhotos,
   type Asset,
   type Side,
   type ReelVideo,
 } from "./_data";
 
 const sections = [
-  { id: "work", label: "The Work" },
+  { id: "work", label: "Work" },
   { id: "ai-systems", label: "AI & Systems" },
   { id: "culture", label: "Culture" },
   { id: "personal", label: "Personal" },
 ];
+
+function SectionHeader({ title, description }: { title: string; description: string }) {
+  return (
+    <div className="max-w-2xl">
+      <h2 className="text-3xl font-semibold tracking-tight">{title}</h2>
+      <p className="mt-3 text-sm leading-relaxed text-neutral-400">{description}</p>
+    </div>
+  );
+}
 
 function ExternalLinkCard({ href, label, sublabel }: { href: string; label: string; sublabel?: string }) {
   return (
@@ -67,11 +77,10 @@ function AssetGrid({ assets }: { assets: Asset[] }) {
   );
 }
 
-function CameraColumn({ label, side }: { label: string; side: Side }) {
+function CameraColumn({ side }: { side: Side }) {
   return (
     <div>
-      <span className="font-mono text-[10px] tracking-widest text-neutral-500">{label}</span>
-      <p className="mt-2 text-sm leading-relaxed text-neutral-300">{side.text}</p>
+      <p className="text-sm leading-relaxed text-neutral-300">{side.text}</p>
       {side.stat && (
         <div className="mt-3 inline-flex items-baseline gap-2 rounded bg-neutral-900 px-3 py-1.5">
           <span className="text-lg font-semibold text-white">{side.stat.value}</span>
@@ -86,10 +95,12 @@ function CameraColumn({ label, side }: { label: string; side: Side }) {
 function ProgramBand({ program }: { program: (typeof programs)[number] }) {
   return (
     <div className="border-t border-neutral-800 py-10">
-      <h3 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">{program.title}</h3>
+      <h3 className="text-center text-xl font-semibold tracking-tight text-white sm:text-2xl">
+        {program.title}
+      </h3>
       <div className="mt-6 grid gap-8 sm:grid-cols-2 sm:gap-10">
-        <CameraColumn label="OFF CAMERA" side={program.offCamera} />
-        <CameraColumn label="ON CAMERA" side={program.onCamera} />
+        <CameraColumn side={program.offCamera} />
+        <CameraColumn side={program.onCamera} />
       </div>
     </div>
   );
@@ -123,13 +134,25 @@ function VideoTile({ v }: { v: ReelVideo }) {
 function ReelSection() {
   return (
     <div className="border-t border-neutral-800 py-10">
-      <h3 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">The Reel</h3>
+      <h3 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
+        Case Studies &amp; Campaigns
+      </h3>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-400">
-        Produced video work that doesn&apos;t split neatly into off-camera / on-camera — the
-        craft of shaping someone else&apos;s story, start to finish.
+        I use market insights to shape the narrative for high-value marketing content—customer
+        case studies and product launches—creative direct the assets, and distribute them via
+        campaigns.
       </p>
 
-      <span className="mt-6 block text-xs text-neutral-500">
+      <span className="mt-8 block text-xs text-neutral-500">
+        7 major product launch campaigns in 3 years
+      </span>
+      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {launchCampaigns.map((v) => (
+          <VideoTile key={v.id} v={v} />
+        ))}
+      </div>
+
+      <span className="mt-8 block text-xs text-neutral-500">
         T3 customer case study videos — pre-production through post-production, including
         interviewing Hemant Taneja, now-CEO of General Catalyst, who said he was genuinely
         surprised at how thoughtful and well-researched my questions were
@@ -160,10 +183,17 @@ function ReelSection() {
               className="aspect-video w-full"
             />
           </div>
-          <span className="mt-1 block text-xs text-neutral-400">
-            &ldquo;Why Space Matters&rdquo; — General Catalyst
-          </span>
+          <span className="mt-1 block text-xs text-neutral-400">T3 x General Catalyst</span>
         </div>
+      </div>
+
+      <span className="mt-8 block text-xs text-neutral-500">
+        Capsule x HubSpot — 5 stakeholder interviews, 5 edited videos
+      </span>
+      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
+        {hubspotCaseStudyVideos.map((v) => (
+          <VideoTile key={v.id} v={v} />
+        ))}
       </div>
 
       <span className="mt-8 block text-xs text-neutral-500">
@@ -174,37 +204,19 @@ function ReelSection() {
           <VideoTile key={v.id} v={v} />
         ))}
       </div>
-
-      <span className="mt-8 block text-xs text-neutral-500">
-        HubSpot × Capsule — 5 stakeholder interviews, 5 edited videos
-      </span>
-      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {hubspotCaseStudyVideos.map((v) => (
-          <VideoTile key={v.id} v={v} />
-        ))}
-      </div>
-
-      <span className="mt-8 block text-xs text-neutral-500">
-        7 major product launch campaigns in 3 years
-      </span>
-      <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-        {launchCampaigns.map((v) => (
-          <VideoTile key={v.id} v={v} />
-        ))}
-      </div>
     </div>
   );
 }
 
-function RetreatCarousel() {
+function PhotoCarousel({ photos, alt }: { photos: string[]; alt: string }) {
   return (
     <div className="mt-3 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
-      {retreatPhotos.map((src) => (
+      {photos.map((src) => (
         <div
           key={src}
           className="relative aspect-[4/3] w-64 flex-none snap-start overflow-hidden rounded border border-neutral-800 bg-neutral-900"
         >
-          <Image src={src} alt="Company retreat photo" fill sizes="256px" className="object-cover" />
+          <Image src={src} alt={alt} fill sizes="256px" className="object-cover" />
         </div>
       ))}
     </div>
@@ -287,7 +299,13 @@ export default function OffCameraOnCamera() {
         }}
         className="relative z-10 mx-auto w-full max-w-4xl px-6 pb-4"
       >
-        <div className="grid grid-cols-2 border-b border-neutral-800 pb-3">
+        <SectionHeader
+          title="Work"
+          description={
+            'I both build the strategy and execute it, taking countless programs and campaigns from 0-1. In many cases, I’m moving between behind-the-scenes work and on-camera work.'
+          }
+        />
+        <div className="sticky top-0 z-20 mt-8 grid grid-cols-2 border-b border-neutral-800 bg-black/95 py-3 backdrop-blur">
           <span className="font-mono text-xs tracking-widest text-neutral-400">OFF CAMERA</span>
           <span className="font-mono text-xs tracking-widest text-neutral-400">ON CAMERA</span>
         </div>
@@ -305,14 +323,11 @@ export default function OffCameraOnCamera() {
         }}
         className="relative z-10 mx-auto w-full max-w-2xl border-t border-neutral-800 px-6 py-16"
       >
-        <div className="mb-2 inline-flex items-center gap-2 bg-red-600 px-2 py-1 text-xs font-bold tracking-widest text-white">
-          AI & SYSTEMS
-        </div>
-        <h2 className="text-3xl font-semibold tracking-tight">Building the tools, not just the outputs</h2>
-        <p className="mt-3 text-sm leading-relaxed text-neutral-400">
-          AI isn&apos;t how the work gets written faster — it&apos;s how the systems get built.
-        </p>
-        <div className="mt-4 grid gap-2 text-left sm:grid-cols-1">
+        <SectionHeader
+          title="AI & Systems"
+          description="I use Claude Cowork and Code daily to clarify my thinking, run analyses, and build apps that make my work faster and more fun."
+        />
+        <div className="mt-6 grid gap-2 text-left sm:grid-cols-1">
           {aiSystemsItems.map((item) => (
             <div key={item} className="rounded border border-neutral-800 bg-neutral-950/60 px-3 py-3 text-xs text-neutral-300">
               {item}
@@ -329,23 +344,33 @@ export default function OffCameraOnCamera() {
         }}
         className="relative z-10 mx-auto w-full max-w-2xl border-t border-neutral-800 px-6 py-16"
       >
-        <div className="mb-2 inline-flex items-center gap-2 bg-red-600 px-2 py-1 text-xs font-bold tracking-widest text-white">
-          CULTURE
-        </div>
-        <h2 className="text-3xl font-semibold tracking-tight">Culture</h2>
-        <p className="mt-3 text-sm leading-relaxed text-neutral-400">
-          I care immensely about people and take on company pride as an unprompted, unofficial
-          job duty. I make the culture I want at work: fun, connected, and purposeful.
-        </p>
+        <SectionHeader
+          title="Culture"
+          description="I care immensely about people and take on company pride as an unprompted, unofficial job duty. I make the culture I want at work: fun, connected, and purposeful."
+        />
         <span className="mt-8 block text-xs text-neutral-500">Company retreats</span>
-        <RetreatCarousel />
+        <PhotoCarousel photos={retreatPhotos} alt="Company retreat photo" />
         <span className="mt-8 block text-xs text-neutral-500">Awards</span>
-        <div className="mt-2 max-w-md">
-          <ExternalLinkCard
+        <div className="mt-2 max-w-[220px]">
+          <a
             href="https://www.linkedin.com/posts/nataliecstaylor_if-youve-spoken-to-me-in-the-past-2-years-activity-7325938479899561988-_HWV"
-            label="Winner, Capsule's People's Choice award"
-            sublabel="LinkedIn post"
-          />
+            target="_blank"
+            rel="noreferrer"
+            className="group block"
+          >
+            <div className="overflow-hidden rounded border border-neutral-800 transition group-hover:border-neutral-600">
+              <Image
+                src="/content/culture/peoples-choice.jpg"
+                alt="Winner, Capsule's People's Choice award"
+                width={1050}
+                height={1400}
+                className="w-full"
+              />
+            </div>
+            <span className="mt-1 block text-[11px] text-neutral-400">
+              Winner, Capsule&apos;s People&apos;s Choice award
+            </span>
+          </a>
           <p className="mt-2 text-xs text-neutral-500">
             Also winner of Capsule&apos;s &ldquo;shout-out award&rdquo; (most shout-outs in a
             year).
@@ -361,19 +386,47 @@ export default function OffCameraOnCamera() {
         }}
         className="relative z-10 mx-auto w-full max-w-2xl border-t border-neutral-800 px-6 py-16"
       >
-        <div className="mb-2 inline-flex items-center gap-2 bg-red-600 px-2 py-1 text-xs font-bold tracking-widest text-white">
-          PERSONAL
+        <SectionHeader
+          title="Off the clock"
+          description="I'm curious about most things and decently good at a few things."
+        />
+
+        <span className="mt-8 block text-xs text-neutral-500">Dance</span>
+        <PhotoCarousel photos={dancePhotos} alt="Dancing with SALT Contemporary Dance and BYU Theatre Ballet" />
+
+        <span className="mt-8 block text-xs text-neutral-500">Host</span>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-300">
+          From weekly pizza nights to 5 au pairs and nearly 200 Airbnb guests in our homes,
+          hosting is one of my greatest joys.
+        </p>
+        <div className="mt-3 grid grid-cols-2 gap-2 sm:max-w-md">
+          <div className="overflow-hidden rounded border border-neutral-800">
+            <Image
+              src="/content/personal/airbnb-room.jpg"
+              alt="Our Airbnb room"
+              width={1400}
+              height={1050}
+              className="w-full"
+            />
+          </div>
+          <div className="overflow-hidden rounded border border-neutral-800">
+            <Image
+              src="/content/personal/au-pair-pizza-party.jpg"
+              alt="Pizza night with our au pairs"
+              width={1050}
+              height={1400}
+              className="w-full"
+            />
+          </div>
         </div>
-        <h2 className="text-3xl font-semibold tracking-tight">Off the clock</h2>
-        <p className="mt-3 text-sm leading-relaxed text-neutral-400">Range shows up outside of work too.</p>
-        <div className="mt-4 grid gap-2 text-left sm:grid-cols-2">
-          {["Dance", "Hosting — Airbnb, au pair, pizza night", "Writing — BYU Magazine, travel blog, Christmas letters", "A couple of pizza businesses"].map(
-            (item) => (
-              <div key={item} className="rounded border border-neutral-800 bg-neutral-950/60 px-3 py-3 text-xs text-neutral-300">
-                {item}
-              </div>
-            )
-          )}
+
+        <span className="mt-8 block text-xs text-neutral-500">More</span>
+        <div className="mt-2 grid gap-2 text-left sm:grid-cols-2">
+          {["Writing — BYU Magazine, travel blog, Christmas letters", "A couple of pizza businesses"].map((item) => (
+            <div key={item} className="rounded border border-neutral-800 bg-neutral-950/60 px-3 py-3 text-xs text-neutral-300">
+              {item}
+            </div>
+          ))}
         </div>
       </section>
 

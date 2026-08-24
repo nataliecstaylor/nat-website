@@ -144,10 +144,10 @@ export const programs: Program[] = [
     id: "marketing-leadership",
     title: "Capsule Marketing Leadership",
     offCamera: {
-      text: "Built quarterly reporting, goals, and narrative directly with the CEO. First marketing hire and sole marketing leader — a seat I've now held twice, at two companies — managing a director-level direct report plus a bench of 12+ contractors.",
+      text: "First marketing hire and sole marketing leader at 3 companies, managing direct reports, contractors, and budgets. Built quarterly reporting, goals, and narrative directly with the CEO.",
     },
     onCamera: {
-      text: "Presented at every quarterly board meeting since October 2023 — strategy, reporting, performance.",
+      text: "Presented at every Capsule quarterly board meeting since October 2023.",
     },
   },
 ];
@@ -168,11 +168,11 @@ export const dinnerReels: ReelVideo[] = [
 ];
 
 export const hubspotCaseStudyVideos: ReelVideo[] = [
-  { title: "HubSpot × Capsule", id: "8xXyFzqLibg" },
-  { title: "HubSpot stakeholder", id: "q8IMJseXO7E", short: true },
-  { title: "HubSpot stakeholder", id: "C4vSFFU8_0M", short: true },
-  { title: "HubSpot stakeholder", id: "TZZ77llGQ1Y", short: true },
-  { title: "HubSpot stakeholder", id: "Ni5bEbfPXYI", short: true },
+  { title: "Capsule x HubSpot", id: "8xXyFzqLibg" },
+  { title: "Brand governance", id: "q8IMJseXO7E", short: true },
+  { title: "Ease of use", id: "C4vSFFU8_0M", short: true },
+  { title: "Cost and time savings", id: "TZZ77llGQ1Y", short: true },
+  { title: "Increased output", id: "Ni5bEbfPXYI", short: true },
 ];
 
 export const launchCampaigns: ReelVideo[] = [
@@ -186,6 +186,7 @@ export const launchCampaigns: ReelVideo[] = [
 ];
 
 export const aiSystemsItems = [
+  "Built a full LinkedIn competition app — analytics submission, points engine, weekly leaderboard, monthly cash prizes; drove a real increase in posting and impressions from beyond the founder/CEO",
   "Connected the MKT1 Google Analytics MCP to a weekly, auto-updating site-traffic dashboard",
   "Drove the move from Webflow to Sanity + Claude Code; now builds and ships every web update personally",
   "Built this entire portfolio site in Claude Code in a few days",
@@ -194,4 +195,9 @@ export const aiSystemsItems = [
 export const retreatPhotos = Array.from(
   { length: 8 },
   (_, i) => `/content/culture/retreat/retreat-${i + 1}.jpg`
+);
+
+export const dancePhotos = Array.from(
+  { length: 10 },
+  (_, i) => `/content/personal/dance/dance-${i + 1}.jpg`
 );
