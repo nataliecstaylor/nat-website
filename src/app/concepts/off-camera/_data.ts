@@ -1,7 +1,8 @@
 export type Asset =
   | { type: "image"; src: string; alt: string; w: number; h: number }
   | { type: "video"; src: string; poster?: string; alt: string }
-  | { type: "link"; href: string; label: string; sublabel?: string };
+  | { type: "link"; href: string; label: string; sublabel?: string }
+  | { type: "embed"; src: string; title: string; height: number };
 
 export type Side = {
   text: string;
@@ -101,7 +102,7 @@ export const programs: Program[] = [
         {
           type: "link",
           href: "https://capsule.video/video-first-summit-2026",
-          label: "Video First Summit 2026 recap",
+          label: "Video First Summit 2026",
           sublabel: "capsule.video",
         },
       ],
@@ -114,7 +115,7 @@ export const programs: Program[] = [
       text: "Built the LinkedIn competition strategy and goals, and the AI systems and app script behind it — analytics submission, a points engine, a weekly leaderboard, and monthly cash prizes. Drove a real increase in posting and impressions from beyond the founder/CEO.",
     },
     onCamera: {
-      text: "Presented company-wide on why LinkedIn matters — for the business and for everyone's personal brand — and led by example by posting regularly to my own profile, plus podcast and speaking appearances.",
+      text: "Presented company-wide on why LinkedIn matters — for the business and for everyone's personal brand — and led by example by posting regularly to my own profile.",
       assets: [
         {
           type: "image",
@@ -136,6 +137,59 @@ export const programs: Program[] = [
           alt: "Why I sound like an audio pro LinkedIn post",
           w: 390,
           h: 388,
+        },
+        {
+          type: "embed",
+          src: "https://open.spotify.com/embed/playlist/0RwqJjqM3kVB4ZyO6cNGjX?utm_source=generator&theme=0",
+          title: "Podcast appearances playlist",
+          height: 152,
+        },
+      ],
+    },
+  },
+  {
+    id: "positioning",
+    title: "Positioning",
+    offCamera: {
+      text: "Led positioning updates at two companies, using April Dunford's framework and bringing together founders and stakeholders to clarify our company's place in the market.",
+    },
+    onCamera: {
+      text: "Executed each of these updates across multiple website and brand refreshes, enabling the rest of the team with updated positioning and messaging docs.",
+      assets: [
+        {
+          type: "image",
+          src: "/content/positioning/t3-before-after-home.jpg",
+          alt: "T3 Advisors website redesign, before and after",
+          w: 1800,
+          h: 544,
+        },
+        {
+          type: "image",
+          src: "/content/positioning/t3-before-after-growth.jpg",
+          alt: "T3 Advisors growth stage page redesign, before and after",
+          w: 1800,
+          h: 606,
+        },
+        {
+          type: "image",
+          src: "/content/positioning/capsule-home-2.jpg",
+          alt: "Capsule homepage iteration",
+          w: 1600,
+          h: 881,
+        },
+        {
+          type: "image",
+          src: "/content/positioning/capsule-home-3.jpg",
+          alt: "Capsule homepage iteration",
+          w: 1600,
+          h: 832,
+        },
+        {
+          type: "image",
+          src: "/content/positioning/capsule-home-4.jpg",
+          alt: "Capsule homepage iteration",
+          w: 1600,
+          h: 784,
         },
       ],
     },

@@ -53,6 +53,7 @@ function AssetGrid({ assets }: { assets: Asset[] }) {
   const images = assets.filter((a): a is Extract<Asset, { type: "image" }> => a.type === "image");
   const videos = assets.filter((a): a is Extract<Asset, { type: "video" }> => a.type === "video");
   const links = assets.filter((a): a is Extract<Asset, { type: "link" }> => a.type === "link");
+  const embeds = assets.filter((a): a is Extract<Asset, { type: "embed" }> => a.type === "embed");
 
   return (
     <div className="mt-4 space-y-3">
@@ -68,6 +69,19 @@ function AssetGrid({ assets }: { assets: Asset[] }) {
       {videos.map((v) => (
         <div key={v.src} className="max-w-xs overflow-hidden rounded border border-neutral-800">
           <video src={v.src} poster={v.poster} autoPlay={!v.poster} loop muted playsInline controls={!!v.poster} className="w-full" />
+        </div>
+      ))}
+      {embeds.map((e) => (
+        <div key={e.src} className="max-w-xs overflow-hidden rounded border border-neutral-800">
+          <iframe
+            title={e.title}
+            src={e.src}
+            width="100%"
+            height={e.height}
+            frameBorder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          />
         </div>
       ))}
       {links.map((l) => (
@@ -133,8 +147,11 @@ function VideoTile({ v }: { v: ReelVideo }) {
 
 function ReelSection() {
   return (
-    <div className="border-t border-neutral-800 py-10">
-      <h3 className="text-xl font-semibold tracking-tight text-white sm:text-2xl">
+    <div className="-mx-6 mt-4 bg-neutral-950 px-6 py-12">
+      <span className="font-mono text-[10px] tracking-widest text-neutral-500">
+        BEYOND THE SPLIT
+      </span>
+      <h3 className="mt-2 text-lg font-semibold tracking-tight text-white">
         Case Studies &amp; Campaigns
       </h3>
       <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-400">
@@ -249,25 +266,24 @@ export default function OffCameraOnCamera() {
 
   return (
     <main className="relative flex min-h-screen flex-col bg-black text-neutral-100">
-      <div
-        className="pointer-events-none fixed inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage: "repeating-linear-gradient(0deg, #fff 0px, transparent 1px, transparent 2px)",
-        }}
-      />
-
-      <div className="relative z-10 flex items-center justify-between px-6 py-5 font-mono text-xs tracking-widest text-neutral-400">
-        <div className="flex items-center gap-2">
-          <span className="h-2 w-2 animate-pulse rounded-full bg-red-500" />
-          <span>REC</span>
-        </div>
-        <span>ON / OFF CAMERA</span>
+      <div className="sticky top-0 z-30 flex items-center justify-between border-b border-neutral-900 bg-black/95 px-6 py-4 backdrop-blur">
+        <button
+          onClick={() => scrollTo("top")}
+          className="text-sm font-medium tracking-tight text-white transition hover:text-neutral-300"
+        >
+          Natalie Taylor
+        </button>
       </div>
 
       {/* Hero */}
-      <div className="relative z-10 mx-auto w-full max-w-2xl px-6 pb-16 pt-8">
-        <p className="font-mono text-xs tracking-[0.3em] text-neutral-500">CHANNEL ONE</p>
-        <h1 className="mt-3 text-5xl font-semibold tracking-tight sm:text-6xl">NATALIE TAYLOR</h1>
+      <div
+        id="top"
+        ref={(el) => {
+          refs.current.top = el;
+        }}
+        className="relative z-10 mx-auto w-full max-w-2xl px-6 pb-16 pt-12"
+      >
+        <h1 className="text-5xl font-semibold tracking-tight sm:text-6xl">NATALIE TAYLOR</h1>
         <p className="mt-3 text-sm tracking-wide text-neutral-300">
           Versatile, relationship-driven marketing leader with a high bar for quality,
           connection, and details.
@@ -302,12 +318,16 @@ export default function OffCameraOnCamera() {
         <SectionHeader
           title="Work"
           description={
-            'I both build the strategy and execute it, taking countless programs and campaigns from 0-1. In many cases, I’m moving between behind-the-scenes work and on-camera work.'
+            "I both build the strategy and execute it, taking countless programs and campaigns from 0-1. In many cases, I'm moving between behind-the-scenes work and visible or even on-camera work."
           }
         />
         <div className="sticky top-0 z-20 mt-8 grid grid-cols-2 border-b border-neutral-800 bg-black/95 py-3 backdrop-blur">
-          <span className="font-mono text-xs tracking-widest text-neutral-400">OFF CAMERA</span>
-          <span className="font-mono text-xs tracking-widest text-neutral-400">ON CAMERA</span>
+          <span className="text-center font-mono text-xs tracking-widest text-neutral-400">
+            OFF CAMERA
+          </span>
+          <span className="text-center font-mono text-xs tracking-widest text-neutral-400">
+            ON CAMERA
+          </span>
         </div>
         {programs.map((p) => (
           <ProgramBand key={p.id} program={p} />
@@ -387,11 +407,15 @@ export default function OffCameraOnCamera() {
         className="relative z-10 mx-auto w-full max-w-2xl border-t border-neutral-800 px-6 py-16"
       >
         <SectionHeader
-          title="Off the clock"
+          title="Personal"
           description="I'm curious about most things and decently good at a few things."
         />
 
         <span className="mt-8 block text-xs text-neutral-500">Dance</span>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-300">
+          In my heyday, I danced in college and with SALT Contemporary Dance. Now I try (and
+          usually fail) to get to a ballet class once every few months.
+        </p>
         <PhotoCarousel photos={dancePhotos} alt="Dancing with SALT Contemporary Dance and BYU Theatre Ballet" />
 
         <span className="mt-8 block text-xs text-neutral-500">Host</span>
@@ -420,13 +444,79 @@ export default function OffCameraOnCamera() {
           </div>
         </div>
 
-        <span className="mt-8 block text-xs text-neutral-500">More</span>
-        <div className="mt-2 grid gap-2 text-left sm:grid-cols-2">
-          {["Writing — BYU Magazine, travel blog, Christmas letters", "A couple of pizza businesses"].map((item) => (
-            <div key={item} className="rounded border border-neutral-800 bg-neutral-950/60 px-3 py-3 text-xs text-neutral-300">
-              {item}
+        <span className="mt-8 block text-xs text-neutral-500">Pizza</span>
+        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-neutral-300">
+          I&apos;ve been making pizza with my husband for nearly a decade and love the constant
+          pursuit of improvement.
+        </p>
+        <div className="mt-3 grid grid-cols-2 gap-2 sm:max-w-md">
+          <a
+            href="https://www.instagram.com/p/Cr-9hQdtJ95/"
+            target="_blank"
+            rel="noreferrer"
+            className="group overflow-hidden rounded border border-neutral-800 transition hover:border-neutral-600"
+          >
+            <Image
+              src="/content/personal/grating-parm.jpg"
+              alt="Grating parmesan onto a fresh pizza"
+              width={1200}
+              height={1600}
+              className="w-full transition group-hover:scale-105"
+            />
+          </a>
+          <a
+            href="https://www.instagram.com/p/Cr-9hQdtJ95/"
+            target="_blank"
+            rel="noreferrer"
+            className="group overflow-hidden rounded border border-neutral-800 transition hover:border-neutral-600"
+          >
+            <Image
+              src="/content/personal/pizza-polaroid.jpg"
+              alt="Polaroid of a finished pizza"
+              width={1200}
+              height={1600}
+              className="w-full transition group-hover:scale-105"
+            />
+          </a>
+        </div>
+        <div className="mt-2">
+          <ExternalLinkCard
+            href="https://www.instagram.com/p/Cr-9hQdtJ95/"
+            label="Watch the video"
+            sublabel="Instagram"
+          />
+        </div>
+
+        <span className="mt-8 block text-xs text-neutral-500">Writing</span>
+        <div className="mt-2 grid gap-3 sm:grid-cols-2">
+          <ExternalLinkCard
+            href="https://teamtaylortravels.com/"
+            label="Old travel blog"
+            sublabel="teamtaylortravels.com"
+          />
+          <div>
+            <div className="grid grid-cols-2 gap-2">
+              <div className="overflow-hidden rounded border border-neutral-800">
+                <Image
+                  src="/content/personal/byu-1.jpg"
+                  alt="BYU Magazine article, Running to Remember"
+                  width={1232}
+                  height={1600}
+                  className="w-full"
+                />
+              </div>
+              <div className="overflow-hidden rounded border border-neutral-800">
+                <Image
+                  src="/content/personal/byu-2.jpg"
+                  alt="BYU Magazine article"
+                  width={1232}
+                  height={1600}
+                  className="w-full"
+                />
+              </div>
             </div>
-          ))}
+            <span className="mt-1 block text-[11px] text-neutral-400">BYU Magazine, 2013–2014</span>
+          </div>
         </div>
       </section>
 
