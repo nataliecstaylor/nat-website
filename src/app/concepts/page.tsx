@@ -13,6 +13,12 @@ const concepts = [
     description:
       "Hospitality / event framing. Warm, an agenda that unfolds course by course, you as the host.",
   },
+  {
+    href: "/concepts/off-camera",
+    title: "Off Camera / On Camera",
+    description:
+      "New IA: a two-column split (strategy vs. performance) runs through each program, then scroll-anchored sections for AI & Systems, Culture, Personal.",
+  },
 ];
 
 export default function ConceptsIndex() {
@@ -21,10 +27,10 @@ export default function ConceptsIndex() {
       <div className="text-center">
         <h1 className="text-2xl font-medium tracking-tight">Interaction directions</h1>
         <p className="mt-2 text-sm text-neutral-500">
-          Two rough, clickable prototypes — same content pillars, different feel.
+          Rough, clickable prototypes — same underlying content, different structure and feel.
         </p>
       </div>
-      <div className="grid w-full max-w-2xl gap-4 sm:grid-cols-2">
+      <div className="grid w-full max-w-4xl gap-4 sm:grid-cols-3">
         {concepts.map((c) => (
           <Link
             key={c.href}
