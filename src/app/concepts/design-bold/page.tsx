@@ -111,10 +111,10 @@ export default function DesignBold() {
         </div>
         <div className="overflow-hidden rounded-2xl border border-[#1C1B1A]/10">
           <Image
-            src="/content/talent/grwm.png"
-            alt="Natalie at work — placeholder, swap for the real photo"
-            width={382}
-            height={666}
+            src="/content/personal/profile-shot.jpg"
+            alt="Natalie at a Capsule event"
+            width={933}
+            height={1400}
             className="h-full w-full object-cover"
           />
         </div>
