@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { Hanken_Grotesk, Newsreader } from "next/font/google";
@@ -8,6 +9,14 @@ const display = Hanken_Grotesk({ subsets: ["latin"], weight: ["800"], variable: 
 const serif = Newsreader({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-serif" });
 
 const ACCENT = "#6E62FF";
+
+const navItems = [
+  { id: "home", label: "Home" },
+  { id: "work", label: "Work" },
+  { id: "ai-systems", label: "AI & Systems" },
+  { id: "culture", label: "Culture" },
+  { id: "personal", label: "Personal" },
+];
 
 function Rings() {
   return (
@@ -33,63 +42,106 @@ function Rings() {
   );
 }
 
+function PillNav({ active, onNavigate }: { active: string; onNavigate: (id: string) => void }) {
+  return (
+    <div className="fixed bottom-6 left-1/2 z-30 -translate-x-1/2">
+      <div className="flex items-center gap-1 rounded-full border border-[#1C1B1A]/10 bg-white/90 p-1.5 shadow-lg backdrop-blur">
+        {navItems.map((item) => {
+          const isActive = item.id === active;
+          const isReady = item.id === "home";
+          return (
+            <button
+              key={item.id}
+              onClick={() => isReady && onNavigate(item.id)}
+              disabled={!isReady}
+              className="rounded-full px-4 py-2 text-xs font-medium transition disabled:cursor-not-allowed"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 700,
+                backgroundColor: isActive ? ACCENT : "transparent",
+                color: isActive ? "#F2F0EA" : isReady ? "#1C1B1A" : "#1C1B1A55",
+              }}
+            >
+              {item.label}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 export default function DesignBold() {
+  const [active, setActive] = useState("home");
+  const heroRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const el = heroRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) setActive("home");
+      },
+      { rootMargin: "-40% 0px -50% 0px" }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  function navigate(id: string) {
+    if (id === "home") heroRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
     <main
       className={`${display.variable} ${serif.variable} relative min-h-screen overflow-hidden bg-[#F2F0EA]`}
       style={{ fontFamily: "var(--font-serif)" }}
     >
-      <div className="relative z-30 flex justify-center px-6 py-5">
-        <div className="flex items-center gap-2 rounded-full border border-[#1C1B1A]/10 bg-white/80 px-5 py-2.5 shadow-sm backdrop-blur">
-          <span
-            className="text-sm text-[#1C1B1A]"
-            style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
-          >
-            Natalie Taylor
-          </span>
-        </div>
-      </div>
-
       {/* Hero: type-only moment */}
-      <section className="relative flex min-h-[calc(100vh-88px)] flex-col justify-center px-8 sm:px-16">
-        <Rings />
-        <div
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px]"
-          style={{
-            background: `radial-gradient(circle, ${ACCENT}55 0%, ${ACCENT}22 45%, transparent 72%)`,
-          }}
-        />
-
-        <div className="relative z-10 max-w-4xl">
-          <h1
-            className="text-[#1C1B1A]"
+      <section
+        ref={heroRef}
+        className="relative flex min-h-[calc(100vh-88px)] flex-col justify-center px-8 sm:px-16"
+      >
+        <div className="relative w-fit">
+          <Rings />
+          <div
+            className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px]"
             style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 800,
-              fontSize: "clamp(3.6rem, 12.5vw, 9.5rem)",
-              lineHeight: 0.88,
-              letterSpacing: "-0.03em",
-              textTransform: "uppercase",
+              background: `radial-gradient(circle, ${ACCENT}55 0%, ${ACCENT}22 45%, transparent 72%)`,
             }}
-          >
-            Natalie
-            <br />
-            Taylor
-          </h1>
-          <p
-            className="mt-3 text-2xl italic sm:text-3xl"
-            style={{ fontFamily: "var(--font-serif)", color: ACCENT }}
-          >
-            — versatile, relationship-driven marketing leader
-          </p>
+          />
+
+          <div className="relative z-10 max-w-4xl">
+            <h1
+              className="text-[#1C1B1A]"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 800,
+                fontSize: "clamp(3.6rem, 12.5vw, 9.5rem)",
+                lineHeight: 0.88,
+                letterSpacing: "-0.03em",
+                textTransform: "uppercase",
+              }}
+            >
+              Natalie
+              <br />
+              Taylor
+            </h1>
+            <p
+              className="mt-3 text-2xl italic sm:text-3xl"
+              style={{ fontFamily: "var(--font-serif)", color: ACCENT }}
+            >
+              — versatile, relationship-driven marketing leader
+            </p>
+          </div>
         </div>
       </section>
 
-      {/* Story: fades in on scroll, photo joins the narrative */}
+      {/* Story: fades in and out as it enters/leaves the viewport */}
       <motion.section
         initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: false, amount: 0.3 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
         className="relative z-10 mx-auto grid max-w-5xl gap-10 border-t border-[#1C1B1A]/10 px-8 py-20 sm:grid-cols-[1.3fr_1fr] sm:px-16"
       >
@@ -119,6 +171,9 @@ export default function DesignBold() {
           />
         </div>
       </motion.section>
+
+      <div className="h-24" />
+      <PillNav active={active} onNavigate={navigate} />
     </main>
   );
 }
