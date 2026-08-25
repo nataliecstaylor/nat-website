@@ -1,11 +1,11 @@
 "use client";
 
-import { Bricolage_Grotesque, Inter } from "next/font/google";
+import { Unbounded, Inter } from "next/font/google";
 
-const display = Bricolage_Grotesque({ subsets: ["latin"], variable: "--font-display" });
+const display = Unbounded({ subsets: ["latin"], weight: ["700", "800"], variable: "--font-display" });
 const body = Inter({ subsets: ["latin"], variable: "--font-body" });
 
-const ACCENT = "#00B871";
+const ACCENT = "#6E62FF";
 
 function Rings() {
   return (
@@ -53,17 +53,18 @@ export default function DesignBold() {
         />
 
         <h1
-          className="relative z-10 font-semibold text-[#1C1B1A]"
+          className="relative z-10 text-[#1C1B1A]"
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(4.5rem, 15vw, 12rem)",
-            lineHeight: 0.86,
-            letterSpacing: "-0.03em",
+            fontWeight: 800,
+            fontSize: "clamp(3.6rem, 12.5vw, 9.5rem)",
+            lineHeight: 0.92,
+            letterSpacing: "-0.01em",
           }}
         >
           Natalie
           <br />
-          <span style={{ WebkitTextStroke: `2px ${ACCENT}`, WebkitTextFillColor: "#F2F0EA" }}>
+          <span style={{ WebkitTextStroke: `2.5px ${ACCENT}`, WebkitTextFillColor: "#F2F0EA" }}>
             Taylor
           </span>
         </h1>
