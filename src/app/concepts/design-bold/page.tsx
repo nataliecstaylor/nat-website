@@ -28,21 +28,21 @@ function Rings() {
   return (
     <svg
       className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-      width="1400"
-      height="700"
-      viewBox="0 0 1400 700"
+      width="1000"
+      height="560"
+      viewBox="0 0 1000 560"
       fill="none"
     >
-      {[0, 1, 2, 3, 4].map((i) => (
+      {[0, 1, 2, 3].map((i) => (
         <ellipse
           key={i}
-          cx="700"
-          cy="350"
-          rx={260 + i * 130}
-          ry={90 + i * 45}
+          cx="500"
+          cy="280"
+          rx={190 + i * 110}
+          ry={75 + i * 42}
           stroke="#1C1B1A"
-          strokeOpacity="0.3"
-          strokeWidth="1.5"
+          strokeOpacity="0.18"
+          strokeWidth="1.25"
         />
       ))}
     </svg>
@@ -51,52 +51,61 @@ function Rings() {
 
 function PillNav({ active, onNavigate }: { active: string; onNavigate: (id: string) => void }) {
   const [workOpen, setWorkOpen] = useState(false);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  function openWork() {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setWorkOpen(true);
+  }
+  function scheduleCloseWork() {
+    closeTimer.current = setTimeout(() => setWorkOpen(false), 200);
+  }
 
   return (
     <div className="fixed bottom-6 left-1/2 z-30 -translate-x-1/2">
-      {workOpen && (
-        <div
-          onMouseEnter={() => setWorkOpen(true)}
-          onMouseLeave={() => setWorkOpen(false)}
-          className="absolute bottom-full left-1/2 mb-3 w-56 -translate-x-1/2 rounded-2xl border border-[#1C1B1A]/10 bg-white/95 p-2 shadow-lg backdrop-blur"
-        >
-          {workSubmenu.map((label) => (
-            <button
-              key={label}
-              disabled
-              className="block w-full cursor-not-allowed rounded-xl px-3 py-2 text-left text-xs text-[#1C1B1A]/55"
-              style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-      )}
+      <div
+        className="relative"
+        onMouseEnter={openWork}
+        onMouseLeave={scheduleCloseWork}
+      >
+        {workOpen && (
+          <div className="absolute bottom-full left-1/2 mb-2 w-64 -translate-x-1/2 rounded-2xl border border-[#1C1B1A]/10 bg-white/95 p-2 shadow-lg backdrop-blur">
+            {workSubmenu.map((label) => (
+              <button
+                key={label}
+                disabled
+                className="block w-full cursor-not-allowed rounded-xl px-4 py-2.5 text-left text-sm uppercase text-[#1C1B1A]/55"
+                style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        )}
 
-      <div className="flex items-center gap-1 rounded-full border border-[#1C1B1A]/10 bg-white/90 p-1.5 shadow-lg backdrop-blur">
-        {navItems.map((item) => {
-          const isActive = item.id === active;
-          const isReady = item.id === "home";
-          const isWork = item.id === "work";
-          return (
-            <button
-              key={item.id}
-              onClick={() => (isWork ? setWorkOpen(true) : isReady && onNavigate(item.id))}
-              onMouseEnter={() => isWork && setWorkOpen(true)}
-              onMouseLeave={() => isWork && setWorkOpen(false)}
-              disabled={!isReady && !isWork}
-              className="rounded-full px-4 py-2 text-xs transition disabled:cursor-not-allowed"
-              style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 800,
-                backgroundColor: isActive ? ACCENT : "transparent",
-                color: isActive ? "#F2F0EA" : isReady || isWork ? "#1C1B1A" : "#1C1B1A55",
-              }}
-            >
-              {item.label}
-            </button>
-          );
-        })}
+        <div className="flex items-center gap-1 rounded-full border border-[#1C1B1A]/10 bg-white/90 p-2 shadow-lg backdrop-blur">
+          {navItems.map((item) => {
+            const isActive = item.id === active;
+            const isReady = item.id === "home";
+            const isWork = item.id === "work";
+            return (
+              <button
+                key={item.id}
+                onClick={() => (isWork ? openWork() : isReady && onNavigate(item.id))}
+                disabled={!isReady && !isWork}
+                className="rounded-full px-6 py-3 text-sm uppercase tracking-wide transition disabled:cursor-not-allowed"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 800,
+                  backgroundColor: isActive ? ACCENT : "transparent",
+                  color: isActive ? "#F2F0EA" : isReady || isWork ? "#1C1B1A" : "#1C1B1A55",
+                }}
+              >
+                {item.label}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </div>
   );
@@ -162,7 +171,7 @@ export default function DesignBold() {
               className="mt-3 text-2xl italic sm:text-3xl"
               style={{ fontFamily: "var(--font-serif)", color: ACCENT }}
             >
-              — versatile, relationship-driven marketing leader
+              versatile, relationship-driven marketing leader
             </p>
           </div>
         </div>
