@@ -13,15 +13,21 @@ const ACCENT = "#6E62FF";
 const navItems = [
   { id: "home", label: "Home" },
   { id: "work", label: "Work" },
-  { id: "ai-systems", label: "AI & Systems" },
-  { id: "culture", label: "Culture" },
-  { id: "personal", label: "Personal" },
+  { id: "about", label: "About" },
+  { id: "contact", label: "Contact" },
+];
+
+const workSubmenu = [
+  "0-1 Programs",
+  "Campaigns and Case Studies",
+  "AI & Systems",
+  "Culture",
 ];
 
 function Rings() {
   return (
     <svg
-      className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 opacity-[0.35]"
+      className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
       width="1400"
       height="700"
       viewBox="0 0 1400 700"
@@ -35,7 +41,8 @@ function Rings() {
           rx={260 + i * 130}
           ry={90 + i * 45}
           stroke="#1C1B1A"
-          strokeOpacity="0.12"
+          strokeOpacity="0.3"
+          strokeWidth="1.5"
         />
       ))}
     </svg>
@@ -43,23 +50,47 @@ function Rings() {
 }
 
 function PillNav({ active, onNavigate }: { active: string; onNavigate: (id: string) => void }) {
+  const [workOpen, setWorkOpen] = useState(false);
+
   return (
     <div className="fixed bottom-6 left-1/2 z-30 -translate-x-1/2">
+      {workOpen && (
+        <div
+          onMouseEnter={() => setWorkOpen(true)}
+          onMouseLeave={() => setWorkOpen(false)}
+          className="absolute bottom-full left-1/2 mb-3 w-56 -translate-x-1/2 rounded-2xl border border-[#1C1B1A]/10 bg-white/95 p-2 shadow-lg backdrop-blur"
+        >
+          {workSubmenu.map((label) => (
+            <button
+              key={label}
+              disabled
+              className="block w-full cursor-not-allowed rounded-xl px-3 py-2 text-left text-xs text-[#1C1B1A]/55"
+              style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="flex items-center gap-1 rounded-full border border-[#1C1B1A]/10 bg-white/90 p-1.5 shadow-lg backdrop-blur">
         {navItems.map((item) => {
           const isActive = item.id === active;
           const isReady = item.id === "home";
+          const isWork = item.id === "work";
           return (
             <button
               key={item.id}
-              onClick={() => isReady && onNavigate(item.id)}
-              disabled={!isReady}
-              className="rounded-full px-4 py-2 text-xs font-medium transition disabled:cursor-not-allowed"
+              onClick={() => (isWork ? setWorkOpen(true) : isReady && onNavigate(item.id))}
+              onMouseEnter={() => isWork && setWorkOpen(true)}
+              onMouseLeave={() => isWork && setWorkOpen(false)}
+              disabled={!isReady && !isWork}
+              className="rounded-full px-4 py-2 text-xs transition disabled:cursor-not-allowed"
               style={{
                 fontFamily: "var(--font-display)",
-                fontWeight: 700,
+                fontWeight: 800,
                 backgroundColor: isActive ? ACCENT : "transparent",
-                color: isActive ? "#F2F0EA" : isReady ? "#1C1B1A" : "#1C1B1A55",
+                color: isActive ? "#F2F0EA" : isReady || isWork ? "#1C1B1A" : "#1C1B1A55",
               }}
             >
               {item.label}
