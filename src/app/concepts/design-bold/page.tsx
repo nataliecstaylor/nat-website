@@ -26,18 +26,21 @@ const workSubmenu = [
 
 function Rings() {
   return (
-    <svg
+    <motion.svg
+      initial={{ opacity: 0, scale: 0.92 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 1.1, ease: "easeOut" }}
       className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-      width="1000"
-      height="560"
-      viewBox="0 0 1000 560"
+      width="1100"
+      height="460"
+      viewBox="0 0 1100 460"
       fill="none"
     >
       {[0, 1, 2, 3].map((i) => (
         <ellipse
           key={i}
-          cx="500"
-          cy="280"
+          cx="550"
+          cy="230"
           rx={190 + i * 110}
           ry={75 + i * 42}
           stroke="#1C1B1A"
@@ -45,7 +48,7 @@ function Rings() {
           strokeWidth="1.25"
         />
       ))}
-    </svg>
+    </motion.svg>
   );
 }
 
@@ -144,7 +147,10 @@ export default function DesignBold() {
       >
         <div className="relative w-fit">
           <Rings />
-          <div
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.1, ease: "easeOut" }}
             className="pointer-events-none absolute left-1/2 top-1/2 h-[520px] w-[520px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[90px]"
             style={{
               background: `radial-gradient(circle, ${ACCENT}55 0%, ${ACCENT}22 45%, transparent 72%)`,
@@ -152,7 +158,10 @@ export default function DesignBold() {
           />
 
           <div className="relative z-10 max-w-4xl">
-            <h1
+            <motion.h1
+              initial={{ opacity: 0, y: 28 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, ease: "easeOut" }}
               className="text-[#1C1B1A]"
               style={{
                 fontFamily: "var(--font-display)",
@@ -166,13 +175,16 @@ export default function DesignBold() {
               Natalie
               <br />
               Taylor
-            </h1>
-            <p
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
               className="mt-3 text-2xl italic sm:text-3xl"
               style={{ fontFamily: "var(--font-serif)", color: ACCENT }}
             >
               versatile, relationship-driven marketing leader
-            </p>
+            </motion.p>
           </div>
         </div>
       </section>
