@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ACCENT } from "../_nav-data";
+import { ACCENT_TEXT } from "../_nav-data";
 
 const dancePhotos = Array.from({ length: 10 }, (_, i) => `/content/personal/dance/dance-${i + 1}.jpg`);
 
@@ -32,7 +32,7 @@ export default function AboutPage() {
       </h1>
 
       <div className="mt-16 max-w-2xl">
-        <p className="text-lg italic leading-relaxed" style={{ fontFamily: "var(--font-serif)", color: ACCENT }}>
+        <p className="text-lg italic leading-relaxed" style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}>
           I&apos;m curious about most things and decently good at a few things.
         </p>
 

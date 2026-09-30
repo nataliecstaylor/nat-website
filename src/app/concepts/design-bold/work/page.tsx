@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ACCENT } from "../_nav-data";
+import { ACCENT, ACCENT_TEXT } from "../_nav-data";
 import { companies, aiSystemsItems, type WorkItem } from "./_data";
 
 function ExternalLinkCard({ href, label, sublabel }: { href: string; label: string; sublabel?: string }) {
@@ -16,7 +16,7 @@ function ExternalLinkCard({ href, label, sublabel }: { href: string; label: stri
         <span className="block text-xs text-[#1C1B1A]">{label}</span>
         {sublabel && <span className="block text-[11px] text-[#1C1B1A]/50">{sublabel}</span>}
       </div>
-      <span className="text-[#1C1B1A]/40 transition group-hover:translate-x-0.5" style={{ color: ACCENT }}>
+      <span className="text-[#1C1B1A]/40 transition group-hover:translate-x-0.5" style={{ color: ACCENT_TEXT }}>
         →
       </span>
     </a>
@@ -47,7 +47,7 @@ function VideoTile({ title, id, short }: { title: string; id: string; short?: bo
 
 function ItemBlock({ item }: { item: WorkItem }) {
   return (
-    <div id={item.id} className="border-t border-[#1C1B1A]/10 py-10 first:border-t-0 first:pt-0">
+    <div id={item.id} className="pt-10 first:pt-0">
       <h4
         className="text-xl text-[#1C1B1A] sm:text-2xl"
         style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.01em" }}
@@ -58,7 +58,7 @@ function ItemBlock({ item }: { item: WorkItem }) {
 
       {item.stat && (
         <div className="mt-4 inline-flex items-baseline gap-2">
-          <span className="text-3xl" style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: ACCENT }}>
+          <span className="text-3xl" style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: ACCENT_TEXT }}>
             {item.stat.value}
           </span>
           <span className="text-xs text-[#1C1B1A]/50">{item.stat.label}</span>
@@ -178,18 +178,28 @@ export default function WorkPage() {
             >
               {company.name}
             </h2>
-            <p className="mt-3 max-w-2xl text-lg italic leading-relaxed" style={{ fontFamily: "var(--font-serif)", color: ACCENT }}>
+            <p className="mt-3 max-w-2xl text-lg italic leading-relaxed" style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}>
               {company.intro}
             </p>
 
             {company.categories?.map((category) => (
-              <div key={category.id} id={category.id} className="mt-14">
+              <div
+                key={category.id}
+                id={category.id}
+                className="mt-16 border-t border-[#1C1B1A]/10 pt-16 first:mt-12 first:border-t-0 first:pt-0"
+              >
                 {category.label && (
-                  <span className="text-xs font-medium uppercase tracking-[0.15em] text-[#1C1B1A]/40" style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}>
-                    {category.label}
-                  </span>
+                  <div className="flex items-center gap-2.5">
+                    <span className="h-2.5 w-2.5 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
+                    <h3
+                      className="text-base uppercase tracking-[0.1em] text-[#1C1B1A] sm:text-lg"
+                      style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+                    >
+                      {category.label}
+                    </h3>
+                  </div>
                 )}
-                <div className={category.label ? "mt-4" : ""}>
+                <div className={category.label ? "mt-8" : ""}>
                   {category.items.map((item) => (
                     <ItemBlock key={item.id} item={item} />
                   ))}
@@ -201,7 +211,7 @@ export default function WorkPage() {
               <ul className="mt-8 max-w-2xl space-y-3">
                 {company.bullets.map((b) => (
                   <li key={b} className="flex gap-3 text-base leading-relaxed text-[#1C1B1A]/75">
-                    <span style={{ color: ACCENT }}>—</span>
+                    <span style={{ color: ACCENT_TEXT }}>—</span>
                     {b}
                   </li>
                 ))}
@@ -235,7 +245,7 @@ export default function WorkPage() {
           >
             AI &amp; Systems
           </h2>
-          <p className="mt-3 max-w-2xl text-lg italic leading-relaxed" style={{ fontFamily: "var(--font-serif)", color: ACCENT }}>
+          <p className="mt-3 max-w-2xl text-lg italic leading-relaxed" style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}>
             AI isn&apos;t how the work gets written faster — it&apos;s how the systems get built.
           </p>
           <div className="mt-8 grid gap-2 sm:grid-cols-2">

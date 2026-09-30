@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ACCENT } from "../_nav-data";
+import { ACCENT, ACCENT_TEXT } from "../_nav-data";
 
 const EMAIL = "nataliecstaylor@gmail.com";
 const LINKEDIN_URL = "https://www.linkedin.com/in/nataliecstaylor/";
@@ -55,7 +55,7 @@ export default function ContactPage() {
         className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-[#1C1B1A]/10 bg-white px-5 py-2.5 text-sm text-[#1C1B1A] transition hover:border-[#1C1B1A]/25"
         style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
       >
-        <span style={{ color: ACCENT }}>
+        <span style={{ color: ACCENT_TEXT }}>
           <LinkedInIcon />
         </span>
         LinkedIn

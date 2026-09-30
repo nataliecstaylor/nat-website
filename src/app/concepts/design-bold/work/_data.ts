@@ -48,7 +48,7 @@ export const companies: Company[] = [
             id: "product-launches",
             label: "Product launches",
             description:
-              "Managed 7 major product launch campaigns in 3 years, driving millions of impressions, and large increases in brand awareness, inbound demo requests, and pipeline.",
+              "Managed 7 major product launch campaigns in 3 years. These drove millions of impressions and both spikes and sustained increases in brand awareness, inbound demo requests, and pipeline.",
             youtube: [
               { title: "Video Skills", id: "fGLgSXL1B8M" },
               { title: "Variants", id: "k4PeSXyD0PA" },

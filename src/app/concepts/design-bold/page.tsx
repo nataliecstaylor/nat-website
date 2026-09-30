@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "motion/react";
-import { ACCENT } from "./_nav-data";
+import { ACCENT, ACCENT_TEXT } from "./_nav-data";
 
 function Rings() {
   return (
@@ -72,7 +72,7 @@ export default function DesignBoldHome() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.5, ease: "easeOut" }}
               className="mt-3 text-2xl italic sm:text-3xl"
-              style={{ fontFamily: "var(--font-serif)", color: ACCENT }}
+              style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}
             >
               0→1 brand and product marketing leader
             </motion.p>

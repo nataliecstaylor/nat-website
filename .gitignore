@@ -36,6 +36,10 @@ yarn-error.log*
 # vercel
 .vercel
 
+# raw/unprocessed source assets dropped into public/ -- only the
+# optimized derivatives that pages actually reference get committed
+public/content/**/Untitled design*
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
