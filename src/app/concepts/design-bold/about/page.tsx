@@ -79,6 +79,20 @@ export default function AboutPage() {
           ))}
         </div>
 
+        <SectionLabel>Host</SectionLabel>
+        <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">
+          From weekly pizza nights to 5 au pairs and nearly 200 Airbnb guests in our homes,
+          hosting is one of my greatest joys.
+        </p>
+        <div className="mt-6 grid max-w-2xl grid-cols-2 gap-3">
+          <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+            <Image src="/content/personal/airbnb-room.jpg" alt="Our Airbnb room" width={1400} height={1050} className="w-full" />
+          </div>
+          <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+            <Image src="/content/personal/au-pair-pizza-party.jpg" alt="Pizza night with our au pairs" width={1050} height={1400} className="w-full" />
+          </div>
+        </div>
+
         <SectionLabel>Pizza Night</SectionLabel>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">
           I&apos;ve been making pizza with my husband for nearly a decade and love the constant
