@@ -119,7 +119,7 @@ export const companies: Company[] = [
                 src: "/content/talent/grwm.png",
                 alt: "Get ready with me for a Capsule VIP dinner",
                 href: "https://www.linkedin.com/feed/update/urn:li:activity:7252684787457368064/",
-                caption: "Sneak peek of what an actual dinner entailed",
+                caption: "Sneak peek of an actual dinner",
                 video: true,
               },
               {
@@ -156,8 +156,8 @@ export const companies: Company[] = [
             imageCarouselNatural: true,
             images: [
               { src: "/content/talent/pat-dm-redacted.png", alt: "Prospect outreach message", w: 1000, h: 446 },
-              { src: "/content/talent/phillip-dm-redacted.png", alt: "Prospect outreach message", w: 998, h: 256 },
               { src: "/content/talent/ann-dm-redacted.png", alt: "Prospect outreach message", w: 1002, h: 562 },
+              { src: "/content/talent/phillip-dm-redacted.png", alt: "Prospect outreach message", w: 998, h: 256 },
             ],
             embed: {
               src: "https://open.spotify.com/embed/playlist/0RwqJjqM3kVB4ZyO6cNGjX?utm_source=generator&theme=0",
@@ -246,6 +246,18 @@ export const companies: Company[] = [
         label: "Leadership & Culture",
         items: [
           {
+            id: "ai-systems",
+            label: "AI & Systems",
+            description:
+              "I use Claude Cowork and Code daily to clarify my thinking, run analyses, and build apps that make my work faster and more fun.",
+            bulletCards: [
+              "Built a LinkedIn competition app with Claude and Google Apps Script, complete with automated analytics submissions, scoring system, weekly leaderboard Slacks, and monthly cash prizes. This drove a huge increase in the number of people posting and 4Xed Capsule's non-exec impressions.",
+              "Built a weekly auto-updating dashboard for site traffic, connected via the MKT1 Google Analytics MCP",
+              "Helped direct the move of Capsule's website off of Webflow and onto Claude Code / Vercel / Sanity to reduce overhead and ship pages 5x faster",
+              "Built this entire portfolio site with Claude Code and Vercel in just a few days",
+            ],
+          },
+          {
             id: "retreats",
             label: "Company retreats",
             description:
@@ -272,18 +284,6 @@ export const companies: Company[] = [
             mediaLayout: "side",
             imageCaption: "Nathan and I winning the Capsule People's Choice Award",
             images: [{ src: "/content/culture/peoples-choice.jpg", alt: "Winner, Capsule's People's Choice award", w: 1050, h: 1400 }],
-          },
-          {
-            id: "ai-systems",
-            label: "AI & Systems",
-            description:
-              "I use Claude Cowork and Code daily to clarify my thinking, run analyses, and build apps that make my work faster and more fun.",
-            bulletCards: [
-              "Built a full LinkedIn competition app — analytics submission, points engine, weekly leaderboard, monthly cash prizes; drove a real increase in posting and impressions from beyond the founder/CEO",
-              "Connected the MKT1 Google Analytics MCP to a weekly, auto-updating site-traffic dashboard",
-              "Drove the move from Webflow to Sanity + Claude Code; now builds and ships every web update personally",
-              "Built this entire portfolio site in Claude Code in a few days",
-            ],
           },
         ],
       },
@@ -332,6 +332,7 @@ export const companies: Company[] = [
           {
             id: "linkedin-program-t3",
             label: "LinkedIn program",
+            hidden: true,
             description:
               "Led a LinkedIn workshop at T3, training the team on why LinkedIn matters for the business and for personal brand.",
             images: [{ src: "/content/culture/t3-linkedin-preso.jpg", alt: "Leading a LinkedIn training at T3", w: 1400, h: 1867 }],

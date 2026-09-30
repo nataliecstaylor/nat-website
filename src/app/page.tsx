@@ -90,6 +90,7 @@ export default function DesignBoldHome() {
             alt="Natalie Taylor"
             width={900}
             height={1474}
+            priority
             className="h-full w-full object-cover"
           />
         </motion.div>

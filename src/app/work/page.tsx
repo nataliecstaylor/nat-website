@@ -270,9 +270,9 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
   return (
     <div id={item.id} className="pt-14 first:pt-0">
       {sideMedia ? (
-        <div className="sm:flex sm:items-start sm:gap-10">
+        <div className="sm:flex sm:items-start sm:gap-10 sm:max-w-4xl">
           <div className="min-w-0 sm:flex-1">{header}</div>
-          <div className="mt-6 sm:mt-0 sm:w-72 sm:flex-none lg:w-80">{sideMedia}</div>
+          <div className="mt-6 sm:mt-0 sm:w-80 sm:flex-none lg:w-96">{sideMedia}</div>
         </div>
       ) : (
         header
