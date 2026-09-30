@@ -2,8 +2,11 @@ export type WorkItem = {
   id: string;
   label: string;
   description: string;
+  result?: string;
   stat?: { value: string; label: string };
   images?: { src: string; alt: string; w: number; h: number }[];
+  imageCarousel?: boolean;
+  posts?: { name: string; role: string; quote: string; image: string; href: string }[];
   youtube?: { title: string; id: string; short?: boolean }[];
   wistia?: { title: string; wistiaId: string }[];
   video?: { src: string; poster?: string; alt: string };
@@ -37,7 +40,9 @@ export const companies: Company[] = [
             id: "positioning",
             label: "Positioning",
             description:
-              "Led positioning updates at two companies, using April Dunford's framework and bringing together founders and stakeholders to clarify our company's place in the market — then executed each update across multiple website and brand refreshes, enabling the rest of the team with updated positioning and messaging docs.",
+              "In a crowded and constantly changing market of AI video tools, I led a number of positioning updates, aligning stakeholders and using April Dunford's framework to clarify Capsule's place as an enterprise-grade system.",
+            result:
+              "I then executed each update across multiple website refreshes and enablement materials for the rest of the team, so that prospects were hearing the right message across both marketing and sales.",
             images: [
               { src: "/content/positioning/capsule-home-2.jpg", alt: "Capsule homepage iteration", w: 1600, h: 881 },
               { src: "/content/positioning/capsule-home-3.jpg", alt: "Capsule homepage iteration", w: 1600, h: 832 },
@@ -48,8 +53,11 @@ export const companies: Company[] = [
             id: "product-launches",
             label: "Product launches",
             description:
-              "Managed 7 major product launch campaigns in 3 years. These drove millions of impressions and both spikes and sustained increases in brand awareness, inbound demo requests, and pipeline.",
+              "The product evolved significantly in my time at Capsule, and we launched 8 major product campaigns to reflect that. The goals for most of the campaigns were to stand out from competitors, highlight the product's quality and speed of innovation for enterprise use cases, and drive pipeline.",
+            result:
+              "The launches drove both spikes and sustained increases in brand awareness, inbound demo requests, and pipeline, as well as millions of impressions.",
             youtube: [
+              { title: "Beta launch", id: "_JNt77-LyN4" },
               { title: "Video Skills", id: "fGLgSXL1B8M" },
               { title: "Variants", id: "k4PeSXyD0PA" },
               { title: "AI Productions", id: "UnodbgTbX4g" },
@@ -63,7 +71,9 @@ export const companies: Company[] = [
             id: "case-studies",
             label: "Case studies",
             description:
-              "Conducted interviews with 5 key stakeholders of one of Capsule's key accounts and edited 5 different videos.",
+              "One of Capsule's greatest strengths is its roster of real, enterprise customers. So I helped bring that proof to life for our prospects by building this HubSpot case study campaign. I ran interviews with five of our key stakeholders there and edited all five videos to focus on distinct pain points.",
+            result:
+              "The derivative assets from these now fuel our website, decks, and other marketing assets.",
             youtube: [
               { title: "Capsule x HubSpot", id: "8xXyFzqLibg" },
               { title: "Brand governance", id: "q8IMJseXO7E", short: true },
@@ -82,11 +92,42 @@ export const companies: Company[] = [
             id: "influencer-program",
             label: "Influencer program",
             description:
-              "Built a B2B influencer marketing program from end to end (in Fall 2023, before it was cool). Managed list building, creative briefs, and launch timelines and deliverables to generate ~800k impressions on a very scrappy budget over 6 months — pitching creators directly, building a shared Slack community with them, and participating in campaigns myself.",
-            stat: { value: "~800k", label: "impressions, scrappy budget" },
+              "When I joined, nobody knew who Capsule was. To help us get on the map, I decided to try working with B2B influencers (before it was mainstream ;)). I built the program end to end: drafted a list of dream creators, personally reached out to them, pitched them on both Capsule and the campaign, wrote creative briefs, managed launch timelines and deliverables, and inadvertently built a creator community.",
+            result:
+              "Across 3 campaigns and 6 months, we generated ~800k impressions, a lot of buzz on LinkedIn and Twitter, and a few creators who are still fans and users.",
             images: [
               { src: "/content/influencer/outreach-redacted.png", alt: "First outreach message to an influencer", w: 916, h: 512 },
               { src: "/content/influencer/spreadsheet-redacted.png", alt: "Influencer tracking spreadsheet", w: 2770, h: 558 },
+            ],
+            posts: [
+              {
+                name: "Amanda Goetz",
+                role: "@AmandaMGoetz",
+                quote: "It was so fun and FAST.",
+                image: "/content/influencer/post-amanda.png",
+                href: "https://x.com/AmandaMGoetz/status/1704198677953237443",
+              },
+              {
+                name: "Dave Gerhardt",
+                role: "Founder, Exit Five",
+                quote: "Gonna change the video game for enterprise teams.",
+                image: "/content/influencer/post-dg.png",
+                href: "https://www.linkedin.com/feed/update/urn:li:activity:7115319375976361984/",
+              },
+              {
+                name: "Rayna van Beuzekom",
+                role: "Founder, Crux Content",
+                quote: "Goodbye keyframes fr.",
+                image: "/content/influencer/post-rayna.png",
+                href: "https://www.linkedin.com/posts/raynavb_sponsored-activity-7165721762016534528-BFSD",
+              },
+              {
+                name: "Christina Le",
+                role: "Head of Marketing, Slate",
+                quote: "Every creator needs this.",
+                image: "/content/influencer/post-christina.png",
+                href: "https://www.linkedin.com/posts/thesechapters_im-the-type-who-looks-for-shortcuts-to-cut-activity-7206307805337690115-7fbD",
+              },
             ],
           },
           {
@@ -98,11 +139,6 @@ export const companies: Company[] = [
               { src: "/content/talent/li-video-wins.png", alt: "Video Wins LinkedIn post", w: 322, h: 194 },
               { src: "/content/talent/li-audio.png", alt: "Why I sound like an audio pro LinkedIn post", w: 390, h: 388 },
             ],
-            embed: {
-              src: "https://open.spotify.com/embed/playlist/0RwqJjqM3kVB4ZyO6cNGjX?utm_source=generator&theme=0",
-              title: "Podcast appearances playlist",
-              height: 152,
-            },
           },
           {
             id: "dinner-reels",
@@ -129,9 +165,6 @@ export const companies: Company[] = [
             stat: { value: "98%", label: "attendance" },
             images: [
               { src: "/content/talent/grwm.png", alt: "Get ready with me for a Capsule VIP dinner", w: 382, h: 666 },
-              { src: "/content/talent/pat-dm-redacted.png", alt: "Prospect outreach message", w: 1000, h: 446 },
-              { src: "/content/talent/phillip-dm-redacted.png", alt: "Prospect outreach message", w: 998, h: 256 },
-              { src: "/content/talent/ann-dm-redacted.png", alt: "Prospect outreach message", w: 1002, h: 562 },
             ],
             links: [
               {
@@ -160,6 +193,24 @@ export const companies: Company[] = [
               { href: "https://capsule.video/video-first-summit-2026", label: "Video First Summit 2026", sublabel: "capsule.video" },
             ],
           },
+          {
+            id: "brand-ambassador",
+            label: "Brand ambassador",
+            description:
+              "As we sharpened our ICP to creative and marketing leaders, I became an important bridge. In addition to hosting many of our in-person and virtual events, I also spoke on several podcasts and webinars.",
+            result:
+              "As a result of the trust I built in the community, I personally sourced multiple opportunities and closed-won deals, both net-new and from champions who came back to buy Capsule after changing companies.",
+            images: [
+              { src: "/content/talent/pat-dm-redacted.png", alt: "Prospect outreach message", w: 1000, h: 446 },
+              { src: "/content/talent/phillip-dm-redacted.png", alt: "Prospect outreach message", w: 998, h: 256 },
+              { src: "/content/talent/ann-dm-redacted.png", alt: "Prospect outreach message", w: 1002, h: 562 },
+            ],
+            embed: {
+              src: "https://open.spotify.com/embed/playlist/0RwqJjqM3kVB4ZyO6cNGjX?utm_source=generator&theme=0",
+              title: "Podcast appearances playlist",
+              height: 380,
+            },
+          },
         ],
       },
       {
@@ -170,7 +221,7 @@ export const companies: Company[] = [
             id: "retreats",
             label: "Company retreats",
             description: "Planned and organized two full-company retreats; made retreat highlight videos unprompted.",
-            stat: { value: "2", label: "company retreats organized" },
+            imageCarousel: true,
             images: Array.from({ length: 8 }, (_, i) => ({
               src: `/content/culture/retreat/retreat-${i + 1}.jpg`,
               alt: "Company retreat photo",

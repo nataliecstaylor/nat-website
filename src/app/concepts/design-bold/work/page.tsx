@@ -31,7 +31,7 @@ function VideoTile({ title, id, short }: { title: string; id: string; short?: bo
       rel="noreferrer"
       className="group block"
     >
-      <div className="relative aspect-video overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5">
+      <div className="relative aspect-video overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 shadow-sm transition group-hover:shadow-md group-hover:border-[#1C1B1A]/25">
         <Image
           src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
           alt={title}
@@ -39,15 +39,38 @@ function VideoTile({ title, id, short }: { title: string; id: string; short?: bo
           unoptimized
           className="object-cover transition group-hover:scale-105"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-md transition group-hover:scale-110">
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="#1C1B1A">
+              <path d="M2 0.5l11 6.5-11 6.5V0.5z" />
+            </svg>
+          </div>
+        </div>
       </div>
-      <span className="mt-1 block text-[11px] text-[#1C1B1A]/60">{title}</span>
+      <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{title}</span>
+    </a>
+  );
+}
+
+function PostCard({ name, role, quote, image, href }: { name: string; role: string; quote: string; image: string; href: string }) {
+  return (
+    <a href={href} target="_blank" rel="noreferrer" className="group block">
+      <div className="relative aspect-[4/5] overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 shadow-sm transition group-hover:shadow-md group-hover:border-[#1C1B1A]/25">
+        <Image src={image} alt={`${name} post`} fill className="object-cover transition group-hover:scale-105" />
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-3 pt-8">
+          <p className="text-xs leading-snug text-white">&ldquo;{quote}&rdquo;</p>
+        </div>
+      </div>
+      <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{name}</span>
+      <span className="block text-xs text-[#1C1B1A]/50">{role}</span>
     </a>
   );
 }
 
 function ItemBlock({ item }: { item: WorkItem }) {
   return (
-    <div id={item.id} className="pt-10 first:pt-0">
+    <div id={item.id} className="pt-16 first:pt-0">
       <h4
         className="text-xl text-[#1C1B1A] sm:text-2xl"
         style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.01em" }}
@@ -55,6 +78,14 @@ function ItemBlock({ item }: { item: WorkItem }) {
         {item.label}
       </h4>
       <p className="mt-3 max-w-2xl text-base leading-relaxed text-[#1C1B1A]/75">{item.description}</p>
+      {item.result && (
+        <p
+          className="mt-3 max-w-2xl text-base italic leading-relaxed"
+          style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}
+        >
+          {item.result}
+        </p>
+      )}
 
       {item.stat && (
         <div className="mt-4 inline-flex items-baseline gap-2">
@@ -66,11 +97,32 @@ function ItemBlock({ item }: { item: WorkItem }) {
       )}
 
       {item.images && item.images.length > 0 && (
-        <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
-          {item.images.map((img) => (
-            <div key={img.src} className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
-              <Image src={img.src} alt={img.alt} width={img.w} height={img.h} className="w-full" />
-            </div>
+        item.imageCarousel ? (
+          <div className="mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
+            {item.images.map((img) => (
+              <div
+                key={img.src}
+                className="relative aspect-[4/3] w-64 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10"
+              >
+                <Image src={img.src} alt={img.alt} fill sizes="256px" className="object-cover" />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {item.images.map((img) => (
+              <div key={img.src} className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+                <Image src={img.src} alt={img.alt} width={img.w} height={img.h} className="w-full" />
+              </div>
+            ))}
+          </div>
+        )
+      )}
+
+      {item.posts && item.posts.length > 0 && (
+        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          {item.posts.map((post) => (
+            <PostCard key={post.name} {...post} />
           ))}
         </div>
       )}
@@ -79,7 +131,7 @@ function ItemBlock({ item }: { item: WorkItem }) {
         <div className="mt-5 grid gap-3 sm:grid-cols-3">
           {item.wistia.map((v) => (
             <div key={v.wistiaId}>
-              <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+              <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
                 <iframe
                   title={v.title}
                   allowFullScreen
@@ -90,7 +142,7 @@ function ItemBlock({ item }: { item: WorkItem }) {
                   src={`https://fast.wistia.net/embed/iframe/${v.wistiaId}`}
                 />
               </div>
-              <span className="mt-1 block text-[11px] text-[#1C1B1A]/60">{v.title}</span>
+              <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{v.title}</span>
             </div>
           ))}
         </div>
@@ -98,7 +150,7 @@ function ItemBlock({ item }: { item: WorkItem }) {
 
       {item.video && (
         <div className="mt-5 max-w-xs">
-          <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+          <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
             <video
               src={item.video.src}
               poster={item.video.poster}
@@ -110,7 +162,7 @@ function ItemBlock({ item }: { item: WorkItem }) {
               className="w-full"
             />
           </div>
-          <span className="mt-1 block text-[11px] text-[#1C1B1A]/60">{item.video.alt}</span>
+          <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{item.video.alt}</span>
         </div>
       )}
 
@@ -123,7 +175,7 @@ function ItemBlock({ item }: { item: WorkItem }) {
       )}
 
       {item.embed && (
-        <div className="mt-5 max-w-xs overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+        <div className="mt-5 max-w-md overflow-hidden rounded-xl border border-[#1C1B1A]/10">
           <iframe
             title={item.embed.title}
             src={item.embed.src}
