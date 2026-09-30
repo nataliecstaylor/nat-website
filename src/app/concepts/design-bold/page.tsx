@@ -75,40 +75,24 @@ export default function DesignBoldHome() {
               className="mt-3 text-2xl italic sm:text-3xl"
               style={{ fontFamily: "var(--font-serif)", color: ACCENT }}
             >
-              versatile, relationship-driven marketing leader
+              0→1 brand and product marketing leader
             </motion.p>
           </div>
         </div>
       </section>
 
-      {/* Story: fades in and out as it enters/leaves the viewport */}
+      {/* Photo */}
       <motion.section
         initial={{ opacity: 0, y: 32 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: false, amount: 0.3 }}
         transition={{ duration: 0.7, ease: "easeOut" }}
-        className="relative z-10 mx-auto grid max-w-5xl gap-10 border-t border-[#1C1B1A]/10 px-8 py-20 sm:grid-cols-[1.3fr_1fr] sm:px-16"
+        className="relative z-10 mx-auto max-w-3xl border-t border-[#1C1B1A]/10 px-8 py-20 sm:px-16"
       >
-        <div className="space-y-5 text-lg leading-relaxed text-[#1C1B1A]/80">
-          <p>
-            I take a lot of pride in my work and the brands I come to represent—it&apos;s
-            actually how I got into marketing. After college, I danced professionally with a
-            brand-new company. The work we were doing was the highest caliber in the entire
-            state. But we were brand-new and no one knew about it. So for the next 3 years, I did
-            everything I could to fix that and fell in love with marketing along the way,
-            eventually retiring from dance and going all in on this profession. I&apos;ve done
-            the same at other brands I was drawn to: T3 Advisors, a boutique real-estate firm
-            that was eventually acquired, and most recently Capsule, a Series-A video software
-            company.
-          </p>
-          <p>
-            I&apos;m looking to throw that same commitment into the next company I join.
-          </p>
-        </div>
-        <div className="overflow-hidden rounded-2xl border border-[#1C1B1A]/10">
+        <div className="mx-auto max-w-sm overflow-hidden rounded-2xl border border-[#1C1B1A]/10">
           <Image
             src="/content/personal/profile-shot.jpg"
-            alt="Natalie at a Capsule event"
+            alt="Natalie Taylor"
             width={933}
             height={1400}
             className="h-full w-full object-cover"
