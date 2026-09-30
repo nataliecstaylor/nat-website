@@ -8,16 +8,18 @@ export type WorkItem = {
   images?: { src: string; alt: string; w: number; h: number }[];
   imageCarousel?: boolean;
   imageCarouselNatural?: boolean;
+  imageCaption?: string;
   posts?: { name: string; role: string; quote: string; image: string; href: string }[];
   youtube?: { title: string; id: string; short?: boolean }[];
   youtubeVertical?: boolean;
   videos?: { title: string; wistiaId?: string; videoSrc?: string; poster?: string }[];
   video?: { src: string; poster?: string; alt: string; href?: string };
-  videoLink?: { src: string; alt: string; href: string };
+  videoLinks?: { src: string; alt: string; href: string; caption?: string; video?: boolean; wide?: boolean }[];
   embed?: { src: string; title: string; height: number };
   links?: { href: string; label: string; sublabel?: string }[];
   bulletCards?: string[];
   hidden?: boolean;
+  mediaLayout?: "side";
 };
 
 export type Category = { id: string; label: string; items: WorkItem[] };
@@ -36,7 +38,7 @@ export const companies: Company[] = [
     id: "capsule",
     name: "Capsule",
     intro:
-      "A true 0-1 role as the first marketing hire at an early-stage, sales-led startup selling to enterprises (LinkedIn, HubSpot, ServiceNow). I worked directly with the CEO and Head of Sales to define our ICP, positioning, and messaging, and build the pipeline and revenue that helped us get to our Series A.",
+      "A true 0-1 role as the first marketing hire at an early-stage startup selling to enterprises (LinkedIn, HubSpot, ServiceNow). I worked directly with the CEO and Head of Sales to define our ICP, positioning, and messaging, and build the pipeline and revenue that helped us get to our Series A.",
     categories: [
       {
         id: "capsule-product-marketing",
@@ -112,15 +114,19 @@ export const companies: Company[] = [
                 href: "https://www.linkedin.com/posts/nataliecstaylor_feeling-grateful-this-week-for-two-fun-surprises-ugcPost-7437251400767709186-F1S9/",
               },
             ],
-            videoLink: {
-              src: "/content/talent/grwm.png",
-              alt: "Get ready with me for a Capsule VIP dinner",
-              href: "https://www.linkedin.com/feed/update/urn:li:activity:7252684787457368064/",
-            },
-            links: [
+            videoLinks: [
               {
+                src: "/content/talent/grwm.png",
+                alt: "Get ready with me for a Capsule VIP dinner",
+                href: "https://www.linkedin.com/feed/update/urn:li:activity:7252684787457368064/",
+                video: true,
+              },
+              {
+                src: "/content/talent/in-person-events.jpg",
+                alt: "In-person events timeline on capsule.video/learn",
                 href: "https://capsule.video/learn#in-person-events",
-                label: "See attendee quotes, logos, and more photos here.",
+                caption: "See attendee quotes, logos and more photos here.",
+                wide: true,
               },
             ],
           },
@@ -131,6 +137,7 @@ export const companies: Company[] = [
               "To build on the success of our in-person events and try and capture a wider audience, our events team launched our first-ever Virtual Summit. I led the strategy, goals, assets, and 4-week promo campaign.",
             result:
               "We secured 9 top-tier speakers and saw a 5x increase in registration and attendance compared to the previous average of our virtual events.",
+            mediaLayout: "side",
             video: {
               src: "/content/summit/virtual-summit-loop.mp4",
               alt: "Capsule Video First Summit 2026",
@@ -144,6 +151,7 @@ export const companies: Company[] = [
               "As our buyer persona continued to focus on in-house creative and marketing leaders, I became an important bridge between them and our brand. In addition to hosting many of our in-person and virtual events, I also spoke on several industry podcasts and webinars, which you can sample below.",
             result:
               "As a result of the trust I built in the community, I personally sourced multiple opportunities and closed-won deals, both net-new and from champions who came back to buy Capsule after changing companies.",
+            mediaLayout: "side",
             imageCarouselNatural: true,
             images: [
               { src: "/content/talent/pat-dm-redacted.png", alt: "Prospect outreach message", w: 1000, h: 446 },
@@ -260,6 +268,8 @@ export const companies: Company[] = [
             label: "Awards",
             description:
               "My colleagues voted for me and my co-worker Nathan to win the company's first \"Capsule People's Choice\" award, for best exemplifying the company's values. I also was a \"shout-out\" award winner, receiving the top 3 most shoutouts at the company for the year.",
+            mediaLayout: "side",
+            imageCaption: "Nathan and I winning the Capsule People's Choice Award",
             images: [{ src: "/content/culture/peoples-choice.jpg", alt: "Winner, Capsule's People's Choice award", w: 1050, h: 1400 }],
           },
           {
@@ -333,12 +343,17 @@ export const companies: Company[] = [
     id: "salt",
     name: "SALT Contemporary Dance",
     intro:
-      "After college, I danced professionally with a brand-new company. The work we were doing was the highest caliber in the state. But we were brand-new and no one knew about it. So for the next 3 years, I did everything I could to fix that and fell in love with marketing along the way, eventually retiring from dance and going all in on this profession.",
+      "After college, I danced professionally with a brand-new company. The work we were doing was the highest caliber in the state. But no one knew about it. So for the next 3 years, I did everything I could to fix that and fell in love with marketing along the way, eventually retiring from dance and going all in on this profession.",
     bullets: [
       "Worked directly with CEO, directors, photographers, videographers, venue managers, sponsors, graphic designers, and more to help shape the company's message and vision",
       "Promoted all performances. Wrote, designed, edited, and oversaw all print and digital marketing materials",
       "Built SALT's social presence from 0-2k followers on Meta and YouTube",
     ],
-    photos: Array.from({ length: 10 }, (_, i) => `/content/personal/dance/dance-${i + 1}.jpg`),
+    photos: [
+      "/content/salt-work/salt-media-kit-1.jpg",
+      "/content/salt-work/salt-media-kit-2.jpg",
+      "/content/salt-work/salt-program-director-letter.jpg",
+      "/content/salt-work/salt-program-choreographers.jpg",
+    ],
   },
 ];

@@ -6,8 +6,9 @@ import Image from "next/image";
 import { ACCENT, ACCENT_TEXT } from "../_nav-data";
 import { companies, type Company, type WorkItem } from "./_data";
 
+type LightboxImage = { src: string; alt: string };
 type LightboxContent =
-  | { type: "image"; src: string; alt: string }
+  | { type: "image"; images: LightboxImage[]; index: number }
   | { type: "video"; embedSrc: string; title: string };
 
 function PlayButton() {
@@ -95,6 +96,93 @@ function PostCard({ name, quote, image, href }: { name: string; quote: string; i
   );
 }
 
+function EmbedMedia({ embed }: { embed: NonNullable<WorkItem["embed"]> }) {
+  return (
+    <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+      <iframe
+        title={embed.title}
+        src={embed.src}
+        width="100%"
+        height={embed.height}
+        frameBorder="0"
+        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+        loading="lazy"
+      />
+    </div>
+  );
+}
+
+function VideoMedia({ video }: { video: NonNullable<WorkItem["video"]> }) {
+  return video.href ? (
+    <a
+      href={video.href}
+      target="_blank"
+      rel="noreferrer"
+      aria-label={video.alt}
+      className="group block overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm transition hover:shadow-md hover:border-[#1C1B1A]/25"
+    >
+      <video
+        src={video.src}
+        poster={video.poster}
+        autoPlay={!video.poster}
+        loop={!video.poster}
+        muted={!video.poster}
+        playsInline
+        controls={!!video.poster}
+        className="w-full transition group-hover:scale-105"
+      />
+    </a>
+  ) : (
+    <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
+      <video
+        src={video.src}
+        poster={video.poster}
+        autoPlay={!video.poster}
+        loop={!video.poster}
+        muted={!video.poster}
+        playsInline
+        controls={!!video.poster}
+        className="w-full"
+      />
+    </div>
+  );
+}
+
+function SingleImageMedia({
+  img,
+  caption,
+  side,
+  onOpen,
+}: {
+  img: { src: string; alt: string; w: number; h: number };
+  caption?: string;
+  side?: boolean;
+  onOpen: () => void;
+}) {
+  return (
+    <div>
+      <button
+        type="button"
+        onClick={onOpen}
+        className={
+          side
+            ? "block w-full cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+            : "block h-80 w-fit cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+        }
+      >
+        <Image
+          src={img.src}
+          alt={img.alt}
+          width={img.w}
+          height={img.h}
+          className={side ? "h-auto w-full" : "h-full w-auto object-contain"}
+        />
+      </button>
+      {caption && <span className="mt-2 block text-sm text-[#1C1B1A]/60">{caption}</span>}
+    </div>
+  );
+}
+
 function ResultText({ item }: { item: WorkItem }) {
   if (!item.result) return null;
   const result = item.result;
@@ -131,8 +219,13 @@ function ResultText({ item }: { item: WorkItem }) {
 }
 
 function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: LightboxContent) => void }) {
-  return (
-    <div id={item.id} className="pt-14 first:pt-0">
+  const isSide = item.mediaLayout === "side";
+  const usedAsSideVideo = isSide && !!item.video;
+  const usedAsSideEmbed = isSide && !usedAsSideVideo && !!item.embed;
+  const usedAsSideImage = isSide && !usedAsSideVideo && !usedAsSideEmbed && item.images && item.images.length === 1;
+
+  const header = (
+    <>
       <h4
         className="text-2xl text-[#1C1B1A]"
         style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.01em" }}
@@ -158,29 +251,43 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
           <span className="text-xs text-[#1C1B1A]/50">{item.stat.label}</span>
         </div>
       )}
+    </>
+  );
 
-      {item.embed && (
-        <div className="mt-6 max-w-xl overflow-hidden rounded-xl border border-[#1C1B1A]/10">
-          <iframe
-            title={item.embed.title}
-            src={item.embed.src}
-            width="100%"
-            height={item.embed.height}
-            frameBorder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          />
+  const sideMedia = usedAsSideVideo ? (
+    <VideoMedia video={item.video!} />
+  ) : usedAsSideEmbed ? (
+    <EmbedMedia embed={item.embed!} />
+  ) : usedAsSideImage ? (
+    <SingleImageMedia
+      img={item.images![0]}
+      caption={item.imageCaption}
+      side
+      onOpen={() => openLightbox({ type: "image", images: item.images!, index: 0 })}
+    />
+  ) : null;
+
+  return (
+    <div id={item.id} className="pt-14 first:pt-0">
+      {sideMedia ? (
+        <div className="sm:flex sm:items-start sm:gap-10">
+          <div className="min-w-0 sm:flex-1">{header}</div>
+          <div className="mt-6 sm:mt-0 sm:w-72 sm:flex-none lg:w-80">{sideMedia}</div>
         </div>
+      ) : (
+        header
       )}
 
-      {item.images && item.images.length > 0 && (
+      {item.embed && !usedAsSideEmbed && <div className="mt-6 max-w-xl">{<EmbedMedia embed={item.embed} />}</div>}
+
+      {item.images && item.images.length > 0 && !usedAsSideImage && (
         item.imageCarouselNatural ? (
           <div className="mt-6 flex gap-4 overflow-x-auto pb-2">
-            {item.images.map((img) => (
+            {item.images.map((img, i) => (
               <button
                 key={img.src}
                 type="button"
-                onClick={() => openLightbox({ type: "image", src: img.src, alt: img.alt })}
+                onClick={() => openLightbox({ type: "image", images: item.images!, index: i })}
                 className="h-64 flex-none cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
               >
                 <Image src={img.src} alt={img.alt} width={img.w} height={img.h} className="h-full w-auto object-contain" />
@@ -189,11 +296,11 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
           </div>
         ) : item.imageCarousel ? (
           <div className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
-            {item.images.map((img) => (
+            {item.images.map((img, i) => (
               <button
                 key={img.src}
                 type="button"
-                onClick={() => openLightbox({ type: "image", src: img.src, alt: img.alt })}
+                onClick={() => openLightbox({ type: "image", images: item.images!, index: i })}
                 className="relative aspect-[4/3] w-80 flex-none cursor-zoom-in snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
               >
                 <Image src={img.src} alt={img.alt} fill sizes="320px" className="object-cover" />
@@ -201,26 +308,20 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
             ))}
           </div>
         ) : item.images.length === 1 ? (
-          <button
-            type="button"
-            onClick={() => openLightbox({ type: "image", src: item.images![0].src, alt: item.images![0].alt })}
-            className="mt-6 block h-80 w-fit cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
-          >
-            <Image
-              src={item.images[0].src}
-              alt={item.images[0].alt}
-              width={item.images[0].w}
-              height={item.images[0].h}
-              className="h-full w-auto object-contain"
+          <div className="mt-6">
+            <SingleImageMedia
+              img={item.images[0]}
+              caption={item.imageCaption}
+              onOpen={() => openLightbox({ type: "image", images: item.images!, index: 0 })}
             />
-          </button>
+          </div>
         ) : (
           <div className="mt-6 grid grid-cols-2 gap-3">
-            {item.images.map((img) => (
+            {item.images.map((img, i) => (
               <button
                 key={img.src}
                 type="button"
-                onClick={() => openLightbox({ type: "image", src: img.src, alt: img.alt })}
+                onClick={() => openLightbox({ type: "image", images: item.images!, index: i })}
                 className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
               >
                 <Image src={img.src} alt={img.alt} width={img.w} height={img.h} className="w-full" />
@@ -240,20 +341,31 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
         </div>
       )}
 
-      {item.videoLink && (
+      {item.videoLinks && item.videoLinks.length > 0 && (
         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <a href={item.videoLink.href} target="_blank" rel="noreferrer" className="group block">
-            <div className="relative aspect-[9/16] overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 shadow-sm transition group-hover:shadow-md group-hover:border-[#1C1B1A]/25">
-              <Image
-                src={item.videoLink.src}
-                alt={item.videoLink.alt}
-                fill
-                sizes="(min-width: 640px) 25vw, 50vw"
-                className="object-cover transition group-hover:scale-105"
-              />
-              <PlayButton />
-            </div>
-          </a>
+          {item.videoLinks.map((v) => (
+            <a
+              key={v.src}
+              href={v.href}
+              target="_blank"
+              rel="noreferrer"
+              className={`group block ${v.wide ? "col-span-2 sm:col-span-3" : ""}`}
+            >
+              <div
+                className={`relative overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 shadow-sm transition group-hover:shadow-md group-hover:border-[#1C1B1A]/25 ${v.wide ? "aspect-video" : "aspect-[9/16]"}`}
+              >
+                <Image
+                  src={v.src}
+                  alt={v.alt}
+                  fill
+                  sizes={v.wide ? "60vw" : "(min-width: 640px) 25vw, 50vw"}
+                  className="object-cover transition group-hover:scale-105"
+                />
+                {v.video && <PlayButton />}
+              </div>
+              {v.caption && <span className="mt-2 block text-sm text-[#1C1B1A]/60">{v.caption}</span>}
+            </a>
+          ))}
         </div>
       )}
 
@@ -296,43 +408,7 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
         </div>
       )}
 
-      {item.video && (
-        <div className="mt-6 max-w-xl">
-          {item.video.href ? (
-            <a
-              href={item.video.href}
-              target="_blank"
-              rel="noreferrer"
-              aria-label={item.video.alt}
-              className="group block overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm transition hover:shadow-md hover:border-[#1C1B1A]/25"
-            >
-              <video
-                src={item.video.src}
-                poster={item.video.poster}
-                autoPlay={!item.video.poster}
-                loop={!item.video.poster}
-                muted={!item.video.poster}
-                playsInline
-                controls={!!item.video.poster}
-                className="w-full transition group-hover:scale-105"
-              />
-            </a>
-          ) : (
-            <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
-              <video
-                src={item.video.src}
-                poster={item.video.poster}
-                autoPlay={!item.video.poster}
-                loop={!item.video.poster}
-                muted={!item.video.poster}
-                playsInline
-                controls={!!item.video.poster}
-                className="w-full"
-              />
-            </div>
-          )}
-        </div>
-      )}
+      {item.video && !usedAsSideVideo && <div className="mt-6 max-w-xl">{<VideoMedia video={item.video} />}</div>}
 
       {item.youtube && item.youtube.length > 0 && (
         <div className={`mt-6 grid gap-4 ${item.youtubeVertical ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2 sm:grid-cols-3"}`}>
@@ -484,13 +560,81 @@ function CompanyCategories({
   );
 }
 
+function LightboxArrow({ direction, onClick }: { direction: "prev" | "next"; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+      aria-label={direction === "prev" ? "Previous image" : "Next image"}
+      className={`fixed top-1/2 z-50 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 ${direction === "prev" ? "left-3 sm:left-6" : "right-3 sm:right-6"}`}
+    >
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+        {direction === "prev" ? (
+          <path d="M10 2L4 8l6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        ) : (
+          <path d="M6 2l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        )}
+      </svg>
+    </button>
+  );
+}
+
+function ImageLightbox({
+  lightbox,
+  setLightbox,
+}: {
+  lightbox: { type: "image"; images: LightboxImage[]; index: number };
+  setLightbox: (c: LightboxContent | null) => void;
+}) {
+  const { images, index } = lightbox;
+  return (
+    <>
+      {images.length > 1 && (
+        <LightboxArrow
+          direction="prev"
+          onClick={() => setLightbox({ type: "image", images, index: (index - 1 + images.length) % images.length })}
+        />
+      )}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={images[index].src}
+        alt={images[index].alt}
+        onClick={(e) => e.stopPropagation()}
+        className="max-h-full max-w-full rounded-lg object-contain shadow-2xl"
+      />
+      {images.length > 1 && (
+        <LightboxArrow
+          direction="next"
+          onClick={() => setLightbox({ type: "image", images, index: (index + 1) % images.length })}
+        />
+      )}
+    </>
+  );
+}
+
 export default function WorkPage() {
   const [lightbox, setLightbox] = useState<LightboxContent | null>(null);
 
   useEffect(() => {
     if (!lightbox) return;
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setLightbox(null);
+      if (e.key === "Escape") {
+        setLightbox(null);
+        return;
+      }
+      setLightbox((prev) => {
+        if (!prev || prev.type !== "image" || prev.images.length <= 1) return prev;
+        if (e.key === "ArrowLeft") {
+          return { ...prev, index: (prev.index - 1 + prev.images.length) % prev.images.length };
+        }
+        if (e.key === "ArrowRight") {
+          return { ...prev, index: (prev.index + 1) % prev.images.length };
+        }
+        return prev;
+      });
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -559,14 +703,20 @@ export default function WorkPage() {
 
                   {company.photos && (
                     <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
-                      {company.photos.map((src) => (
+                      {company.photos.map((src, i) => (
                         <button
                           key={src}
                           type="button"
-                          onClick={() => setLightbox({ type: "image", src, alt: "SALT Contemporary Dance" })}
+                          onClick={() =>
+                            setLightbox({
+                              type: "image",
+                              images: company.photos!.map((s) => ({ src: s, alt: `${company.name} work sample` })),
+                              index: i,
+                            })
+                          }
                           className="relative aspect-[4/3] w-72 flex-none cursor-zoom-in snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 transition hover:border-[#1C1B1A]/25"
                         >
-                          <Image src={src} alt="SALT Contemporary Dance" fill sizes="288px" className="object-cover" />
+                          <Image src={src} alt={`${company.name} work sample`} fill sizes="288px" className="object-cover" />
                         </button>
                       ))}
                     </div>
@@ -594,13 +744,7 @@ export default function WorkPage() {
             </svg>
           </button>
           {lightbox.type === "image" ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={lightbox.src}
-              alt={lightbox.alt}
-              onClick={(e) => e.stopPropagation()}
-              className="max-h-full max-w-full rounded-lg object-contain shadow-2xl"
-            />
+            <ImageLightbox lightbox={lightbox} setLightbox={setLightbox} />
           ) : (
             <div className="aspect-video w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
               <iframe

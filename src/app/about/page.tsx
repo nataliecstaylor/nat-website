@@ -5,9 +5,28 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import { ACCENT_TEXT } from "../_nav-data";
 
-type Lightbox = { src: string; alt: string };
+type LightboxImage = { src: string; alt: string; w?: number; h?: number };
+type Lightbox = { images: LightboxImage[]; index: number };
 
-const dancePhotos = Array.from({ length: 10 }, (_, i) => `/content/personal/dance/dance-${i + 1}.jpg`);
+const dancePhotos = Array.from({ length: 10 }, (_, i) => ({
+  src: `/content/personal/dance/dance-${i + 1}.jpg`,
+  alt: "Dancing with SALT Contemporary Dance and BYU Theatre Ballet",
+}));
+
+const hostPhotos: LightboxImage[] = [
+  { src: "/content/personal/airbnb-room.jpg", alt: "Our Airbnb room", w: 1400, h: 1050 },
+  { src: "/content/personal/au-pair-pizza-party.jpg", alt: "Pizza night with our au pairs", w: 1050, h: 1400 },
+];
+
+const pizzaPhotos: LightboxImage[] = [
+  { src: "/content/personal/grating-parm.jpg", alt: "Grating parmesan onto a fresh pizza" },
+  { src: "/content/personal/pizza-polaroid.jpg", alt: "Polaroid of a finished pizza" },
+];
+
+const byuPhotos: LightboxImage[] = [
+  { src: "/content/personal/byu-1.jpg", alt: "BYU Magazine article, Running to Remember" },
+  { src: "/content/personal/byu-2.jpg", alt: "BYU Magazine article" },
+];
 
 function PlayButton() {
   return (
@@ -18,6 +37,28 @@ function PlayButton() {
         </svg>
       </div>
     </div>
+  );
+}
+
+function LightboxArrow({ direction, onClick }: { direction: "prev" | "next"; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      onClick={(e) => {
+        e.stopPropagation();
+        onClick();
+      }}
+      aria-label={direction === "prev" ? "Previous image" : "Next image"}
+      className={`fixed top-1/2 z-50 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 ${direction === "prev" ? "left-3 sm:left-6" : "right-3 sm:right-6"}`}
+    >
+      <svg width="18" height="18" viewBox="0 0 16 16" fill="none">
+        {direction === "prev" ? (
+          <path d="M10 2L4 8l6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        ) : (
+          <path d="M6 2l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        )}
+      </svg>
+    </button>
   );
 }
 
@@ -38,7 +79,16 @@ export default function AboutPage() {
   useEffect(() => {
     if (!lightbox) return;
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key === "Escape") setLightbox(null);
+      if (e.key === "Escape") {
+        setLightbox(null);
+        return;
+      }
+      setLightbox((prev) => {
+        if (!prev || prev.images.length <= 1) return prev;
+        if (e.key === "ArrowLeft") return { ...prev, index: (prev.index - 1 + prev.images.length) % prev.images.length };
+        if (e.key === "ArrowRight") return { ...prev, index: (prev.index + 1) % prev.images.length };
+        return prev;
+      });
     }
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
@@ -83,14 +133,14 @@ export default function AboutPage() {
           whenever I can (never often enough!).
         </p>
         <div className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
-          {dancePhotos.map((src) => (
+          {dancePhotos.map((img, i) => (
             <button
-              key={src}
+              key={img.src}
               type="button"
-              onClick={() => setLightbox({ src, alt: "Dancing with SALT Contemporary Dance and BYU Theatre Ballet" })}
+              onClick={() => setLightbox({ images: dancePhotos, index: i })}
               className="relative aspect-[4/3] w-80 flex-none cursor-zoom-in snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 transition hover:border-[#1C1B1A]/25"
             >
-              <Image src={src} alt="Dancing with SALT Contemporary Dance and BYU Theatre Ballet" fill sizes="320px" className="object-cover" />
+              <Image src={img.src} alt={img.alt} fill sizes="320px" className="object-cover" />
             </button>
           ))}
         </div>
@@ -101,20 +151,16 @@ export default function AboutPage() {
           Airbnb guests in our homes, hosting is one of my greatest joys.
         </p>
         <div className="mt-6 grid max-w-2xl grid-cols-2 gap-3">
-          <button
-            type="button"
-            onClick={() => setLightbox({ src: "/content/personal/airbnb-room.jpg", alt: "Our Airbnb room" })}
-            className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
-          >
-            <Image src="/content/personal/airbnb-room.jpg" alt="Our Airbnb room" width={1400} height={1050} className="w-full" />
-          </button>
-          <button
-            type="button"
-            onClick={() => setLightbox({ src: "/content/personal/au-pair-pizza-party.jpg", alt: "Pizza night with our au pairs" })}
-            className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
-          >
-            <Image src="/content/personal/au-pair-pizza-party.jpg" alt="Pizza night with our au pairs" width={1050} height={1400} className="w-full" />
-          </button>
+          {hostPhotos.map((img, i) => (
+            <button
+              key={img.src}
+              type="button"
+              onClick={() => setLightbox({ images: hostPhotos, index: i })}
+              className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+            >
+              <Image src={img.src} alt={img.alt} width={img.w!} height={img.h!} className="w-full" />
+            </button>
+          ))}
         </div>
 
         <SectionLabel>Making Pizza</SectionLabel>
@@ -132,20 +178,16 @@ export default function AboutPage() {
           .
         </p>
         <div className="mt-6 grid max-w-3xl grid-cols-3 gap-3">
-          <button
-            type="button"
-            onClick={() => setLightbox({ src: "/content/personal/grating-parm.jpg", alt: "Grating parmesan onto a fresh pizza" })}
-            className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
-          >
-            <Image src="/content/personal/grating-parm.jpg" alt="Grating parmesan onto a fresh pizza" width={1200} height={1600} className="w-full" />
-          </button>
-          <button
-            type="button"
-            onClick={() => setLightbox({ src: "/content/personal/pizza-polaroid.jpg", alt: "Polaroid of a finished pizza" })}
-            className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
-          >
-            <Image src="/content/personal/pizza-polaroid.jpg" alt="Polaroid of a finished pizza" width={1200} height={1600} className="w-full" />
-          </button>
+          {pizzaPhotos.map((img, i) => (
+            <button
+              key={img.src}
+              type="button"
+              onClick={() => setLightbox({ images: pizzaPhotos, index: i })}
+              className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+            >
+              <Image src={img.src} alt={img.alt} width={1200} height={1600} className="w-full" />
+            </button>
+          ))}
           <a
             href="https://www.instagram.com/p/Cr-9hQdtJ95/"
             target="_blank"
@@ -180,20 +222,16 @@ export default function AboutPage() {
           </a>
           <div>
             <div className="grid grid-cols-2 gap-2">
-              <button
-                type="button"
-                onClick={() => setLightbox({ src: "/content/personal/byu-1.jpg", alt: "BYU Magazine article, Running to Remember" })}
-                className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
-              >
-                <Image src="/content/personal/byu-1.jpg" alt="BYU Magazine article, Running to Remember" width={1232} height={1600} className="w-full" />
-              </button>
-              <button
-                type="button"
-                onClick={() => setLightbox({ src: "/content/personal/byu-2.jpg", alt: "BYU Magazine article" })}
-                className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
-              >
-                <Image src="/content/personal/byu-2.jpg" alt="BYU Magazine article" width={1232} height={1600} className="w-full" />
-              </button>
+              {byuPhotos.map((img, i) => (
+                <button
+                  key={img.src}
+                  type="button"
+                  onClick={() => setLightbox({ images: byuPhotos, index: i })}
+                  className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+                >
+                  <Image src={img.src} alt={img.alt} width={1232} height={1600} className="w-full" />
+                </button>
+              ))}
             </div>
             <span className="mt-1 block text-[11px] text-[#1C1B1A]/50">BYU Magazine, 2013–2014</span>
           </div>
@@ -215,13 +253,31 @@ export default function AboutPage() {
               <path d="M1 1l14 14M15 1L1 15" stroke="currentColor" strokeWidth="1.5" />
             </svg>
           </button>
+          {lightbox.images.length > 1 && (
+            <LightboxArrow
+              direction="prev"
+              onClick={() =>
+                setLightbox((prev) =>
+                  prev ? { ...prev, index: (prev.index - 1 + prev.images.length) % prev.images.length } : prev
+                )
+              }
+            />
+          )}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={lightbox.src}
-            alt={lightbox.alt}
+            src={lightbox.images[lightbox.index].src}
+            alt={lightbox.images[lightbox.index].alt}
             onClick={(e) => e.stopPropagation()}
             className="max-h-full max-w-full rounded-lg object-contain shadow-2xl"
           />
+          {lightbox.images.length > 1 && (
+            <LightboxArrow
+              direction="next"
+              onClick={() =>
+                setLightbox((prev) => (prev ? { ...prev, index: (prev.index + 1) % prev.images.length } : prev))
+              }
+            />
+          )}
         </div>
       )}
     </div>
