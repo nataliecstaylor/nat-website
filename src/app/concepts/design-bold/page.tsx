@@ -34,7 +34,7 @@ function Rings() {
 
 export default function DesignBoldHome() {
   return (
-    <section className="relative flex min-h-[calc(100vh-88px)] items-center px-8 sm:px-16">
+    <section className="relative flex min-h-[calc(100vh-88px)] items-center overflow-x-hidden px-8 sm:px-16">
       <div className="mx-auto grid w-full max-w-6xl items-center gap-12 sm:grid-cols-[1.3fr_1fr]">
         <div className="relative w-fit">
           <Rings />

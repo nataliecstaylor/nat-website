@@ -98,6 +98,20 @@ function ItemBlock({ item }: { item: WorkItem }) {
           </div>
         )}
 
+        {item.embed && (
+          <div className="mt-6 max-w-xl overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+            <iframe
+              title={item.embed.title}
+              src={item.embed.src}
+              width="100%"
+              height={item.embed.height}
+              frameBorder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
+            />
+          </div>
+        )}
+
         {item.images && item.images.length > 0 && (
           item.imageCarousel ? (
             <div className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
@@ -176,20 +190,6 @@ function ItemBlock({ item }: { item: WorkItem }) {
           </div>
         )}
 
-        {item.embed && (
-          <div className="mt-6 max-w-md overflow-hidden rounded-xl border border-[#1C1B1A]/10">
-            <iframe
-              title={item.embed.title}
-              src={item.embed.src}
-              width="100%"
-              height={item.embed.height}
-              frameBorder="0"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-            />
-          </div>
-        )}
-
         {item.links && item.links.length > 0 && (
           <div className="mt-6 grid max-w-xl gap-2 sm:grid-cols-2">
             {item.links.map((l) => (
@@ -221,110 +221,113 @@ export default function WorkPage() {
 
       <div className="mt-20 space-y-32">
         {companies.map((company) => (
-          <section
-            key={company.id}
-            id={company.id}
-            className="sm:grid sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-8 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-12"
-          >
-            <div className="sm:sticky sm:top-10 sm:self-start">
+          <section key={company.id} id={company.id}>
+            <div className="max-w-2xl">
               <h2
                 className="text-[#1C1B1A]"
                 style={{
                   fontFamily: "var(--font-display)",
                   fontWeight: 800,
-                  fontSize: "clamp(2rem, 3.2vw, 2.5rem)",
-                  lineHeight: 1.05,
+                  fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
                   letterSpacing: "-0.02em",
                 }}
               >
                 {company.name}
               </h2>
               <p
-                className="mt-3 text-base italic leading-relaxed"
+                className="mt-3 text-lg italic leading-relaxed"
                 style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}
               >
                 {company.intro}
               </p>
             </div>
 
-            <div className="mt-6 sm:mt-0">
-              {company.categories?.map((category) => (
-                <div
-                  key={category.id}
-                  id={category.id}
-                  className="border-t border-[#1C1B1A]/10 pt-16 first:border-t-0 first:pt-0"
+            <div className="mt-16 sm:grid sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-8 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-12">
+              <div className="hidden sm:sticky sm:top-10 sm:block sm:self-start">
+                <div className="h-px w-8" style={{ backgroundColor: ACCENT }} />
+                <span
+                  className="mt-3 block text-xs uppercase tracking-[0.15em] text-[#1C1B1A]/45"
+                  style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
                 >
-                  {category.label && (
-                    <div className="flex items-center gap-2.5">
-                      <span className="h-2.5 w-2.5 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
-                      <h3
-                        className="text-base uppercase tracking-[0.1em] text-[#1C1B1A] sm:text-lg"
-                        style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
-                      >
-                        {category.label}
-                      </h3>
+                  {company.name}
+                </span>
+              </div>
+
+              <div>
+                {company.categories?.map((category) => (
+                  <div
+                    key={category.id}
+                    id={category.id}
+                    className="border-t border-[#1C1B1A]/10 pt-16 first:border-t-0 first:pt-0"
+                  >
+                    {category.label && (
+                      <div className="flex items-center gap-2.5">
+                        <span className="h-2.5 w-2.5 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
+                        <h3
+                          className="text-base uppercase tracking-[0.1em] text-[#1C1B1A] sm:text-lg"
+                          style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+                        >
+                          {category.label}
+                        </h3>
+                      </div>
+                    )}
+                    <div className={category.label ? "mt-8" : ""}>
+                      {category.items.map((item) => (
+                        <ItemBlock key={item.id} item={item} />
+                      ))}
                     </div>
-                  )}
-                  <div className={category.label ? "mt-8" : ""}>
-                    {category.items.map((item) => (
-                      <ItemBlock key={item.id} item={item} />
+                  </div>
+                ))}
+
+                {company.bullets && (
+                  <ul className="max-w-2xl space-y-3">
+                    {company.bullets.map((b) => (
+                      <li key={b} className="flex gap-3 text-base leading-relaxed text-[#1C1B1A]/75">
+                        <span style={{ color: ACCENT_TEXT }}>—</span>
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {company.photos && (
+                  <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
+                    {company.photos.map((src) => (
+                      <div
+                        key={src}
+                        className="relative aspect-[4/3] w-72 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5"
+                      >
+                        <Image src={src} alt="SALT Contemporary Dance" fill sizes="288px" className="object-cover" />
+                      </div>
                     ))}
                   </div>
-                </div>
-              ))}
-
-              {company.bullets && (
-                <ul className="max-w-2xl space-y-3">
-                  {company.bullets.map((b) => (
-                    <li key={b} className="flex gap-3 text-base leading-relaxed text-[#1C1B1A]/75">
-                      <span style={{ color: ACCENT_TEXT }}>—</span>
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              )}
-
-              {company.photos && (
-                <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
-                  {company.photos.map((src) => (
-                    <div
-                      key={src}
-                      className="relative aspect-[4/3] w-72 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5"
-                    >
-                      <Image src={src} alt="SALT Contemporary Dance" fill sizes="288px" className="object-cover" />
-                    </div>
-                  ))}
-                </div>
-              )}
+                )}
+              </div>
             </div>
           </section>
         ))}
 
-        <section
-          id="ai-systems"
-          className="sm:grid sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-8 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-12"
-        >
-          <div className="sm:sticky sm:top-10 sm:self-start">
+        <section id="ai-systems">
+          <div className="max-w-2xl">
             <h2
               className="text-[#1C1B1A]"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 800,
-                fontSize: "clamp(2rem, 3.2vw, 2.5rem)",
-                lineHeight: 1.05,
+                fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
                 letterSpacing: "-0.02em",
               }}
             >
               AI &amp; Systems
             </h2>
             <p
-              className="mt-3 text-base italic leading-relaxed"
+              className="mt-3 text-lg italic leading-relaxed"
               style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}
             >
               AI isn&apos;t how the work gets written faster — it&apos;s how the systems get built.
             </p>
           </div>
-          <div className="mt-6 grid gap-3 sm:mt-0 sm:grid-cols-2">
+          <div className="mt-10 grid gap-3 sm:grid-cols-2">
             {aiSystemsItems.map((item) => (
               <div key={item} className="rounded-xl border border-[#1C1B1A]/10 bg-white px-4 py-3 text-sm text-[#1C1B1A]/75">
                 {item}

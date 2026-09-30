@@ -7,7 +7,7 @@ const serif = Newsreader({ subsets: ["latin"], style: ["normal", "italic"], vari
 export default function DesignBoldLayout({ children }: LayoutProps<"/concepts/design-bold">) {
   return (
     <div
-      className={`${display.variable} ${serif.variable} relative min-h-screen overflow-x-hidden bg-[#F2F0EA]`}
+      className={`${display.variable} ${serif.variable} relative min-h-screen bg-[#F2F0EA]`}
       style={{ fontFamily: "var(--font-serif)" }}
     >
       {children}
