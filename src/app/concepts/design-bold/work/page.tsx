@@ -70,138 +70,141 @@ function PostCard({ name, role, quote, image, href }: { name: string; role: stri
 
 function ItemBlock({ item }: { item: WorkItem }) {
   return (
-    <div id={item.id} className="pt-16 first:pt-0">
+    <div id={item.id} className="pt-16 first:pt-0 sm:grid sm:grid-cols-[12rem_1fr] sm:gap-10 lg:grid-cols-[14rem_1fr]">
       <h4
-        className="text-xl text-[#1C1B1A] sm:text-2xl"
+        className="text-xl text-[#1C1B1A] sm:sticky sm:top-10 sm:text-lg sm:leading-snug"
         style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.01em" }}
       >
         {item.label}
       </h4>
-      <p className="mt-3 max-w-2xl text-base leading-relaxed text-[#1C1B1A]/75">{item.description}</p>
-      {item.result && (
-        <p
-          className="mt-3 max-w-2xl text-base italic leading-relaxed"
-          style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}
-        >
-          {item.result}
-        </p>
-      )}
 
-      {item.stat && (
-        <div className="mt-4 inline-flex items-baseline gap-2">
-          <span className="text-3xl" style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: ACCENT_TEXT }}>
-            {item.stat.value}
-          </span>
-          <span className="text-xs text-[#1C1B1A]/50">{item.stat.label}</span>
-        </div>
-      )}
+      <div className="mt-3 sm:mt-0">
+        <p className="max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">{item.description}</p>
+        {item.result && (
+          <p
+            className="mt-4 max-w-xl text-base italic leading-relaxed"
+            style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}
+          >
+            {item.result}
+          </p>
+        )}
 
-      {item.images && item.images.length > 0 && (
-        item.imageCarousel ? (
-          <div className="mt-5 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
-            {item.images.map((img) => (
-              <div
-                key={img.src}
-                className="relative aspect-[4/3] w-64 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10"
-              >
-                <Image src={img.src} alt={img.alt} fill sizes="256px" className="object-cover" />
-              </div>
-            ))}
+        {item.stat && (
+          <div className="mt-5 inline-flex items-baseline gap-2">
+            <span className="text-3xl" style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: ACCENT_TEXT }}>
+              {item.stat.value}
+            </span>
+            <span className="text-xs text-[#1C1B1A]/50">{item.stat.label}</span>
           </div>
-        ) : (
-          <div className="mt-5 grid grid-cols-2 gap-2 sm:grid-cols-3">
-            {item.images.map((img) => (
-              <div key={img.src} className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
-                <Image src={img.src} alt={img.alt} width={img.w} height={img.h} className="w-full" />
-              </div>
-            ))}
-          </div>
-        )
-      )}
+        )}
 
-      {item.posts && item.posts.length > 0 && (
-        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {item.posts.map((post) => (
-            <PostCard key={post.name} {...post} />
-          ))}
-        </div>
-      )}
-
-      {item.wistia && item.wistia.length > 0 && (
-        <div className="mt-5 grid gap-3 sm:grid-cols-3">
-          {item.wistia.map((v) => (
-            <div key={v.wistiaId}>
-              <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
-                <iframe
-                  title={v.title}
-                  allowFullScreen
-                  frameBorder="0"
-                  scrolling="no"
-                  className="wistia_embed aspect-video w-full"
-                  name="wistia_embed"
-                  src={`https://fast.wistia.net/embed/iframe/${v.wistiaId}`}
-                />
-              </div>
-              <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{v.title}</span>
+        {item.images && item.images.length > 0 && (
+          item.imageCarousel ? (
+            <div className="mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
+              {item.images.map((img) => (
+                <div
+                  key={img.src}
+                  className="relative aspect-[4/3] w-64 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10"
+                >
+                  <Image src={img.src} alt={img.alt} fill sizes="256px" className="object-cover" />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
+          ) : (
+            <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3">
+              {item.images.map((img) => (
+                <div key={img.src} className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+                  <Image src={img.src} alt={img.alt} width={img.w} height={img.h} className="w-full" />
+                </div>
+              ))}
+            </div>
+          )
+        )}
 
-      {item.video && (
-        <div className="mt-5 max-w-xs">
-          <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
-            <video
-              src={item.video.src}
-              poster={item.video.poster}
-              autoPlay={!item.video.poster}
-              loop={!item.video.poster}
-              muted={!item.video.poster}
-              playsInline
-              controls={!!item.video.poster}
-              className="w-full"
+        {item.posts && item.posts.length > 0 && (
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {item.posts.map((post) => (
+              <PostCard key={post.name} {...post} />
+            ))}
+          </div>
+        )}
+
+        {item.wistia && item.wistia.length > 0 && (
+          <div className="mt-6 grid gap-3 sm:grid-cols-3">
+            {item.wistia.map((v) => (
+              <div key={v.wistiaId}>
+                <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
+                  <iframe
+                    title={v.title}
+                    allowFullScreen
+                    frameBorder="0"
+                    scrolling="no"
+                    className="wistia_embed aspect-video w-full"
+                    name="wistia_embed"
+                    src={`https://fast.wistia.net/embed/iframe/${v.wistiaId}`}
+                  />
+                </div>
+                <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{v.title}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {item.video && (
+          <div className="mt-6 max-w-xs">
+            <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
+              <video
+                src={item.video.src}
+                poster={item.video.poster}
+                autoPlay={!item.video.poster}
+                loop={!item.video.poster}
+                muted={!item.video.poster}
+                playsInline
+                controls={!!item.video.poster}
+                className="w-full"
+              />
+            </div>
+            <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{item.video.alt}</span>
+          </div>
+        )}
+
+        {item.youtube && item.youtube.length > 0 && (
+          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {item.youtube.map((v) => (
+              <VideoTile key={v.id} title={v.title} id={v.id} short={v.short} />
+            ))}
+          </div>
+        )}
+
+        {item.embed && (
+          <div className="mt-6 max-w-md overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+            <iframe
+              title={item.embed.title}
+              src={item.embed.src}
+              width="100%"
+              height={item.embed.height}
+              frameBorder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"
             />
           </div>
-          <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{item.video.alt}</span>
-        </div>
-      )}
+        )}
 
-      {item.youtube && item.youtube.length > 0 && (
-        <div className="mt-5 grid grid-cols-2 gap-3 sm:grid-cols-4">
-          {item.youtube.map((v) => (
-            <VideoTile key={v.id} title={v.title} id={v.id} short={v.short} />
-          ))}
-        </div>
-      )}
-
-      {item.embed && (
-        <div className="mt-5 max-w-md overflow-hidden rounded-xl border border-[#1C1B1A]/10">
-          <iframe
-            title={item.embed.title}
-            src={item.embed.src}
-            width="100%"
-            height={item.embed.height}
-            frameBorder="0"
-            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          />
-        </div>
-      )}
-
-      {item.links && item.links.length > 0 && (
-        <div className="mt-5 grid max-w-xl gap-2 sm:grid-cols-2">
-          {item.links.map((l) => (
-            <ExternalLinkCard key={l.href} href={l.href} label={l.label} sublabel={l.sublabel} />
-          ))}
-        </div>
-      )}
+        {item.links && item.links.length > 0 && (
+          <div className="mt-6 grid max-w-xl gap-2 sm:grid-cols-2">
+            {item.links.map((l) => (
+              <ExternalLinkCard key={l.href} href={l.href} label={l.label} sublabel={l.sublabel} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
 
 export default function WorkPage() {
   return (
-    <div className="px-8 pb-32 pt-16 sm:px-16">
+    <div className="mx-auto max-w-6xl px-8 pb-32 pt-16 sm:px-16">
       <h1
         className="text-[#1C1B1A]"
         style={{

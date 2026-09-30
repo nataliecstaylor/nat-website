@@ -57,7 +57,6 @@ export const companies: Company[] = [
             result:
               "The launches drove both spikes and sustained increases in brand awareness, inbound demo requests, and pipeline, as well as millions of impressions.",
             youtube: [
-              { title: "Beta launch", id: "_JNt77-LyN4" },
               { title: "Video Skills", id: "fGLgSXL1B8M" },
               { title: "Variants", id: "k4PeSXyD0PA" },
               { title: "AI Productions", id: "UnodbgTbX4g" },
@@ -65,6 +64,7 @@ export const companies: Company[] = [
               { title: "Audio features", id: "LifBjrJHnq0" },
               { title: "Auto Frame", id: "CcegwpLqVGY" },
               { title: "Design Systems Lite", id: "ui8D76C0MGg" },
+              { title: "Beta launch", id: "_JNt77-LyN4" },
             ],
           },
           {
