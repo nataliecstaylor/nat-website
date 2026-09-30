@@ -261,61 +261,106 @@ export default function WorkPage() {
               </p>
             </div>
 
-            <div className="mt-16 space-y-20">
-              {company.categories?.map((category) => (
-                <div
-                  key={category.id}
-                  id={category.id}
-                  className="border-t border-[#1C1B1A]/10 pt-16 first:border-t-0 first:pt-0 sm:grid sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-10 lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-14"
-                >
-                  <div className="sm:sticky sm:top-10 sm:self-start">
-                    {category.label && (
-                      <div className="flex items-center gap-2">
-                        <span className="h-2 w-2 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
-                        <h3
-                          className="text-sm uppercase tracking-[0.08em] text-[#1C1B1A]"
-                          style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
-                        >
-                          {category.label}
-                        </h3>
-                      </div>
-                    )}
+            {company.categories && company.categories.length > 0 && (
+              <div className="mt-16 sm:grid sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-x-10 lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-x-14">
+                {/* Company name: spans every category row, stays pinned for the whole section.
+                    Outer div is a plain (non-sticky) grid item that stretches to the full
+                    spanned height -- sticky lives on the inner div, since position:sticky
+                    combined with align-self:start on the grid item itself makes the stuck
+                    range ambiguous across browsers. */}
+                <div style={{ gridColumn: 1, gridRow: `1 / ${company.categories.length + 1}` }}>
+                  <div className="hidden sm:sticky sm:top-10 sm:block">
+                    <span
+                      className="block text-xs uppercase tracking-[0.15em] text-[#1C1B1A]/40"
+                      style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+                    >
+                      {company.name}
+                    </span>
                   </div>
+                </div>
 
-                  <div className="mt-6 sm:mt-0">
+                {/* Category name: pinned just below the company name, swapping per category */}
+                {company.categories.map((category, idx) => (
+                  <div key={`${category.id}-label`} style={{ gridColumn: 1, gridRow: idx + 1 }}>
+                    <div className="hidden sm:sticky sm:top-[4.25rem] sm:mt-8 sm:block">
+                      {category.label && (
+                        <div className="flex items-center gap-2">
+                          <span className="h-2 w-2 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
+                          <h3
+                            className="text-sm uppercase tracking-[0.08em] text-[#1C1B1A]"
+                            style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+                          >
+                            {category.label}
+                          </h3>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+
+                {company.categories.map((category, idx) => (
+                  <div
+                    key={category.id}
+                    id={category.id}
+                    className={idx === 0 ? "" : "mt-16 border-t border-[#1C1B1A]/10 pt-16 sm:mt-0"}
+                    style={{ gridColumn: 2, gridRow: idx + 1 }}
+                  >
+                    <div className="mb-6 flex items-center gap-2 sm:hidden">
+                      <span
+                        className="block text-xs uppercase tracking-[0.15em] text-[#1C1B1A]/40"
+                        style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+                      >
+                        {company.name}
+                      </span>
+                      {category.label && (
+                        <>
+                          <span className="text-[#1C1B1A]/20">/</span>
+                          <span
+                            className="text-xs uppercase tracking-[0.08em] text-[#1C1B1A]/70"
+                            style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+                          >
+                            {category.label}
+                          </span>
+                        </>
+                      )}
+                    </div>
                     {category.items.map((item) => (
                       <ItemBlock key={item.id} item={item} onImageClick={setLightbox} />
                     ))}
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+            )}
 
-              {company.bullets && (
-                <ul className="max-w-2xl space-y-3">
-                  {company.bullets.map((b) => (
-                    <li key={b} className="flex gap-3 text-base leading-relaxed text-[#1C1B1A]/75">
-                      <span style={{ color: ACCENT_TEXT }}>—</span>
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              )}
+            {(company.bullets || company.photos) && (
+              <div className={company.categories && company.categories.length > 0 ? "mt-20" : "mt-16"}>
+                {company.bullets && (
+                  <ul className="max-w-2xl space-y-3">
+                    {company.bullets.map((b) => (
+                      <li key={b} className="flex gap-3 text-base leading-relaxed text-[#1C1B1A]/75">
+                        <span style={{ color: ACCENT_TEXT }}>—</span>
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                )}
 
-              {company.photos && (
-                <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
-                  {company.photos.map((src) => (
-                    <button
-                      key={src}
-                      type="button"
-                      onClick={() => setLightbox({ src, alt: "SALT Contemporary Dance" })}
-                      className="relative aspect-[4/3] w-72 flex-none cursor-zoom-in snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 transition hover:border-[#1C1B1A]/25"
-                    >
-                      <Image src={src} alt="SALT Contemporary Dance" fill sizes="288px" className="object-cover" />
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+                {company.photos && (
+                  <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
+                    {company.photos.map((src) => (
+                      <button
+                        key={src}
+                        type="button"
+                        onClick={() => setLightbox({ src, alt: "SALT Contemporary Dance" })}
+                        className="relative aspect-[4/3] w-72 flex-none cursor-zoom-in snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 transition hover:border-[#1C1B1A]/25"
+                      >
+                        <Image src={src} alt="SALT Contemporary Dance" fill sizes="288px" className="object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
           </section>
         ))}
 
