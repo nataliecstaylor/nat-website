@@ -257,7 +257,7 @@ export const companies: Company[] = [
     id: "t3",
     name: "T3 Advisors",
     intro:
-      "While this real estate company was 15 years old when I joined, it operated like a startup and I was the first marketing hire.",
+      "While this real estate company was 15 years old when I joined, it operated like a startup and I was the first marketing hire. Shortly after I left, the company was acquired by Savills.",
     categories: [
       {
         id: "t3-main",

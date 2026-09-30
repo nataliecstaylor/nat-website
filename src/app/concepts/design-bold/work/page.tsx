@@ -70,7 +70,7 @@ function PostCard({ name, role, quote, image, href }: { name: string; role: stri
 
 function ItemBlock({ item }: { item: WorkItem }) {
   return (
-    <div id={item.id} className="pt-16 first:pt-0 sm:grid sm:grid-cols-[12rem_1fr] sm:gap-10 lg:grid-cols-[14rem_1fr]">
+    <div id={item.id} className="pt-16 first:pt-0 sm:grid sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-8 lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-10">
       <h4
         className="text-xl text-[#1C1B1A] sm:sticky sm:top-10 sm:text-lg sm:leading-snug"
         style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.01em" }}
@@ -100,18 +100,18 @@ function ItemBlock({ item }: { item: WorkItem }) {
 
         {item.images && item.images.length > 0 && (
           item.imageCarousel ? (
-            <div className="mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
+            <div className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
               {item.images.map((img) => (
                 <div
                   key={img.src}
-                  className="relative aspect-[4/3] w-64 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10"
+                  className="relative aspect-[4/3] w-80 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10"
                 >
-                  <Image src={img.src} alt={img.alt} fill sizes="256px" className="object-cover" />
+                  <Image src={img.src} alt={img.alt} fill sizes="320px" className="object-cover" />
                 </div>
               ))}
             </div>
           ) : (
-            <div className="mt-6 grid grid-cols-2 gap-2 sm:grid-cols-3">
+            <div className="mt-6 grid grid-cols-2 gap-3">
               {item.images.map((img) => (
                 <div key={img.src} className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
                   <Image src={img.src} alt={img.alt} width={img.w} height={img.h} className="w-full" />
@@ -122,7 +122,7 @@ function ItemBlock({ item }: { item: WorkItem }) {
         )}
 
         {item.posts && item.posts.length > 0 && (
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
             {item.posts.map((post) => (
               <PostCard key={post.name} {...post} />
             ))}
@@ -169,7 +169,7 @@ function ItemBlock({ item }: { item: WorkItem }) {
         )}
 
         {item.youtube && item.youtube.length > 0 && (
-          <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
             {item.youtube.map((v) => (
               <VideoTile key={v.id} title={v.title} id={v.id} short={v.short} />
             ))}
@@ -204,7 +204,7 @@ function ItemBlock({ item }: { item: WorkItem }) {
 
 export default function WorkPage() {
   return (
-    <div className="mx-auto max-w-6xl px-8 pb-32 pt-16 sm:px-16">
+    <div className="mx-auto max-w-[88rem] px-8 pb-32 pt-16 sm:px-12">
       <h1
         className="text-[#1C1B1A]"
         style={{
@@ -219,91 +219,112 @@ export default function WorkPage() {
         Work
       </h1>
 
-      <div className="mt-16 space-y-24">
+      <div className="mt-20 space-y-32">
         {companies.map((company) => (
-          <section key={company.id} id={company.id}>
+          <section
+            key={company.id}
+            id={company.id}
+            className="sm:grid sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-8 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-12"
+          >
+            <div className="sm:sticky sm:top-10 sm:self-start">
+              <h2
+                className="text-[#1C1B1A]"
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 800,
+                  fontSize: "clamp(2rem, 3.2vw, 2.5rem)",
+                  lineHeight: 1.05,
+                  letterSpacing: "-0.02em",
+                }}
+              >
+                {company.name}
+              </h2>
+              <p
+                className="mt-3 text-base italic leading-relaxed"
+                style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}
+              >
+                {company.intro}
+              </p>
+            </div>
+
+            <div className="mt-6 sm:mt-0">
+              {company.categories?.map((category) => (
+                <div
+                  key={category.id}
+                  id={category.id}
+                  className="border-t border-[#1C1B1A]/10 pt-16 first:border-t-0 first:pt-0"
+                >
+                  {category.label && (
+                    <div className="flex items-center gap-2.5">
+                      <span className="h-2.5 w-2.5 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
+                      <h3
+                        className="text-base uppercase tracking-[0.1em] text-[#1C1B1A] sm:text-lg"
+                        style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+                      >
+                        {category.label}
+                      </h3>
+                    </div>
+                  )}
+                  <div className={category.label ? "mt-8" : ""}>
+                    {category.items.map((item) => (
+                      <ItemBlock key={item.id} item={item} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              {company.bullets && (
+                <ul className="max-w-2xl space-y-3">
+                  {company.bullets.map((b) => (
+                    <li key={b} className="flex gap-3 text-base leading-relaxed text-[#1C1B1A]/75">
+                      <span style={{ color: ACCENT_TEXT }}>—</span>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {company.photos && (
+                <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
+                  {company.photos.map((src) => (
+                    <div
+                      key={src}
+                      className="relative aspect-[4/3] w-72 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5"
+                    >
+                      <Image src={src} alt="SALT Contemporary Dance" fill sizes="288px" className="object-cover" />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </section>
+        ))}
+
+        <section
+          id="ai-systems"
+          className="sm:grid sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-8 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-12"
+        >
+          <div className="sm:sticky sm:top-10 sm:self-start">
             <h2
               className="text-[#1C1B1A]"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 800,
-                fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
+                fontSize: "clamp(2rem, 3.2vw, 2.5rem)",
+                lineHeight: 1.05,
                 letterSpacing: "-0.02em",
               }}
             >
-              {company.name}
+              AI &amp; Systems
             </h2>
-            <p className="mt-3 max-w-2xl text-lg italic leading-relaxed" style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}>
-              {company.intro}
+            <p
+              className="mt-3 text-base italic leading-relaxed"
+              style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}
+            >
+              AI isn&apos;t how the work gets written faster — it&apos;s how the systems get built.
             </p>
-
-            {company.categories?.map((category) => (
-              <div
-                key={category.id}
-                id={category.id}
-                className="mt-16 border-t border-[#1C1B1A]/10 pt-16 first:mt-12 first:border-t-0 first:pt-0"
-              >
-                {category.label && (
-                  <div className="flex items-center gap-2.5">
-                    <span className="h-2.5 w-2.5 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
-                    <h3
-                      className="text-base uppercase tracking-[0.1em] text-[#1C1B1A] sm:text-lg"
-                      style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
-                    >
-                      {category.label}
-                    </h3>
-                  </div>
-                )}
-                <div className={category.label ? "mt-8" : ""}>
-                  {category.items.map((item) => (
-                    <ItemBlock key={item.id} item={item} />
-                  ))}
-                </div>
-              </div>
-            ))}
-
-            {company.bullets && (
-              <ul className="mt-8 max-w-2xl space-y-3">
-                {company.bullets.map((b) => (
-                  <li key={b} className="flex gap-3 text-base leading-relaxed text-[#1C1B1A]/75">
-                    <span style={{ color: ACCENT_TEXT }}>—</span>
-                    {b}
-                  </li>
-                ))}
-              </ul>
-            )}
-
-            {company.photos && (
-              <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
-                {company.photos.map((src) => (
-                  <div
-                    key={src}
-                    className="relative aspect-[4/3] w-64 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5"
-                  >
-                    <Image src={src} alt="SALT Contemporary Dance" fill sizes="256px" className="object-cover" />
-                  </div>
-                ))}
-              </div>
-            )}
-          </section>
-        ))}
-
-        <section id="ai-systems">
-          <h2
-            className="text-[#1C1B1A]"
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 800,
-              fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            AI &amp; Systems
-          </h2>
-          <p className="mt-3 max-w-2xl text-lg italic leading-relaxed" style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}>
-            AI isn&apos;t how the work gets written faster — it&apos;s how the systems get built.
-          </p>
-          <div className="mt-8 grid gap-2 sm:grid-cols-2">
+          </div>
+          <div className="mt-6 grid gap-3 sm:mt-0 sm:grid-cols-2">
             {aiSystemsItems.map((item) => (
               <div key={item} className="rounded-xl border border-[#1C1B1A]/10 bg-white px-4 py-3 text-sm text-[#1C1B1A]/75">
                 {item}
