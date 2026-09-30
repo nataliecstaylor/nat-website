@@ -70,134 +70,132 @@ function PostCard({ name, role, quote, image, href }: { name: string; role: stri
 
 function ItemBlock({ item }: { item: WorkItem }) {
   return (
-    <div id={item.id} className="pt-16 first:pt-0 sm:grid sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-8 lg:grid-cols-[11rem_minmax(0,1fr)] lg:gap-10">
+    <div id={item.id} className="pt-14 first:pt-0">
       <h4
-        className="text-xl text-[#1C1B1A] sm:sticky sm:top-10 sm:text-lg sm:leading-snug"
+        className="text-2xl text-[#1C1B1A]"
         style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.01em" }}
       >
         {item.label}
       </h4>
 
-      <div className="mt-3 sm:mt-0">
-        <p className="max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">{item.description}</p>
-        {item.result && (
-          <p
-            className="mt-4 max-w-xl text-base italic leading-relaxed"
-            style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}
-          >
-            {item.result}
-          </p>
-        )}
+      <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">{item.description}</p>
+      {item.result && (
+        <p
+          className="mt-4 max-w-xl text-base italic leading-relaxed"
+          style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}
+        >
+          {item.result}
+        </p>
+      )}
 
-        {item.stat && (
-          <div className="mt-5 inline-flex items-baseline gap-2">
-            <span className="text-3xl" style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: ACCENT_TEXT }}>
-              {item.stat.value}
-            </span>
-            <span className="text-xs text-[#1C1B1A]/50">{item.stat.label}</span>
-          </div>
-        )}
+      {item.stat && (
+        <div className="mt-5 inline-flex items-baseline gap-2">
+          <span className="text-3xl" style={{ fontFamily: "var(--font-display)", fontWeight: 800, color: ACCENT_TEXT }}>
+            {item.stat.value}
+          </span>
+          <span className="text-xs text-[#1C1B1A]/50">{item.stat.label}</span>
+        </div>
+      )}
 
-        {item.embed && (
-          <div className="mt-6 max-w-xl overflow-hidden rounded-xl border border-[#1C1B1A]/10">
-            <iframe
-              title={item.embed.title}
-              src={item.embed.src}
-              width="100%"
-              height={item.embed.height}
-              frameBorder="0"
-              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy"
-            />
-          </div>
-        )}
+      {item.embed && (
+        <div className="mt-6 max-w-xl overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+          <iframe
+            title={item.embed.title}
+            src={item.embed.src}
+            width="100%"
+            height={item.embed.height}
+            frameBorder="0"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy"
+          />
+        </div>
+      )}
 
-        {item.images && item.images.length > 0 && (
-          item.imageCarousel ? (
-            <div className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
-              {item.images.map((img) => (
-                <div
-                  key={img.src}
-                  className="relative aspect-[4/3] w-80 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10"
-                >
-                  <Image src={img.src} alt={img.alt} fill sizes="320px" className="object-cover" />
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              {item.images.map((img) => (
-                <div key={img.src} className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
-                  <Image src={img.src} alt={img.alt} width={img.w} height={img.h} className="w-full" />
-                </div>
-              ))}
-            </div>
-          )
-        )}
-
-        {item.posts && item.posts.length > 0 && (
-          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
-            {item.posts.map((post) => (
-              <PostCard key={post.name} {...post} />
-            ))}
-          </div>
-        )}
-
-        {item.wistia && item.wistia.length > 0 && (
-          <div className="mt-6 grid gap-3 sm:grid-cols-3">
-            {item.wistia.map((v) => (
-              <div key={v.wistiaId}>
-                <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
-                  <iframe
-                    title={v.title}
-                    allowFullScreen
-                    frameBorder="0"
-                    scrolling="no"
-                    className="wistia_embed aspect-video w-full"
-                    name="wistia_embed"
-                    src={`https://fast.wistia.net/embed/iframe/${v.wistiaId}`}
-                  />
-                </div>
-                <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{v.title}</span>
+      {item.images && item.images.length > 0 && (
+        item.imageCarousel ? (
+          <div className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
+            {item.images.map((img) => (
+              <div
+                key={img.src}
+                className="relative aspect-[4/3] w-80 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10"
+              >
+                <Image src={img.src} alt={img.alt} fill sizes="320px" className="object-cover" />
               </div>
             ))}
           </div>
-        )}
+        ) : (
+          <div className="mt-6 grid grid-cols-2 gap-3">
+            {item.images.map((img) => (
+              <div key={img.src} className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+                <Image src={img.src} alt={img.alt} width={img.w} height={img.h} className="w-full" />
+              </div>
+            ))}
+          </div>
+        )
+      )}
 
-        {item.video && (
-          <div className="mt-6 max-w-xs">
-            <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
-              <video
-                src={item.video.src}
-                poster={item.video.poster}
-                autoPlay={!item.video.poster}
-                loop={!item.video.poster}
-                muted={!item.video.poster}
-                playsInline
-                controls={!!item.video.poster}
-                className="w-full"
-              />
+      {item.posts && item.posts.length > 0 && (
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          {item.posts.map((post) => (
+            <PostCard key={post.name} {...post} />
+          ))}
+        </div>
+      )}
+
+      {item.wistia && item.wistia.length > 0 && (
+        <div className="mt-6 grid gap-3 sm:grid-cols-3">
+          {item.wistia.map((v) => (
+            <div key={v.wistiaId}>
+              <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
+                <iframe
+                  title={v.title}
+                  allowFullScreen
+                  frameBorder="0"
+                  scrolling="no"
+                  className="wistia_embed aspect-video w-full"
+                  name="wistia_embed"
+                  src={`https://fast.wistia.net/embed/iframe/${v.wistiaId}`}
+                />
+              </div>
+              <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{v.title}</span>
             </div>
-            <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{item.video.alt}</span>
-          </div>
-        )}
+          ))}
+        </div>
+      )}
 
-        {item.youtube && item.youtube.length > 0 && (
-          <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
-            {item.youtube.map((v) => (
-              <VideoTile key={v.id} title={v.title} id={v.id} short={v.short} />
-            ))}
+      {item.video && (
+        <div className="mt-6 max-w-xs">
+          <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
+            <video
+              src={item.video.src}
+              poster={item.video.poster}
+              autoPlay={!item.video.poster}
+              loop={!item.video.poster}
+              muted={!item.video.poster}
+              playsInline
+              controls={!!item.video.poster}
+              className="w-full"
+            />
           </div>
-        )}
+          <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{item.video.alt}</span>
+        </div>
+      )}
 
-        {item.links && item.links.length > 0 && (
-          <div className="mt-6 grid max-w-xl gap-2 sm:grid-cols-2">
-            {item.links.map((l) => (
-              <ExternalLinkCard key={l.href} href={l.href} label={l.label} sublabel={l.sublabel} />
-            ))}
-          </div>
-        )}
-      </div>
+      {item.youtube && item.youtube.length > 0 && (
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
+          {item.youtube.map((v) => (
+            <VideoTile key={v.id} title={v.title} id={v.id} short={v.short} />
+          ))}
+        </div>
+      )}
+
+      {item.links && item.links.length > 0 && (
+        <div className="mt-6 grid max-w-xl gap-2 sm:grid-cols-2">
+          {item.links.map((l) => (
+            <ExternalLinkCard key={l.href} href={l.href} label={l.label} sublabel={l.sublabel} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -242,67 +240,64 @@ export default function WorkPage() {
               </p>
             </div>
 
-            <div className="mt-16 sm:grid sm:grid-cols-[9rem_minmax(0,1fr)] sm:gap-8 lg:grid-cols-[10rem_minmax(0,1fr)] lg:gap-12">
-              <div className="hidden sm:sticky sm:top-10 sm:block sm:self-start">
-                <div className="h-px w-8" style={{ backgroundColor: ACCENT }} />
-                <span
-                  className="mt-3 block text-xs uppercase tracking-[0.15em] text-[#1C1B1A]/45"
-                  style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+            <div className="mt-16 space-y-20">
+              {company.categories?.map((category) => (
+                <div
+                  key={category.id}
+                  id={category.id}
+                  className="border-t border-[#1C1B1A]/10 pt-16 first:border-t-0 first:pt-0 sm:grid sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-10 lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-14"
                 >
-                  {company.name}
-                </span>
-              </div>
-
-              <div>
-                {company.categories?.map((category) => (
-                  <div
-                    key={category.id}
-                    id={category.id}
-                    className="border-t border-[#1C1B1A]/10 pt-16 first:border-t-0 first:pt-0"
-                  >
+                  <div className="sm:sticky sm:top-10 sm:self-start">
+                    <span
+                      className="block text-xs uppercase tracking-[0.15em] text-[#1C1B1A]/40"
+                      style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+                    >
+                      {company.name}
+                    </span>
                     {category.label && (
-                      <div className="flex items-center gap-2.5">
-                        <span className="h-2.5 w-2.5 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
+                      <div className="mt-2 flex items-center gap-2">
+                        <span className="h-2 w-2 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
                         <h3
-                          className="text-base uppercase tracking-[0.1em] text-[#1C1B1A] sm:text-lg"
+                          className="text-sm uppercase tracking-[0.08em] text-[#1C1B1A]"
                           style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
                         >
                           {category.label}
                         </h3>
                       </div>
                     )}
-                    <div className={category.label ? "mt-8" : ""}>
-                      {category.items.map((item) => (
-                        <ItemBlock key={item.id} item={item} />
-                      ))}
+                  </div>
+
+                  <div className="mt-6 sm:mt-0">
+                    {category.items.map((item) => (
+                      <ItemBlock key={item.id} item={item} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+
+              {company.bullets && (
+                <ul className="max-w-2xl space-y-3">
+                  {company.bullets.map((b) => (
+                    <li key={b} className="flex gap-3 text-base leading-relaxed text-[#1C1B1A]/75">
+                      <span style={{ color: ACCENT_TEXT }}>—</span>
+                      {b}
+                    </li>
+                  ))}
+                </ul>
+              )}
+
+              {company.photos && (
+                <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
+                  {company.photos.map((src) => (
+                    <div
+                      key={src}
+                      className="relative aspect-[4/3] w-72 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5"
+                    >
+                      <Image src={src} alt="SALT Contemporary Dance" fill sizes="288px" className="object-cover" />
                     </div>
-                  </div>
-                ))}
-
-                {company.bullets && (
-                  <ul className="max-w-2xl space-y-3">
-                    {company.bullets.map((b) => (
-                      <li key={b} className="flex gap-3 text-base leading-relaxed text-[#1C1B1A]/75">
-                        <span style={{ color: ACCENT_TEXT }}>—</span>
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-
-                {company.photos && (
-                  <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
-                    {company.photos.map((src) => (
-                      <div
-                        key={src}
-                        className="relative aspect-[4/3] w-72 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5"
-                      >
-                        <Image src={src} alt="SALT Contemporary Dance" fill sizes="288px" className="object-cover" />
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </section>
         ))}

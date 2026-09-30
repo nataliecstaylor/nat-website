@@ -47,6 +47,7 @@ export const companies: Company[] = [
               { src: "/content/positioning/capsule-home-2.jpg", alt: "Capsule homepage iteration", w: 1600, h: 881 },
               { src: "/content/positioning/capsule-home-3.jpg", alt: "Capsule homepage iteration", w: 1600, h: 832 },
               { src: "/content/positioning/capsule-home-4.jpg", alt: "Capsule homepage iteration", w: 1600, h: 784 },
+              { src: "/content/positioning/capsule-positioning-sample.png", alt: "Capsule positioning strategy deck slide", w: 2290, h: 1274 },
             ],
           },
           {
