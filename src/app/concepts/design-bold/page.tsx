@@ -34,9 +34,8 @@ function Rings() {
 
 export default function DesignBoldHome() {
   return (
-    <>
-      {/* Hero: type-only moment */}
-      <section className="relative flex min-h-[calc(100vh-88px)] flex-col justify-center px-8 sm:px-16">
+    <section className="relative flex min-h-[calc(100vh-88px)] items-center px-8 sm:px-16">
+      <div className="mx-auto grid w-full max-w-6xl items-center gap-12 sm:grid-cols-[1.3fr_1fr]">
         <div className="relative w-fit">
           <Rings />
           <motion.div
@@ -79,26 +78,22 @@ export default function DesignBoldHome() {
             </motion.p>
           </div>
         </div>
-      </section>
 
-      {/* Photo */}
-      <motion.section
-        initial={{ opacity: 0, y: 32 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false, amount: 0.3 }}
-        transition={{ duration: 0.7, ease: "easeOut" }}
-        className="relative z-10 mx-auto max-w-3xl border-t border-[#1C1B1A]/10 px-8 py-20 sm:px-16"
-      >
-        <div className="mx-auto max-w-sm overflow-hidden rounded-2xl border border-[#1C1B1A]/10">
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
+          className="relative z-10 mx-auto w-full max-w-sm overflow-hidden rounded-2xl border border-[#1C1B1A]/10"
+        >
           <Image
-            src="/content/personal/profile-shot.jpg"
+            src="/content/personal/event-smile.jpg"
             alt="Natalie Taylor"
-            width={933}
-            height={1400}
+            width={900}
+            height={1474}
             className="h-full w-full object-cover"
           />
-        </div>
-      </motion.section>
-    </>
+        </motion.div>
+      </div>
+    </section>
   );
 }
