@@ -261,7 +261,7 @@ export const companies: Company[] = [
             id: "retreats",
             label: "Company retreats",
             description:
-              "As our remote company grew, I pushed for and planned two full-company offsites. I believe people work better when they care about the people they work with, and I believe in building the company culture I want at work: fun, connected, and purposeful.",
+              "As our remote company grew, I advocated for and planned two full-company offsites. I believe people work better when they care about the people they work with, and I believe in building the company culture I want at work: fun, connected, and purposeful.",
             imageCarousel: true,
             images: [1, 2, 3, 4, 5, 7, 8].map((n) => ({
               src: `/content/culture/retreat/retreat-${n}.jpg`,
@@ -303,9 +303,9 @@ export const companies: Company[] = [
             id: "website",
             label: "Website",
             description:
-              "Working with a graphic designer and development team, I helped guide the site's redesign while managing the internal stakeholders at T3, ensuring the company's leadership team was thrilled with the final product.",
+              "In my first few months, the theme I heard from both the team and customers was that T3 was a much cooler brand than our marketing reflected. Shortly after, I presented the business case for why we should invest in a website redesign. With a lean team of contractors and internal stakeholders, I led the site's messaging updates and redesign, ensuring the company's leadership team was thrilled with the final product.",
             result:
-              "The new design better reflected T3's sophisticated brand and also led to a 160% increase in conversion rates.",
+              "The new design reflected T3's elevated brand, caused teammates to tell me they were \"finally proud to send people to our site,\" and led to a 160% increase in conversion rates.",
             images: [
               { src: "/content/positioning/t3-before-after-home.jpg", alt: "T3 Advisors website redesign, before and after", w: 1800, h: 544 },
               { src: "/content/positioning/t3-before-after-growth.jpg", alt: "T3 Advisors growth stage page redesign, before and after", w: 1800, h: 606 },
@@ -315,7 +315,7 @@ export const companies: Company[] = [
             id: "case-studies-t3",
             label: "Case studies",
             description:
-              "Ran customer case study videos end to end: pre-production, interview, and post-production.",
+              "Another glaring gap between marketing perception and reality was our customer proof. We had great logos on our site, but not much else. I identified the customers we should showcase and ran the case study and video production end to end to produce 6 compelling, succinct testimonials.",
             result:
               "One of my interview subjects was Hemant Taneja, now-CEO of General Catalyst, who said he was genuinely surprised at how thoughtful and well-researched my questions were.",
             videos: [
