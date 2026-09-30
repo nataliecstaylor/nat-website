@@ -83,7 +83,7 @@ function VideoTile({
 function PostCard({ name, quote, image, href }: { name: string; quote: string; image: string; href: string }) {
   return (
     <a href={href} target="_blank" rel="noreferrer" className="group block">
-      <div className="relative aspect-[4/5] overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 shadow-sm transition group-hover:shadow-md group-hover:border-[#1C1B1A]/25">
+      <div className="relative aspect-[9/16] overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 shadow-sm transition group-hover:shadow-md group-hover:border-[#1C1B1A]/25">
         <Image src={image} alt={`${name} post`} fill className="object-cover transition group-hover:scale-105" />
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-3 pt-8">
           <p className="text-xs leading-snug text-white">&ldquo;{quote}&rdquo;</p>
@@ -258,7 +258,7 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
       )}
 
       {item.posts && item.posts.length > 0 && (
-        <div className="mt-6 grid grid-cols-2 gap-4">
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
           {item.posts.map((post) => (
             <PostCard key={post.name} name={post.name} quote={post.quote} image={post.image} href={post.href} />
           ))}
@@ -476,7 +476,10 @@ export default function WorkPage() {
 
   return (
     <div className="mx-auto max-w-[88rem] px-8 pb-32 pt-16 sm:px-12">
-      <h1
+      <motion.h1
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="text-[#1C1B1A]"
         style={{
           fontFamily: "var(--font-display)",
@@ -488,7 +491,7 @@ export default function WorkPage() {
         }}
       >
         Work
-      </h1>
+      </motion.h1>
 
       <div className="mt-20 space-y-32">
         {companies.map((company) => (

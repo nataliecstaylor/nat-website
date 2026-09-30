@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { motion } from "motion/react";
 import { ACCENT, ACCENT_TEXT } from "../_nav-data";
 
 const EMAIL = "nataliecstaylor@gmail.com";
@@ -30,8 +31,11 @@ export default function ContactPage() {
     "w-full rounded-xl border border-[#1C1B1A]/15 bg-white px-4 py-3 text-base text-[#1C1B1A] outline-none transition focus:border-[#1C1B1A]/40";
 
   return (
-    <div className="flex min-h-[70vh] flex-col justify-center px-8 py-16 sm:px-16">
-      <h1
+    <div className="mx-auto max-w-[88rem] px-8 pb-32 pt-16 sm:px-12">
+      <motion.h1
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
         className="text-[#1C1B1A]"
         style={{
           fontFamily: "var(--font-display)",
@@ -43,10 +47,15 @@ export default function ContactPage() {
         }}
       >
         Contact
-      </h1>
-      <p className="mt-4 max-w-xl text-lg leading-relaxed text-[#1C1B1A]/60">
+      </motion.h1>
+      <motion.p
+        initial={{ opacity: 0, y: 12 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+        className="mt-4 max-w-xl text-lg leading-relaxed text-[#1C1B1A]/60"
+      >
         Send a note directly, or reach me on LinkedIn.
-      </p>
+      </motion.p>
 
       <a
         href={LINKEDIN_URL}
