@@ -333,24 +333,26 @@ function CompanyCategories({
             {company.name}
           </span>
           {active.label && (
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={active.id}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.15 }}
-                className="mt-2 flex items-center gap-2"
-              >
-                <span className="h-2 w-2 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
-                <h3
-                  className="text-sm uppercase tracking-[0.08em] text-[#1C1B1A]"
-                  style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+            <div className="relative mt-2 h-6">
+              <AnimatePresence initial={false}>
+                <motion.div
+                  key={active.id}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -8 }}
+                  transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+                  className="absolute inset-0 flex items-center gap-2"
                 >
-                  {active.label}
-                </h3>
-              </motion.div>
-            </AnimatePresence>
+                  <span className="h-2 w-2 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
+                  <h3
+                    className="text-sm uppercase tracking-[0.08em] text-[#1C1B1A]"
+                    style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+                  >
+                    {active.label}
+                  </h3>
+                </motion.div>
+              </AnimatePresence>
+            </div>
           )}
         </div>
       </div>
