@@ -119,6 +119,7 @@ export const companies: Company[] = [
                 src: "/content/talent/grwm.png",
                 alt: "Get ready with me for a Capsule VIP dinner",
                 href: "https://www.linkedin.com/feed/update/urn:li:activity:7252684787457368064/",
+                caption: "Sneak peek of what an actual dinner entailed",
                 video: true,
               },
               {
