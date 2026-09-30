@@ -10,6 +10,7 @@ export type WorkItem = {
   imageCarouselNatural?: boolean;
   posts?: { name: string; role: string; quote: string; image: string; href: string }[];
   youtube?: { title: string; id: string; short?: boolean }[];
+  youtubeVertical?: boolean;
   videos?: { title: string; wistiaId?: string; videoSrc?: string; poster?: string }[];
   video?: { src: string; poster?: string; alt: string };
   embed?: { src: string; title: string; height: number };
@@ -147,7 +148,10 @@ export const companies: Company[] = [
             id: "dinner-reels",
             label: "Dinner highlight reels",
             description:
-              "As our VIP dinner program grew, we started to attract creative leaders from some of the best-known brands. I wanted to capture this in video format, so I hired videographers and interviewed guests onsite. These videos raised our brand profile, gave attendees a shareable asset that would reach their own networks, and increased the FOMO of our events, directly driving future registrations.",
+              "As our VIP dinner program grew, we started to attract creative leaders from some of the best-known brands. I wanted to capture this in video format, so I hired videographers and interviewed guests onsite.",
+            result:
+              "These videos raised our brand profile, gave attendees a shareable asset that would reach their own networks, and increased the FOMO of our events, directly driving future registrations.",
+            youtubeVertical: true,
             youtube: [
               { title: "NYC 2024 Capsule Dinner", id: "Xn6jv7nPS9s", short: true },
               { title: "Miami 2024 Capsule Dinner", id: "Fhc9cEa0szw", short: true },

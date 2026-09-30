@@ -45,11 +45,13 @@ function VideoTile({
   title,
   id,
   short,
+  vertical,
   openLightbox,
 }: {
   title: string;
   id: string;
   short?: boolean;
+  vertical?: boolean;
   openLightbox: (c: LightboxContent) => void;
 }) {
   return (
@@ -60,7 +62,9 @@ function VideoTile({
       }
       className="group block text-left"
     >
-      <div className="relative aspect-video overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 shadow-sm transition group-hover:shadow-md group-hover:border-[#1C1B1A]/25">
+      <div
+        className={`relative overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 shadow-sm transition group-hover:shadow-md group-hover:border-[#1C1B1A]/25 ${vertical ? "aspect-[9/16]" : "aspect-video"}`}
+      >
         <Image
           src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`}
           alt={title}
@@ -256,9 +260,16 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
       )}
 
       {item.youtube && item.youtube.length > 0 && (
-        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className={`mt-6 grid gap-4 ${item.youtubeVertical ? "grid-cols-2 sm:grid-cols-4" : "grid-cols-2 sm:grid-cols-3"}`}>
           {item.youtube.map((v) => (
-            <VideoTile key={v.id} title={v.title} id={v.id} short={v.short} openLightbox={openLightbox} />
+            <VideoTile
+              key={v.id}
+              title={v.title}
+              id={v.id}
+              short={v.short}
+              vertical={item.youtubeVertical}
+              openLightbox={openLightbox}
+            />
           ))}
         </div>
       )}
