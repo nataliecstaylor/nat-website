@@ -16,6 +16,7 @@ export type WorkItem = {
   videoLink?: { src: string; alt: string; href: string };
   embed?: { src: string; title: string; height: number };
   links?: { href: string; label: string; sublabel?: string }[];
+  bulletCards?: string[];
 };
 
 export type Category = { id: string; label: string; items: WorkItem[] };
@@ -236,7 +237,8 @@ export const companies: Company[] = [
           {
             id: "retreats",
             label: "Company retreats",
-            description: "Planned and organized two full-company retreats; made retreat highlight videos unprompted.",
+            description:
+              "As our remote company grew, I pushed for and planned two full-company offsites. I believe people work better when they care about the people they work with, and I believe in building the company culture I want at work: fun, connected, and purposeful.",
             imageCarousel: true,
             images: Array.from({ length: 8 }, (_, i) => ({
               src: `/content/culture/retreat/retreat-${i + 1}.jpg`,
@@ -249,20 +251,25 @@ export const companies: Company[] = [
             id: "board-reporting",
             label: "Board reporting and hiring",
             description:
-              "First marketing hire and sole marketing leader, managing direct reports, contractors, and budgets. Built quarterly reporting, goals, and narrative directly with the CEO, and presented at every quarterly board meeting since October 2023.",
+              "By presenting to the board every quarter for 3 years, I learned to build succinct and compelling narratives that illustrated what we did, how things went, and what insights were fueling our strategy for the next quarter. I also learned a lot about hiring: how to make the case for building out the team, what questions to ask candidates, and how to spot great culture fits.",
           },
           {
             id: "awards",
             label: "Awards",
             description:
-              "Winner of Capsule's People's Choice award and \"shout-out award\" (most shout-outs in a year).",
+              "My colleagues voted for me and my co-worker Nathan to win the company's first \"Capsule People's Choice\" award, for best exemplifying the company's values. I also was a \"shout-out\" award winner, receiving the top 3 most shoutouts at the company for the year.",
             images: [{ src: "/content/culture/peoples-choice.jpg", alt: "Winner, Capsule's People's Choice award", w: 1050, h: 1400 }],
-            links: [
-              {
-                href: "https://www.linkedin.com/posts/nataliecstaylor_if-youve-spoken-to-me-in-the-past-2-years-activity-7325938479899561988-_HWV",
-                label: "Winner, Capsule's People's Choice award",
-                sublabel: "LinkedIn post",
-              },
+          },
+          {
+            id: "ai-systems",
+            label: "AI & Systems",
+            description:
+              "I use Claude Cowork and Code daily to clarify my thinking, run analyses, and build apps that make my work faster and more fun.",
+            bulletCards: [
+              "Built a full LinkedIn competition app — analytics submission, points engine, weekly leaderboard, monthly cash prizes; drove a real increase in posting and impressions from beyond the founder/CEO",
+              "Connected the MKT1 Google Analytics MCP to a weekly, auto-updating site-traffic dashboard",
+              "Drove the move from Webflow to Sanity + Claude Code; now builds and ships every web update personally",
+              "Built this entire portfolio site in Claude Code in a few days",
             ],
           },
         ],
@@ -332,11 +339,4 @@ export const companies: Company[] = [
     ],
     photos: Array.from({ length: 10 }, (_, i) => `/content/personal/dance/dance-${i + 1}.jpg`),
   },
-];
-
-export const aiSystemsItems = [
-  "Built a full LinkedIn competition app — analytics submission, points engine, weekly leaderboard, monthly cash prizes; drove a real increase in posting and impressions from beyond the founder/CEO",
-  "Connected the MKT1 Google Analytics MCP to a weekly, auto-updating site-traffic dashboard",
-  "Drove the move from Webflow to Sanity + Claude Code; now builds and ships every web update personally",
-  "Built this entire portfolio site in Claude Code in a few days",
 ];

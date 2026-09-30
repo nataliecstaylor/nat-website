@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { ACCENT, ACCENT_TEXT } from "../_nav-data";
-import { companies, aiSystemsItems, type Company, type WorkItem } from "./_data";
+import { companies, type Company, type WorkItem } from "./_data";
 
 type LightboxContent =
   | { type: "image"; src: string; alt: string }
@@ -200,6 +200,20 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
               </button>
             ))}
           </div>
+        ) : item.images.length === 1 ? (
+          <button
+            type="button"
+            onClick={() => openLightbox({ type: "image", src: item.images![0].src, alt: item.images![0].alt })}
+            className="mt-6 block h-80 w-fit cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+          >
+            <Image
+              src={item.images[0].src}
+              alt={item.images[0].alt}
+              width={item.images[0].w}
+              height={item.images[0].h}
+              className="h-full w-auto object-contain"
+            />
+          </button>
         ) : (
           <div className="mt-6 grid grid-cols-2 gap-3">
             {item.images.map((img) => (
@@ -214,6 +228,16 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
             ))}
           </div>
         )
+      )}
+
+      {item.bulletCards && item.bulletCards.length > 0 && (
+        <div className="mt-6 grid gap-3 sm:grid-cols-2">
+          {item.bulletCards.map((b) => (
+            <div key={b} className="rounded-xl border border-[#1C1B1A]/10 bg-white px-4 py-3 text-sm text-[#1C1B1A]/75">
+              {b}
+            </div>
+          ))}
+        </div>
       )}
 
       {item.videoLink && (
@@ -486,57 +510,47 @@ export default function WorkPage() {
             )}
 
             {(company.bullets || company.photos) && (
-              <div className={company.categories && company.categories.length > 0 ? "mt-20" : "mt-16"}>
-                {company.bullets && (
-                  <ul className="max-w-2xl space-y-3">
-                    {company.bullets.map((b) => (
-                      <li key={b} className="flex gap-3 text-base leading-relaxed text-[#1C1B1A]/75">
-                        <span style={{ color: ACCENT_TEXT }}>—</span>
-                        {b}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+              <div className="mt-16 sm:grid sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-x-10 lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-x-14">
+                <div>
+                  <span
+                    className="mb-6 block text-xs uppercase tracking-[0.15em] text-[#1C1B1A]/40 sm:sticky sm:top-10 sm:mb-0"
+                    style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+                  >
+                    {company.name}
+                  </span>
+                </div>
 
-                {company.photos && (
-                  <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
-                    {company.photos.map((src) => (
-                      <button
-                        key={src}
-                        type="button"
-                        onClick={() => setLightbox({ type: "image", src, alt: "SALT Contemporary Dance" })}
-                        className="relative aspect-[4/3] w-72 flex-none cursor-zoom-in snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 transition hover:border-[#1C1B1A]/25"
-                      >
-                        <Image src={src} alt="SALT Contemporary Dance" fill sizes="288px" className="object-cover" />
-                      </button>
-                    ))}
-                  </div>
-                )}
+                <div>
+                  {company.bullets && (
+                    <ul className="max-w-2xl space-y-3">
+                      {company.bullets.map((b) => (
+                        <li key={b} className="flex gap-3 text-base leading-relaxed text-[#1C1B1A]/75">
+                          <span style={{ color: ACCENT_TEXT }}>—</span>
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {company.photos && (
+                    <div className="mt-8 flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
+                      {company.photos.map((src) => (
+                        <button
+                          key={src}
+                          type="button"
+                          onClick={() => setLightbox({ type: "image", src, alt: "SALT Contemporary Dance" })}
+                          className="relative aspect-[4/3] w-72 flex-none cursor-zoom-in snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 transition hover:border-[#1C1B1A]/25"
+                        >
+                          <Image src={src} alt="SALT Contemporary Dance" fill sizes="288px" className="object-cover" />
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             )}
           </section>
         ))}
-
-        <section id="ai-systems">
-          <div className="max-w-2xl">
-            <h2 className="text-[#1C1B1A]" style={SECTION_HEADER_TITLE_STYLE}>
-              AI &amp; Systems
-            </h2>
-            <p
-              className="mt-3 text-lg italic leading-relaxed"
-              style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}
-            >
-              AI isn&apos;t how the work gets written faster — it&apos;s how the systems get built.
-            </p>
-          </div>
-          <div className="mt-10 grid gap-3 sm:grid-cols-2">
-            {aiSystemsItems.map((item) => (
-              <div key={item} className="rounded-xl border border-[#1C1B1A]/10 bg-white px-4 py-3 text-sm text-[#1C1B1A]/75">
-                {item}
-              </div>
-            ))}
-          </div>
-        </section>
       </div>
 
       {lightbox && (
