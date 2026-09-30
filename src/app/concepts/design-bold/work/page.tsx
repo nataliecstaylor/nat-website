@@ -202,6 +202,26 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
         )
       )}
 
+      {item.videoLink && (
+        <a
+          href={item.videoLink.href}
+          target="_blank"
+          rel="noreferrer"
+          className="group mt-6 block w-48"
+        >
+          <div className="relative aspect-[9/16] overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 shadow-sm transition group-hover:shadow-md group-hover:border-[#1C1B1A]/25">
+            <Image
+              src={item.videoLink.src}
+              alt={item.videoLink.alt}
+              fill
+              sizes="192px"
+              className="object-cover transition group-hover:scale-105"
+            />
+            <PlayButton />
+          </div>
+        </a>
+      )}
+
       {item.posts && item.posts.length > 0 && (
         <div className="mt-6 grid grid-cols-2 gap-4">
           {item.posts.map((post) => (

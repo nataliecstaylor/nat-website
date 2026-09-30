@@ -13,6 +13,7 @@ export type WorkItem = {
   youtubeVertical?: boolean;
   videos?: { title: string; wistiaId?: string; videoSrc?: string; poster?: string }[];
   video?: { src: string; poster?: string; alt: string };
+  videoLink?: { src: string; alt: string; href: string };
   embed?: { src: string; title: string; height: number };
   links?: { href: string; label: string; sublabel?: string }[];
 };
@@ -176,19 +177,15 @@ export const companies: Company[] = [
               text: "multiple podcasts",
               href: "https://open.spotify.com/playlist/0RwqJjqM3kVB4ZyO6cNGjX",
             },
-            images: [
-              { src: "/content/talent/grwm.png", alt: "Get ready with me for a Capsule VIP dinner", w: 382, h: 666 },
-            ],
+            videoLink: {
+              src: "/content/talent/grwm.png",
+              alt: "Get ready with me for a Capsule VIP dinner",
+              href: "https://www.linkedin.com/feed/update/urn:li:activity:7252684787457368064/",
+            },
             links: [
               {
-                href: "https://www.linkedin.com/posts/nataliecstaylor_earlier-this-year-i-posted-a-jd-for-the-activity-7354141810954309633-3eIv",
-                label: "Hired the Head of Events who now runs it",
-                sublabel: "LinkedIn post",
-              },
-              {
                 href: "https://capsule.video/learn#in-person-events",
-                label: "Photos, highlight reels & attendee quotes",
-                sublabel: "capsule.video/learn",
+                label: "See attendee quotes, logos, and more photos here.",
               },
             ],
           },
