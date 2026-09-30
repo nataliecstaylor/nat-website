@@ -1,8 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { ACCENT_TEXT } from "../_nav-data";
+
+type Lightbox = { src: string; alt: string };
 
 const dancePhotos = Array.from({ length: 10 }, (_, i) => `/content/personal/dance/dance-${i + 1}.jpg`);
 
@@ -30,6 +33,17 @@ function SectionLabel({ children }: { children: React.ReactNode }) {
 }
 
 export default function AboutPage() {
+  const [lightbox, setLightbox] = useState<Lightbox | null>(null);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setLightbox(null);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [lightbox]);
+
   return (
     <div className="mx-auto max-w-[88rem] px-8 pb-32 pt-16 sm:px-12">
       <motion.h1
@@ -62,7 +76,7 @@ export default function AboutPage() {
       </motion.p>
 
       <div className="mt-16">
-        <SectionLabel>Dance</SectionLabel>
+        <SectionLabel>Dancing</SectionLabel>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">
           In my heyday, I danced with my university&apos;s touring ballet company and then
           professionally with SALT Contemporary Dance. Now I just try to get to a ballet class
@@ -70,30 +84,40 @@ export default function AboutPage() {
         </p>
         <div className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
           {dancePhotos.map((src) => (
-            <div
+            <button
               key={src}
-              className="relative aspect-[4/3] w-80 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5"
+              type="button"
+              onClick={() => setLightbox({ src, alt: "Dancing with SALT Contemporary Dance and BYU Theatre Ballet" })}
+              className="relative aspect-[4/3] w-80 flex-none cursor-zoom-in snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 transition hover:border-[#1C1B1A]/25"
             >
               <Image src={src} alt="Dancing with SALT Contemporary Dance and BYU Theatre Ballet" fill sizes="320px" className="object-cover" />
-            </div>
+            </button>
           ))}
         </div>
 
-        <SectionLabel>Host</SectionLabel>
+        <SectionLabel>Hosting</SectionLabel>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">
-          From weekly pizza nights to 5 au pairs and nearly 200 Airbnb guests in our homes,
-          hosting is one of my greatest joys.
+          Whether I&apos;m hosting weekly pizza nights, 5 live-in au pairs, or the nearly 200
+          Airbnb guests in our homes, hosting is one of my greatest joys.
         </p>
         <div className="mt-6 grid max-w-2xl grid-cols-2 gap-3">
-          <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+          <button
+            type="button"
+            onClick={() => setLightbox({ src: "/content/personal/airbnb-room.jpg", alt: "Our Airbnb room" })}
+            className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+          >
             <Image src="/content/personal/airbnb-room.jpg" alt="Our Airbnb room" width={1400} height={1050} className="w-full" />
-          </div>
-          <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+          </button>
+          <button
+            type="button"
+            onClick={() => setLightbox({ src: "/content/personal/au-pair-pizza-party.jpg", alt: "Pizza night with our au pairs" })}
+            className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+          >
             <Image src="/content/personal/au-pair-pizza-party.jpg" alt="Pizza night with our au pairs" width={1050} height={1400} className="w-full" />
-          </div>
+          </button>
         </div>
 
-        <SectionLabel>Pizza Night</SectionLabel>
+        <SectionLabel>Making Pizza</SectionLabel>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">
           I&apos;ve been making pizza with my husband for nearly a decade and love the constant
           pursuit of improvement. We&apos;re currently growing our pizza popup business, called{" "}
@@ -108,33 +132,42 @@ export default function AboutPage() {
           .
         </p>
         <div className="mt-6 grid max-w-3xl grid-cols-3 gap-3">
-          {[
-            { src: "/content/personal/grating-parm.jpg", alt: "Grating parmesan onto a fresh pizza", video: false },
-            { src: "/content/personal/pizza-polaroid.jpg", alt: "Polaroid of a finished pizza", video: false },
-            {
-              src: "/content/personal/wes-anderson-pizza.jpg",
-              alt: "You better not act like you're in a Wes Anderson film while making pizza",
-              video: true,
-            },
-          ].map((img) => (
-            <a
-              key={img.src}
-              href="https://www.instagram.com/p/Cr-9hQdtJ95/"
-              target="_blank"
-              rel="noreferrer"
-              className="group relative overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
-            >
-              <Image src={img.src} alt={img.alt} width={1200} height={1600} className="w-full transition group-hover:scale-105" />
-              {img.video && <PlayButton />}
-            </a>
-          ))}
+          <button
+            type="button"
+            onClick={() => setLightbox({ src: "/content/personal/grating-parm.jpg", alt: "Grating parmesan onto a fresh pizza" })}
+            className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+          >
+            <Image src="/content/personal/grating-parm.jpg" alt="Grating parmesan onto a fresh pizza" width={1200} height={1600} className="w-full" />
+          </button>
+          <button
+            type="button"
+            onClick={() => setLightbox({ src: "/content/personal/pizza-polaroid.jpg", alt: "Polaroid of a finished pizza" })}
+            className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+          >
+            <Image src="/content/personal/pizza-polaroid.jpg" alt="Polaroid of a finished pizza" width={1200} height={1600} className="w-full" />
+          </button>
+          <a
+            href="https://www.instagram.com/p/Cr-9hQdtJ95/"
+            target="_blank"
+            rel="noreferrer"
+            className="group relative overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+          >
+            <Image
+              src="/content/personal/wes-anderson-pizza.jpg"
+              alt="You better not act like you're in a Wes Anderson film while making pizza"
+              width={1200}
+              height={1600}
+              className="w-full transition group-hover:scale-105"
+            />
+            <PlayButton />
+          </a>
         </div>
 
         <SectionLabel>Writing</SectionLabel>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">
           I started loving writing in college. I had all sorts of writing-related campus jobs and
           later started a travel blog. Now I mostly write on LinkedIn, and every year I write and
-          mail a Christmas letter to my friends and family.
+          mail a Christmas letter that I cherish to my friends and family.
         </p>
         <div className="mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
           <a
@@ -147,17 +180,50 @@ export default function AboutPage() {
           </a>
           <div>
             <div className="grid grid-cols-2 gap-2">
-              <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+              <button
+                type="button"
+                onClick={() => setLightbox({ src: "/content/personal/byu-1.jpg", alt: "BYU Magazine article, Running to Remember" })}
+                className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+              >
                 <Image src="/content/personal/byu-1.jpg" alt="BYU Magazine article, Running to Remember" width={1232} height={1600} className="w-full" />
-              </div>
-              <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+              </button>
+              <button
+                type="button"
+                onClick={() => setLightbox({ src: "/content/personal/byu-2.jpg", alt: "BYU Magazine article" })}
+                className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+              >
                 <Image src="/content/personal/byu-2.jpg" alt="BYU Magazine article" width={1232} height={1600} className="w-full" />
-              </div>
+              </button>
             </div>
             <span className="mt-1 block text-[11px] text-[#1C1B1A]/50">BYU Magazine, 2013–2014</span>
           </div>
         </div>
       </div>
+
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#1C1B1A]/95 p-4 sm:p-10"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label="Close"
+            className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 sm:right-8 sm:top-8"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M1 1l14 14M15 1L1 15" stroke="currentColor" strokeWidth="1.5" />
+            </svg>
+          </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={lightbox.src}
+            alt={lightbox.alt}
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-full max-w-full rounded-lg object-contain shadow-2xl"
+          />
+        </div>
+      )}
     </div>
   );
 }
