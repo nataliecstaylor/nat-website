@@ -267,12 +267,17 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
     />
   ) : null;
 
+  const sideWidthClass =
+    usedAsSideVideo || usedAsSideEmbed
+      ? "lg:w-72 xl:w-[26rem] 2xl:w-[30rem]"
+      : "lg:w-64 xl:w-80 2xl:w-96";
+
   return (
     <div id={item.id} className="pt-14 first:pt-0">
       {sideMedia ? (
-        <div className="sm:flex sm:items-start sm:gap-10 sm:max-w-4xl">
-          <div className="min-w-0 sm:flex-1">{header}</div>
-          <div className="mt-6 sm:mt-0 sm:w-80 sm:flex-none lg:w-96">{sideMedia}</div>
+        <div className="lg:flex lg:items-start lg:gap-10 xl:gap-16 lg:max-w-3xl xl:max-w-5xl 2xl:max-w-6xl">
+          <div className="min-w-0 lg:flex-1">{header}</div>
+          <div className={`mt-6 lg:mt-0 lg:flex-none ${sideWidthClass}`}>{sideMedia}</div>
         </div>
       ) : (
         header
