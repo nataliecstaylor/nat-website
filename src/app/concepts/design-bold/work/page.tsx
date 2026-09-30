@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { ACCENT, ACCENT_TEXT } from "../_nav-data";
@@ -97,23 +97,37 @@ function PostCard({ name, quote, image, href }: { name: string; quote: string; i
 
 function ResultText({ item }: { item: WorkItem }) {
   if (!item.result) return null;
-  if (!item.resultLink) return <>{item.result}</>;
-  const idx = item.result.indexOf(item.resultLink.text);
-  if (idx === -1) return <>{item.result}</>;
-  return (
-    <>
-      {item.result.slice(0, idx)}
+  const result = item.result;
+  const links = item.resultLinks;
+  if (!links || links.length === 0) return <>{result}</>;
+
+  const matches = links
+    .map((link) => ({ link, idx: result.indexOf(link.text) }))
+    .filter((m) => m.idx !== -1)
+    .sort((a, b) => a.idx - b.idx);
+
+  if (matches.length === 0) return <>{result}</>;
+
+  const nodes: ReactNode[] = [];
+  let cursor = 0;
+  matches.forEach((m, i) => {
+    nodes.push(result.slice(cursor, m.idx));
+    nodes.push(
       <a
-        href={item.resultLink.href}
+        key={i}
+        href={m.link.href}
         target="_blank"
         rel="noreferrer"
         className="underline decoration-1 underline-offset-2 hover:opacity-70"
       >
-        {item.resultLink.text}
+        {m.link.text}
       </a>
-      {item.result.slice(idx + item.resultLink.text.length)}
-    </>
-  );
+    );
+    cursor = m.idx + m.link.text.length;
+  });
+  nodes.push(result.slice(cursor));
+
+  return <>{nodes}</>;
 }
 
 function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: LightboxContent) => void }) {

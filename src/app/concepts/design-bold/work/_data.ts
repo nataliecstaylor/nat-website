@@ -3,7 +3,7 @@ export type WorkItem = {
   label: string;
   description: string;
   result?: string;
-  resultLink?: { text: string; href: string };
+  resultLinks?: { text: string; href: string }[];
   stat?: { value: string; label: string };
   images?: { src: string; alt: string; w: number; h: number }[];
   imageCarousel?: boolean;
@@ -173,10 +173,16 @@ export const companies: Company[] = [
               "As we honed in on our ICP, I pitched the idea of inviting our key buyer personas to a private dinner. We learned more about this persona at that dinner than any amount of calls ever could surface. I kept going and built this program from the ground up, scaling it to become our most important channel for pipeline and revenue.",
             result:
               "We generated millions in pipeline, maintained a 98% attendance rate, and I eventually hired a Head of Events & Community who has significantly grown and improved the program. This program was highlighted on multiple podcasts and even written about in a book!",
-            resultLink: {
-              text: "multiple podcasts",
-              href: "https://open.spotify.com/playlist/0RwqJjqM3kVB4ZyO6cNGjX",
-            },
+            resultLinks: [
+              {
+                text: "multiple podcasts",
+                href: "https://open.spotify.com/playlist/0RwqJjqM3kVB4ZyO6cNGjX",
+              },
+              {
+                text: "written about in a book",
+                href: "https://www.linkedin.com/posts/nataliecstaylor_feeling-grateful-this-week-for-two-fun-surprises-ugcPost-7437251400767709186-F1S9/",
+              },
+            ],
             videoLink: {
               src: "/content/talent/grwm.png",
               alt: "Get ready with me for a Capsule VIP dinner",
