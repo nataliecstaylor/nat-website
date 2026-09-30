@@ -1,8 +1,11 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { ACCENT, ACCENT_TEXT } from "../_nav-data";
 import { companies, aiSystemsItems, type WorkItem } from "./_data";
+
+type LightboxImage = { src: string; alt: string };
 
 function ExternalLinkCard({ href, label, sublabel }: { href: string; label: string; sublabel?: string }) {
   return (
@@ -68,7 +71,7 @@ function PostCard({ name, role, quote, image, href }: { name: string; role: stri
   );
 }
 
-function ItemBlock({ item }: { item: WorkItem }) {
+function ItemBlock({ item, onImageClick }: { item: WorkItem; onImageClick: (img: LightboxImage) => void }) {
   return (
     <div id={item.id} className="pt-14 first:pt-0">
       <h4
@@ -115,20 +118,27 @@ function ItemBlock({ item }: { item: WorkItem }) {
         item.imageCarousel ? (
           <div className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
             {item.images.map((img) => (
-              <div
+              <button
                 key={img.src}
-                className="relative aspect-[4/3] w-80 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10"
+                type="button"
+                onClick={() => onImageClick(img)}
+                className="relative aspect-[4/3] w-80 flex-none cursor-zoom-in snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
               >
                 <Image src={img.src} alt={img.alt} fill sizes="320px" className="object-cover" />
-              </div>
+              </button>
             ))}
           </div>
         ) : (
           <div className="mt-6 grid grid-cols-2 gap-3">
             {item.images.map((img) => (
-              <div key={img.src} className="overflow-hidden rounded-xl border border-[#1C1B1A]/10">
+              <button
+                key={img.src}
+                type="button"
+                onClick={() => onImageClick(img)}
+                className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+              >
                 <Image src={img.src} alt={img.alt} width={img.w} height={img.h} className="w-full" />
-              </div>
+              </button>
             ))}
           </div>
         )
@@ -201,6 +211,17 @@ function ItemBlock({ item }: { item: WorkItem }) {
 }
 
 export default function WorkPage() {
+  const [lightbox, setLightbox] = useState<LightboxImage | null>(null);
+
+  useEffect(() => {
+    if (!lightbox) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setLightbox(null);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [lightbox]);
+
   return (
     <div className="mx-auto max-w-[88rem] px-8 pb-32 pt-16 sm:px-12">
       <h1
@@ -248,14 +269,8 @@ export default function WorkPage() {
                   className="border-t border-[#1C1B1A]/10 pt-16 first:border-t-0 first:pt-0 sm:grid sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-10 lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-14"
                 >
                   <div className="sm:sticky sm:top-10 sm:self-start">
-                    <span
-                      className="block text-xs uppercase tracking-[0.15em] text-[#1C1B1A]/40"
-                      style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
-                    >
-                      {company.name}
-                    </span>
                     {category.label && (
-                      <div className="mt-2 flex items-center gap-2">
+                      <div className="flex items-center gap-2">
                         <span className="h-2 w-2 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
                         <h3
                           className="text-sm uppercase tracking-[0.08em] text-[#1C1B1A]"
@@ -269,7 +284,7 @@ export default function WorkPage() {
 
                   <div className="mt-6 sm:mt-0">
                     {category.items.map((item) => (
-                      <ItemBlock key={item.id} item={item} />
+                      <ItemBlock key={item.id} item={item} onImageClick={setLightbox} />
                     ))}
                   </div>
                 </div>
@@ -289,12 +304,14 @@ export default function WorkPage() {
               {company.photos && (
                 <div className="flex snap-x snap-mandatory gap-3 overflow-x-auto pb-2">
                   {company.photos.map((src) => (
-                    <div
+                    <button
                       key={src}
-                      className="relative aspect-[4/3] w-72 flex-none snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5"
+                      type="button"
+                      onClick={() => setLightbox({ src, alt: "SALT Contemporary Dance" })}
+                      className="relative aspect-[4/3] w-72 flex-none cursor-zoom-in snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 transition hover:border-[#1C1B1A]/25"
                     >
                       <Image src={src} alt="SALT Contemporary Dance" fill sizes="288px" className="object-cover" />
-                    </div>
+                    </button>
                   ))}
                 </div>
               )}
@@ -331,6 +348,31 @@ export default function WorkPage() {
           </div>
         </section>
       </div>
+
+      {lightbox && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#1C1B1A]/95 p-4 sm:p-10"
+          onClick={() => setLightbox(null)}
+        >
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label="Close"
+            className="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white transition hover:bg-white/20 sm:right-8 sm:top-8"
+          >
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M1 1l14 14M15 1L1 15" stroke="currentColor" strokeWidth="1.5" />
+            </svg>
+          </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={lightbox.src}
+            alt={lightbox.alt}
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-full max-w-full rounded-lg object-contain shadow-2xl"
+          />
+        </div>
+      )}
     </div>
   );
 }
