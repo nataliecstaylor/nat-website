@@ -1,28 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { Hanken_Grotesk, Newsreader } from "next/font/google";
-
-const display = Hanken_Grotesk({ subsets: ["latin"], weight: ["800"], variable: "--font-display" });
-const serif = Newsreader({ subsets: ["latin"], style: ["normal", "italic"], variable: "--font-serif" });
-
-const ACCENT = "#6E62FF";
-
-const navItems = [
-  { id: "home", label: "Home" },
-  { id: "work", label: "Work" },
-  { id: "about", label: "About" },
-  { id: "contact", label: "Contact" },
-];
-
-const workSubmenu = [
-  "0-1 Programs",
-  "Campaigns and Case Studies",
-  "AI & Systems",
-  "Culture",
-];
+import { ACCENT } from "./_nav-data";
 
 function Rings() {
   return (
@@ -52,99 +32,11 @@ function Rings() {
   );
 }
 
-function PillNav({ active, onNavigate }: { active: string; onNavigate: (id: string) => void }) {
-  const [workOpen, setWorkOpen] = useState(false);
-  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  function openWork() {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    setWorkOpen(true);
-  }
-  function scheduleCloseWork() {
-    closeTimer.current = setTimeout(() => setWorkOpen(false), 200);
-  }
-
+export default function DesignBoldHome() {
   return (
-    <div className="fixed bottom-6 left-1/2 z-30 -translate-x-1/2">
-      <div
-        className="relative"
-        onMouseEnter={openWork}
-        onMouseLeave={scheduleCloseWork}
-      >
-        {workOpen && (
-          <div className="absolute bottom-full left-1/2 mb-2 w-64 -translate-x-1/2 rounded-2xl border border-[#1C1B1A]/10 bg-white/95 p-2 shadow-lg backdrop-blur">
-            {workSubmenu.map((label) => (
-              <button
-                key={label}
-                disabled
-                className="block w-full cursor-not-allowed rounded-xl px-4 py-2.5 text-left text-sm uppercase text-[#1C1B1A]/55"
-                style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
-        )}
-
-        <div className="flex items-center gap-1 rounded-full border border-[#1C1B1A]/10 bg-white/90 p-2 shadow-lg backdrop-blur">
-          {navItems.map((item) => {
-            const isActive = item.id === active;
-            const isReady = item.id === "home";
-            const isWork = item.id === "work";
-            return (
-              <button
-                key={item.id}
-                onClick={() => (isWork ? openWork() : isReady && onNavigate(item.id))}
-                disabled={!isReady && !isWork}
-                className="rounded-full px-6 py-3 text-sm uppercase tracking-wide transition disabled:cursor-not-allowed"
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 800,
-                  backgroundColor: isActive ? ACCENT : "transparent",
-                  color: isActive ? "#F2F0EA" : isReady || isWork ? "#1C1B1A" : "#1C1B1A55",
-                }}
-              >
-                {item.label}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-export default function DesignBold() {
-  const [active, setActive] = useState("home");
-  const heroRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    const el = heroRef.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) setActive("home");
-      },
-      { rootMargin: "-40% 0px -50% 0px" }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  function navigate(id: string) {
-    if (id === "home") heroRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  return (
-    <main
-      className={`${display.variable} ${serif.variable} relative min-h-screen overflow-hidden bg-[#F2F0EA]`}
-      style={{ fontFamily: "var(--font-serif)" }}
-    >
+    <>
       {/* Hero: type-only moment */}
-      <section
-        ref={heroRef}
-        className="relative flex min-h-[calc(100vh-88px)] flex-col justify-center px-8 sm:px-16"
-      >
+      <section className="relative flex min-h-[calc(100vh-88px)] flex-col justify-center px-8 sm:px-16">
         <div className="relative w-fit">
           <Rings />
           <motion.div
@@ -223,9 +115,6 @@ export default function DesignBold() {
           />
         </div>
       </motion.section>
-
-      <div className="h-24" />
-      <PillNav active={active} onNavigate={navigate} />
-    </main>
+    </>
   );
 }
