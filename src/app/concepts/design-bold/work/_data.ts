@@ -17,6 +17,7 @@ export type WorkItem = {
   embed?: { src: string; title: string; height: number };
   links?: { href: string; label: string; sublabel?: string }[];
   bulletCards?: string[];
+  hidden?: boolean;
 };
 
 export type Category = { id: string; label: string; items: WorkItem[] };
@@ -206,6 +207,7 @@ export const companies: Company[] = [
           {
             id: "linkedin-program-capsule",
             label: "LinkedIn program",
+            hidden: true,
             description:
               "Built the LinkedIn competition strategy and goals, and the AI systems and app script behind it — analytics submission, a points engine, a weekly leaderboard, and monthly cash prizes — then presented company-wide on why LinkedIn matters and led by example by posting regularly to my own profile.",
             images: [
@@ -240,8 +242,8 @@ export const companies: Company[] = [
             description:
               "As our remote company grew, I pushed for and planned two full-company offsites. I believe people work better when they care about the people they work with, and I believe in building the company culture I want at work: fun, connected, and purposeful.",
             imageCarousel: true,
-            images: Array.from({ length: 8 }, (_, i) => ({
-              src: `/content/culture/retreat/retreat-${i + 1}.jpg`,
+            images: [1, 2, 3, 4, 5, 7, 8].map((n) => ({
+              src: `/content/culture/retreat/retreat-${n}.jpg`,
               alt: "Company retreat photo",
               w: 1600,
               h: 1200,
