@@ -3,12 +3,14 @@ export type WorkItem = {
   label: string;
   description: string;
   result?: string;
+  resultLink?: { text: string; href: string };
   stat?: { value: string; label: string };
   images?: { src: string; alt: string; w: number; h: number }[];
   imageCarousel?: boolean;
+  imageCarouselNatural?: boolean;
   posts?: { name: string; role: string; quote: string; image: string; href: string }[];
   youtube?: { title: string; id: string; short?: boolean }[];
-  wistia?: { title: string; wistiaId: string }[];
+  videos?: { title: string; wistiaId?: string; videoSrc?: string; poster?: string }[];
   video?: { src: string; poster?: string; alt: string };
   embed?: { src: string; title: string; height: number };
   links?: { href: string; label: string; sublabel?: string }[];
@@ -144,12 +146,13 @@ export const companies: Company[] = [
           {
             id: "dinner-reels",
             label: "Dinner highlight reels",
-            description: "Interviewed key event guests around relevant topics and edited into highlight reels.",
+            description:
+              "As our VIP dinner program grew, we started to attract creative leaders from some of the best-known brands. I wanted to capture this in video format, so I hired videographers and interviewed guests onsite. These videos raised our brand profile, gave attendees a shareable asset that would reach their own networks, and increased the FOMO of our events, directly driving future registrations.",
             youtube: [
-              { title: "Dinner highlight", id: "Xn6jv7nPS9s", short: true },
-              { title: "Dinner highlight", id: "Fhc9cEa0szw", short: true },
-              { title: "Dinner highlight", id: "23NQUbzF5Mc", short: true },
-              { title: "Dinner highlight", id: "K34v01iCmkY", short: true },
+              { title: "NYC 2024 Capsule Dinner", id: "Xn6jv7nPS9s", short: true },
+              { title: "Miami 2024 Capsule Dinner", id: "Fhc9cEa0szw", short: true },
+              { title: "SF 2025 Capsule Dinner", id: "23NQUbzF5Mc", short: true },
+              { title: "LA 2025 Capsule Dinner", id: "K34v01iCmkY", short: true },
             ],
           },
         ],
@@ -162,8 +165,13 @@ export const companies: Company[] = [
             id: "vip-dinners",
             label: "VIP dinner series",
             description:
-              "Chose key cities, built invite lists, managed outreach campaigns and venues, maintained 98% attendance, scaled from 0.5 events/month to 2/month, built key relationships and millions in pipeline, and hired a Head of Events who continues to scale and improve this program. Hosted each event myself and built the relationships that led to real pipeline — and champions who came back to me after changing companies.",
-            stat: { value: "98%", label: "attendance" },
+              "As we honed in on our ICP, I pitched the idea of inviting our key buyer personas to a private dinner. We learned more about this persona at that dinner than any amount of calls ever could surface. I kept going and built this program from the ground up, scaling it to become our most important channel for pipeline and revenue.",
+            result:
+              "We generated millions in pipeline, maintained a 98% attendance rate, and I eventually hired a Head of Events & Community who has significantly grown and improved the program. This program was highlighted on multiple podcasts and even written about in a book!",
+            resultLink: {
+              text: "multiple podcasts",
+              href: "https://open.spotify.com/playlist/0RwqJjqM3kVB4ZyO6cNGjX",
+            },
             images: [
               { src: "/content/talent/grwm.png", alt: "Get ready with me for a Capsule VIP dinner", w: 382, h: 666 },
             ],
@@ -185,7 +193,6 @@ export const companies: Company[] = [
             label: "Virtual summit",
             description:
               "Built the strategy, goals, assets, and 4-week promo campaign for Capsule's first-ever virtual summit, resulting in a 5x increase in registration and attendance — securing 9 top-tier speakers by pitching them myself and hosting 2 of the 4 sessions.",
-            stat: { value: "5x", label: "registration & attendance increase" },
             video: {
               src: "/content/summit/virtual-summit-loop.mp4",
               alt: "Capsule Video First Summit 2026",
@@ -198,9 +205,10 @@ export const companies: Company[] = [
             id: "brand-ambassador",
             label: "Brand ambassador",
             description:
-              "As we sharpened our ICP to creative and marketing leaders, I became an important bridge. In addition to hosting many of our in-person and virtual events, I also spoke on several podcasts and webinars.",
+              "As our buyer persona continued to focus on in-house creative and marketing leaders, I became an important bridge between them and our brand. In addition to hosting many of our in-person and virtual events, I also spoke on several industry podcasts and webinars, which you can sample below.",
             result:
               "As a result of the trust I built in the community, I personally sourced multiple opportunities and closed-won deals, both net-new and from champions who came back to buy Capsule after changing companies.",
+            imageCarouselNatural: true,
             images: [
               { src: "/content/talent/pat-dm-redacted.png", alt: "Prospect outreach message", w: 1000, h: 446 },
               { src: "/content/talent/phillip-dm-redacted.png", alt: "Prospect outreach message", w: 998, h: 256 },
@@ -258,7 +266,7 @@ export const companies: Company[] = [
     id: "t3",
     name: "T3 Advisors",
     intro:
-      "While this real estate company was 15 years old when I joined, it operated like a startup and I was the first marketing hire. Shortly after I left, the company was acquired by Savills.",
+      "While this real estate company was 15 years old when I joined, it operated like a startup and I was the first marketing hire. Shortly after my 2.5 years there, the company was acquired by Savills.",
     categories: [
       {
         id: "t3-main",
@@ -268,8 +276,9 @@ export const companies: Company[] = [
             id: "website",
             label: "Website",
             description:
-              "Working with a graphic designer and development team, I helped guide the site's redesign while managing the internal stakeholders at T3, ensuring the company's leadership team was thrilled with the final product. The new design better reflected T3's sophisticated brand and also led to a 160% increase in conversion rates.",
-            stat: { value: "160%", label: "increase in conversion rate" },
+              "Working with a graphic designer and development team, I helped guide the site's redesign while managing the internal stakeholders at T3, ensuring the company's leadership team was thrilled with the final product.",
+            result:
+              "The new design better reflected T3's sophisticated brand and also led to a 160% increase in conversion rates.",
             images: [
               { src: "/content/positioning/t3-before-after-home.jpg", alt: "T3 Advisors website redesign, before and after", w: 1800, h: 544 },
               { src: "/content/positioning/t3-before-after-growth.jpg", alt: "T3 Advisors growth stage page redesign, before and after", w: 1800, h: 606 },
@@ -279,13 +288,19 @@ export const companies: Company[] = [
             id: "case-studies-t3",
             label: "Case studies",
             description:
-              "Ran customer case study videos end to end: pre-production, interview, and post-production. One of my interview subjects was Hemant Taneja, now-CEO of General Catalyst, who said he was genuinely surprised at how thoughtful and well-researched my questions were.",
-            wistia: [
+              "Ran customer case study videos end to end: pre-production, interview, and post-production.",
+            result:
+              "One of my interview subjects was Hemant Taneja, now-CEO of General Catalyst, who said he was genuinely surprised at how thoughtful and well-researched my questions were.",
+            videos: [
               { title: "T3 × HubSpot", wistiaId: "y1q3sb5y9j" },
               { title: "T3 × TripActions (Navan)", wistiaId: "d7ila4v7za" },
               { title: "T3 × ASICS", wistiaId: "dhi585068o" },
+              {
+                title: "T3 × General Catalyst",
+                videoSrc: "/content/producer/why-space-matters.mp4",
+                poster: "/content/producer/why-space-matters-poster.jpg",
+              },
             ],
-            video: { src: "/content/producer/why-space-matters.mp4", poster: "/content/producer/why-space-matters-poster.jpg", alt: "T3 x General Catalyst" },
           },
           {
             id: "linkedin-program-t3",

@@ -1,11 +1,26 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import { ACCENT, ACCENT_TEXT } from "../_nav-data";
-import { companies, aiSystemsItems, type WorkItem } from "./_data";
+import { companies, aiSystemsItems, type Company, type WorkItem } from "./_data";
 
-type LightboxImage = { src: string; alt: string };
+type LightboxContent =
+  | { type: "image"; src: string; alt: string }
+  | { type: "video"; embedSrc: string; title: string };
+
+function PlayButton() {
+  return (
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-md transition group-hover:scale-110">
+        <svg width="13" height="13" viewBox="0 0 14 14" fill="#1C1B1A">
+          <path d="M2 0.5l11 6.5-11 6.5V0.5z" />
+        </svg>
+      </div>
+    </div>
+  );
+}
 
 function ExternalLinkCard({ href, label, sublabel }: { href: string; label: string; sublabel?: string }) {
   return (
@@ -26,13 +41,24 @@ function ExternalLinkCard({ href, label, sublabel }: { href: string; label: stri
   );
 }
 
-function VideoTile({ title, id, short }: { title: string; id: string; short?: boolean }) {
+function VideoTile({
+  title,
+  id,
+  short,
+  openLightbox,
+}: {
+  title: string;
+  id: string;
+  short?: boolean;
+  openLightbox: (c: LightboxContent) => void;
+}) {
   return (
-    <a
-      href={short ? `https://www.youtube.com/shorts/${id}` : `https://www.youtube.com/watch?v=${id}`}
-      target="_blank"
-      rel="noreferrer"
-      className="group block"
+    <button
+      type="button"
+      onClick={() =>
+        openLightbox({ type: "video", embedSrc: `https://www.youtube.com/embed/${id}?autoplay=1&rel=0`, title })
+      }
+      className="group block text-left"
     >
       <div className="relative aspect-video overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 shadow-sm transition group-hover:shadow-md group-hover:border-[#1C1B1A]/25">
         <Image
@@ -43,20 +69,14 @@ function VideoTile({ title, id, short }: { title: string; id: string; short?: bo
           className="object-cover transition group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/90 shadow-md transition group-hover:scale-110">
-            <svg width="13" height="13" viewBox="0 0 14 14" fill="#1C1B1A">
-              <path d="M2 0.5l11 6.5-11 6.5V0.5z" />
-            </svg>
-          </div>
-        </div>
+        <PlayButton />
       </div>
       <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{title}</span>
-    </a>
+    </button>
   );
 }
 
-function PostCard({ name, role, quote, image, href }: { name: string; role: string; quote: string; image: string; href: string }) {
+function PostCard({ name, quote, image, href }: { name: string; quote: string; image: string; href: string }) {
   return (
     <a href={href} target="_blank" rel="noreferrer" className="group block">
       <div className="relative aspect-[4/5] overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 shadow-sm transition group-hover:shadow-md group-hover:border-[#1C1B1A]/25">
@@ -64,14 +84,35 @@ function PostCard({ name, role, quote, image, href }: { name: string; role: stri
         <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 to-transparent p-3 pt-8">
           <p className="text-xs leading-snug text-white">&ldquo;{quote}&rdquo;</p>
         </div>
+        <PlayButton />
       </div>
       <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{name}</span>
-      <span className="block text-xs text-[#1C1B1A]/50">{role}</span>
     </a>
   );
 }
 
-function ItemBlock({ item, onImageClick }: { item: WorkItem; onImageClick: (img: LightboxImage) => void }) {
+function ResultText({ item }: { item: WorkItem }) {
+  if (!item.result) return null;
+  if (!item.resultLink) return <>{item.result}</>;
+  const idx = item.result.indexOf(item.resultLink.text);
+  if (idx === -1) return <>{item.result}</>;
+  return (
+    <>
+      {item.result.slice(0, idx)}
+      <a
+        href={item.resultLink.href}
+        target="_blank"
+        rel="noreferrer"
+        className="underline decoration-1 underline-offset-2 hover:opacity-70"
+      >
+        {item.resultLink.text}
+      </a>
+      {item.result.slice(idx + item.resultLink.text.length)}
+    </>
+  );
+}
+
+function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: LightboxContent) => void }) {
   return (
     <div id={item.id} className="pt-14 first:pt-0">
       <h4
@@ -87,7 +128,7 @@ function ItemBlock({ item, onImageClick }: { item: WorkItem; onImageClick: (img:
           className="mt-4 max-w-xl text-base italic leading-relaxed"
           style={{ fontFamily: "var(--font-serif)", color: ACCENT_TEXT }}
         >
-          {item.result}
+          <ResultText item={item} />
         </p>
       )}
 
@@ -115,13 +156,26 @@ function ItemBlock({ item, onImageClick }: { item: WorkItem; onImageClick: (img:
       )}
 
       {item.images && item.images.length > 0 && (
-        item.imageCarousel ? (
+        item.imageCarouselNatural ? (
+          <div className="mt-6 flex gap-4 overflow-x-auto pb-2">
+            {item.images.map((img) => (
+              <button
+                key={img.src}
+                type="button"
+                onClick={() => openLightbox({ type: "image", src: img.src, alt: img.alt })}
+                className="h-64 flex-none cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
+              >
+                <Image src={img.src} alt={img.alt} width={img.w} height={img.h} className="h-full w-auto object-contain" />
+              </button>
+            ))}
+          </div>
+        ) : item.imageCarousel ? (
           <div className="mt-6 flex snap-x snap-mandatory gap-4 overflow-x-auto pb-2">
             {item.images.map((img) => (
               <button
                 key={img.src}
                 type="button"
-                onClick={() => onImageClick(img)}
+                onClick={() => openLightbox({ type: "image", src: img.src, alt: img.alt })}
                 className="relative aspect-[4/3] w-80 flex-none cursor-zoom-in snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
               >
                 <Image src={img.src} alt={img.alt} fill sizes="320px" className="object-cover" />
@@ -134,7 +188,7 @@ function ItemBlock({ item, onImageClick }: { item: WorkItem; onImageClick: (img:
               <button
                 key={img.src}
                 type="button"
-                onClick={() => onImageClick(img)}
+                onClick={() => openLightbox({ type: "image", src: img.src, alt: img.alt })}
                 className="block cursor-zoom-in overflow-hidden rounded-xl border border-[#1C1B1A]/10 transition hover:border-[#1C1B1A]/25"
               >
                 <Image src={img.src} alt={img.alt} width={img.w} height={img.h} className="w-full" />
@@ -145,27 +199,37 @@ function ItemBlock({ item, onImageClick }: { item: WorkItem; onImageClick: (img:
       )}
 
       {item.posts && item.posts.length > 0 && (
-        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
+        <div className="mt-6 grid grid-cols-2 gap-4">
           {item.posts.map((post) => (
-            <PostCard key={post.name} {...post} />
+            <PostCard key={post.name} name={post.name} quote={post.quote} image={post.image} href={post.href} />
           ))}
         </div>
       )}
 
-      {item.wistia && item.wistia.length > 0 && (
-        <div className="mt-6 grid gap-3 sm:grid-cols-3">
-          {item.wistia.map((v) => (
-            <div key={v.wistiaId}>
+      {item.videos && item.videos.length > 0 && (
+        <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          {item.videos.map((v) => (
+            <div key={v.title}>
               <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
-                <iframe
-                  title={v.title}
-                  allowFullScreen
-                  frameBorder="0"
-                  scrolling="no"
-                  className="wistia_embed aspect-video w-full"
-                  name="wistia_embed"
-                  src={`https://fast.wistia.net/embed/iframe/${v.wistiaId}`}
-                />
+                {v.wistiaId ? (
+                  <iframe
+                    title={v.title}
+                    allowFullScreen
+                    frameBorder="0"
+                    scrolling="no"
+                    className="wistia_embed aspect-video w-full"
+                    name="wistia_embed"
+                    src={`https://fast.wistia.net/embed/iframe/${v.wistiaId}`}
+                  />
+                ) : (
+                  <video
+                    src={v.videoSrc}
+                    poster={v.poster}
+                    controls
+                    playsInline
+                    className="aspect-video w-full object-cover"
+                  />
+                )}
               </div>
               <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{v.title}</span>
             </div>
@@ -194,7 +258,7 @@ function ItemBlock({ item, onImageClick }: { item: WorkItem; onImageClick: (img:
       {item.youtube && item.youtube.length > 0 && (
         <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3">
           {item.youtube.map((v) => (
-            <VideoTile key={v.id} title={v.title} id={v.id} short={v.short} />
+            <VideoTile key={v.id} title={v.title} id={v.id} short={v.short} openLightbox={openLightbox} />
           ))}
         </div>
       )}
@@ -210,8 +274,128 @@ function ItemBlock({ item, onImageClick }: { item: WorkItem; onImageClick: (img:
   );
 }
 
+const SECTION_HEADER_TITLE_STYLE = {
+  fontFamily: "var(--font-display)",
+  fontWeight: 800,
+  fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
+  letterSpacing: "-0.02em",
+} as const;
+
+function CompanyCategories({
+  company,
+  openLightbox,
+}: {
+  company: Company;
+  openLightbox: (c: LightboxContent) => void;
+}) {
+  const categories = company.categories!;
+  const [activeIdx, setActiveIdx] = useState(0);
+  const refs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    function update() {
+      let current = 0;
+      for (let i = 0; i < refs.current.length; i++) {
+        const el = refs.current[i];
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= 120) current = i;
+      }
+      setActiveIdx(current);
+    }
+    update();
+    let ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        update();
+        ticking = false;
+      });
+    }
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, [categories.length]);
+
+  const active = categories[activeIdx];
+
+  return (
+    <div className="mt-16 sm:grid sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-x-10 lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-x-14">
+      <div>
+        <div className="hidden sm:sticky sm:top-10 sm:block">
+          <span
+            className="block text-xs uppercase tracking-[0.15em] text-[#1C1B1A]/40"
+            style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+          >
+            {company.name}
+          </span>
+          {active.label && (
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={active.id}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="mt-2 flex items-center gap-2"
+              >
+                <span className="h-2 w-2 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
+                <h3
+                  className="text-sm uppercase tracking-[0.08em] text-[#1C1B1A]"
+                  style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+                >
+                  {active.label}
+                </h3>
+              </motion.div>
+            </AnimatePresence>
+          )}
+        </div>
+      </div>
+
+      <div>
+        {categories.map((category, idx) => (
+          <div
+            key={category.id}
+            id={category.id}
+            ref={(el) => {
+              refs.current[idx] = el;
+            }}
+            className={idx === 0 ? "" : "mt-16 border-t border-[#1C1B1A]/10 pt-16"}
+          >
+            <div className="mb-6 flex items-center gap-2 sm:hidden">
+              <span
+                className="block text-xs uppercase tracking-[0.15em] text-[#1C1B1A]/40"
+                style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+              >
+                {company.name}
+              </span>
+              {category.label && (
+                <>
+                  <span className="text-[#1C1B1A]/20">/</span>
+                  <span
+                    className="text-xs uppercase tracking-[0.08em] text-[#1C1B1A]/70"
+                    style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
+                  >
+                    {category.label}
+                  </span>
+                </>
+              )}
+            </div>
+            {category.items.map((item) => (
+              <ItemBlock key={item.id} item={item} openLightbox={openLightbox} />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 export default function WorkPage() {
-  const [lightbox, setLightbox] = useState<LightboxImage | null>(null);
+  const [lightbox, setLightbox] = useState<LightboxContent | null>(null);
 
   useEffect(() => {
     if (!lightbox) return;
@@ -242,15 +426,7 @@ export default function WorkPage() {
         {companies.map((company) => (
           <section key={company.id} id={company.id}>
             <div className="max-w-2xl">
-              <h2
-                className="text-[#1C1B1A]"
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 800,
-                  fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
-                  letterSpacing: "-0.02em",
-                }}
-              >
+              <h2 className="text-[#1C1B1A]" style={SECTION_HEADER_TITLE_STYLE}>
                 {company.name}
               </h2>
               <p
@@ -262,74 +438,7 @@ export default function WorkPage() {
             </div>
 
             {company.categories && company.categories.length > 0 && (
-              <div className="mt-16 sm:grid sm:grid-cols-[11rem_minmax(0,1fr)] sm:gap-x-10 lg:grid-cols-[12rem_minmax(0,1fr)] lg:gap-x-14">
-                {/* Company name: spans every category row, stays pinned for the whole section.
-                    Outer div is a plain (non-sticky) grid item that stretches to the full
-                    spanned height -- sticky lives on the inner div, since position:sticky
-                    combined with align-self:start on the grid item itself makes the stuck
-                    range ambiguous across browsers. */}
-                <div style={{ gridColumn: 1, gridRow: `1 / ${company.categories.length + 1}` }}>
-                  <div className="hidden sm:sticky sm:top-10 sm:block">
-                    <span
-                      className="block text-xs uppercase tracking-[0.15em] text-[#1C1B1A]/40"
-                      style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
-                    >
-                      {company.name}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Category name: pinned just below the company name, swapping per category */}
-                {company.categories.map((category, idx) => (
-                  <div key={`${category.id}-label`} style={{ gridColumn: 1, gridRow: idx + 1 }}>
-                    <div className="hidden sm:sticky sm:top-[4.25rem] sm:mt-8 sm:block">
-                      {category.label && (
-                        <div className="flex items-center gap-2">
-                          <span className="h-2 w-2 flex-none rounded-full" style={{ backgroundColor: ACCENT }} />
-                          <h3
-                            className="text-sm uppercase tracking-[0.08em] text-[#1C1B1A]"
-                            style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
-                          >
-                            {category.label}
-                          </h3>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-
-                {company.categories.map((category, idx) => (
-                  <div
-                    key={category.id}
-                    id={category.id}
-                    className={idx === 0 ? "" : "mt-16 border-t border-[#1C1B1A]/10 pt-16 sm:mt-0"}
-                    style={{ gridColumn: 2, gridRow: idx + 1 }}
-                  >
-                    <div className="mb-6 flex items-center gap-2 sm:hidden">
-                      <span
-                        className="block text-xs uppercase tracking-[0.15em] text-[#1C1B1A]/40"
-                        style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
-                      >
-                        {company.name}
-                      </span>
-                      {category.label && (
-                        <>
-                          <span className="text-[#1C1B1A]/20">/</span>
-                          <span
-                            className="text-xs uppercase tracking-[0.08em] text-[#1C1B1A]/70"
-                            style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
-                          >
-                            {category.label}
-                          </span>
-                        </>
-                      )}
-                    </div>
-                    {category.items.map((item) => (
-                      <ItemBlock key={item.id} item={item} onImageClick={setLightbox} />
-                    ))}
-                  </div>
-                ))}
-              </div>
+              <CompanyCategories company={company} openLightbox={setLightbox} />
             )}
 
             {(company.bullets || company.photos) && (
@@ -351,7 +460,7 @@ export default function WorkPage() {
                       <button
                         key={src}
                         type="button"
-                        onClick={() => setLightbox({ src, alt: "SALT Contemporary Dance" })}
+                        onClick={() => setLightbox({ type: "image", src, alt: "SALT Contemporary Dance" })}
                         className="relative aspect-[4/3] w-72 flex-none cursor-zoom-in snap-start overflow-hidden rounded-xl border border-[#1C1B1A]/10 bg-[#1C1B1A]/5 transition hover:border-[#1C1B1A]/25"
                       >
                         <Image src={src} alt="SALT Contemporary Dance" fill sizes="288px" className="object-cover" />
@@ -366,15 +475,7 @@ export default function WorkPage() {
 
         <section id="ai-systems">
           <div className="max-w-2xl">
-            <h2
-              className="text-[#1C1B1A]"
-              style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 800,
-                fontSize: "clamp(2.2rem, 5vw, 3.5rem)",
-                letterSpacing: "-0.02em",
-              }}
-            >
+            <h2 className="text-[#1C1B1A]" style={SECTION_HEADER_TITLE_STYLE}>
               AI &amp; Systems
             </h2>
             <p
@@ -409,13 +510,25 @@ export default function WorkPage() {
               <path d="M1 1l14 14M15 1L1 15" stroke="currentColor" strokeWidth="1.5" />
             </svg>
           </button>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={lightbox.src}
-            alt={lightbox.alt}
-            onClick={(e) => e.stopPropagation()}
-            className="max-h-full max-w-full rounded-lg object-contain shadow-2xl"
-          />
+          {lightbox.type === "image" ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={lightbox.src}
+              alt={lightbox.alt}
+              onClick={(e) => e.stopPropagation()}
+              className="max-h-full max-w-full rounded-lg object-contain shadow-2xl"
+            />
+          ) : (
+            <div className="aspect-video w-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
+              <iframe
+                title={lightbox.title}
+                src={lightbox.embedSrc}
+                allow="autoplay; encrypted-media; picture-in-picture; clipboard-write"
+                allowFullScreen
+                className="h-full w-full rounded-lg shadow-2xl"
+              />
+            </div>
+          )}
         </div>
       )}
     </div>
