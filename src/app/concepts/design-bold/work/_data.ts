@@ -12,7 +12,7 @@ export type WorkItem = {
   youtube?: { title: string; id: string; short?: boolean }[];
   youtubeVertical?: boolean;
   videos?: { title: string; wistiaId?: string; videoSrc?: string; poster?: string }[];
-  video?: { src: string; poster?: string; alt: string };
+  video?: { src: string; poster?: string; alt: string; href?: string };
   videoLink?: { src: string; alt: string; href: string };
   embed?: { src: string; title: string; height: number };
   links?: { href: string; label: string; sublabel?: string }[];
@@ -91,6 +91,73 @@ export const companies: Company[] = [
         ],
       },
       {
+        id: "capsule-events",
+        label: "Community & Events",
+        items: [
+          {
+            id: "vip-dinners",
+            label: "VIP dinner series",
+            description:
+              "As we honed in on our ICP, I pitched the idea of inviting our key buyer personas to a private dinner. We learned more about this persona at that dinner than any amount of calls could ever surface. I scaled this program to become our most important channel for pipeline and revenue.",
+            result:
+              "We generated millions in pipeline, maintained a 98% attendance rate, and I eventually hired a Head of Events & Community who has significantly grown and improved the program. This program was highlighted on multiple podcasts and even written about in a book!",
+            resultLinks: [
+              {
+                text: "multiple podcasts",
+                href: "https://open.spotify.com/playlist/0RwqJjqM3kVB4ZyO6cNGjX",
+              },
+              {
+                text: "written about in a book",
+                href: "https://www.linkedin.com/posts/nataliecstaylor_feeling-grateful-this-week-for-two-fun-surprises-ugcPost-7437251400767709186-F1S9/",
+              },
+            ],
+            videoLink: {
+              src: "/content/talent/grwm.png",
+              alt: "Get ready with me for a Capsule VIP dinner",
+              href: "https://www.linkedin.com/feed/update/urn:li:activity:7252684787457368064/",
+            },
+            links: [
+              {
+                href: "https://capsule.video/learn#in-person-events",
+                label: "See attendee quotes, logos, and more photos here.",
+              },
+            ],
+          },
+          {
+            id: "virtual-summit",
+            label: "Virtual summit",
+            description:
+              "To build on the success of our in-person events and try and capture a wider audience, our events team launched our first-ever Virtual Summit. I led the strategy, goals, assets, and 4-week promo campaign.",
+            result:
+              "We secured 9 top-tier speakers and saw a 5x increase in registration and attendance compared to the previous average of our virtual events.",
+            video: {
+              src: "/content/summit/virtual-summit-loop.mp4",
+              alt: "Capsule Video First Summit 2026",
+              href: "https://capsule.video/video-first-summit-2026",
+            },
+          },
+          {
+            id: "brand-ambassador",
+            label: "Brand ambassador",
+            description:
+              "As our buyer persona continued to focus on in-house creative and marketing leaders, I became an important bridge between them and our brand. In addition to hosting many of our in-person and virtual events, I also spoke on several industry podcasts and webinars, which you can sample below.",
+            result:
+              "As a result of the trust I built in the community, I personally sourced multiple opportunities and closed-won deals, both net-new and from champions who came back to buy Capsule after changing companies.",
+            imageCarouselNatural: true,
+            images: [
+              { src: "/content/talent/pat-dm-redacted.png", alt: "Prospect outreach message", w: 1000, h: 446 },
+              { src: "/content/talent/phillip-dm-redacted.png", alt: "Prospect outreach message", w: 998, h: 256 },
+              { src: "/content/talent/ann-dm-redacted.png", alt: "Prospect outreach message", w: 1002, h: 562 },
+            ],
+            embed: {
+              src: "https://open.spotify.com/embed/playlist/0RwqJjqM3kVB4ZyO6cNGjX?utm_source=generator&theme=0",
+              title: "Podcast appearances playlist",
+              height: 380,
+            },
+          },
+        ],
+      },
+      {
         id: "capsule-content",
         label: "Content",
         items: [
@@ -160,73 +227,6 @@ export const companies: Company[] = [
               { title: "SF 2025 Capsule Dinner", id: "23NQUbzF5Mc", short: true },
               { title: "LA 2025 Capsule Dinner", id: "K34v01iCmkY", short: true },
             ],
-          },
-        ],
-      },
-      {
-        id: "capsule-events",
-        label: "Community & Events",
-        items: [
-          {
-            id: "vip-dinners",
-            label: "VIP dinner series",
-            description:
-              "As we honed in on our ICP, I pitched the idea of inviting our key buyer personas to a private dinner. We learned more about this persona at that dinner than any amount of calls ever could surface. I kept going and built this program from the ground up, scaling it to become our most important channel for pipeline and revenue.",
-            result:
-              "We generated millions in pipeline, maintained a 98% attendance rate, and I eventually hired a Head of Events & Community who has significantly grown and improved the program. This program was highlighted on multiple podcasts and even written about in a book!",
-            resultLinks: [
-              {
-                text: "multiple podcasts",
-                href: "https://open.spotify.com/playlist/0RwqJjqM3kVB4ZyO6cNGjX",
-              },
-              {
-                text: "written about in a book",
-                href: "https://www.linkedin.com/posts/nataliecstaylor_feeling-grateful-this-week-for-two-fun-surprises-ugcPost-7437251400767709186-F1S9/",
-              },
-            ],
-            videoLink: {
-              src: "/content/talent/grwm.png",
-              alt: "Get ready with me for a Capsule VIP dinner",
-              href: "https://www.linkedin.com/feed/update/urn:li:activity:7252684787457368064/",
-            },
-            links: [
-              {
-                href: "https://capsule.video/learn#in-person-events",
-                label: "See attendee quotes, logos, and more photos here.",
-              },
-            ],
-          },
-          {
-            id: "virtual-summit",
-            label: "Virtual summit",
-            description:
-              "Built the strategy, goals, assets, and 4-week promo campaign for Capsule's first-ever virtual summit, resulting in a 5x increase in registration and attendance — securing 9 top-tier speakers by pitching them myself and hosting 2 of the 4 sessions.",
-            video: {
-              src: "/content/summit/virtual-summit-loop.mp4",
-              alt: "Capsule Video First Summit 2026",
-            },
-            links: [
-              { href: "https://capsule.video/video-first-summit-2026", label: "Video First Summit 2026", sublabel: "capsule.video" },
-            ],
-          },
-          {
-            id: "brand-ambassador",
-            label: "Brand ambassador",
-            description:
-              "As our buyer persona continued to focus on in-house creative and marketing leaders, I became an important bridge between them and our brand. In addition to hosting many of our in-person and virtual events, I also spoke on several industry podcasts and webinars, which you can sample below.",
-            result:
-              "As a result of the trust I built in the community, I personally sourced multiple opportunities and closed-won deals, both net-new and from champions who came back to buy Capsule after changing companies.",
-            imageCarouselNatural: true,
-            images: [
-              { src: "/content/talent/pat-dm-redacted.png", alt: "Prospect outreach message", w: 1000, h: 446 },
-              { src: "/content/talent/phillip-dm-redacted.png", alt: "Prospect outreach message", w: 998, h: 256 },
-              { src: "/content/talent/ann-dm-redacted.png", alt: "Prospect outreach message", w: 1002, h: 562 },
-            ],
-            embed: {
-              src: "https://open.spotify.com/embed/playlist/0RwqJjqM3kVB4ZyO6cNGjX?utm_source=generator&theme=0",
-              title: "Podcast appearances playlist",
-              height: 380,
-            },
           },
         ],
       },

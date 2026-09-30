@@ -297,19 +297,39 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
       )}
 
       {item.video && (
-        <div className="mt-6 max-w-xs">
-          <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
-            <video
-              src={item.video.src}
-              poster={item.video.poster}
-              autoPlay={!item.video.poster}
-              loop={!item.video.poster}
-              muted={!item.video.poster}
-              playsInline
-              controls={!!item.video.poster}
-              className="w-full"
-            />
-          </div>
+        <div className="mt-6 max-w-xl">
+          {item.video.href ? (
+            <a
+              href={item.video.href}
+              target="_blank"
+              rel="noreferrer"
+              className="group block overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm transition hover:shadow-md hover:border-[#1C1B1A]/25"
+            >
+              <video
+                src={item.video.src}
+                poster={item.video.poster}
+                autoPlay={!item.video.poster}
+                loop={!item.video.poster}
+                muted={!item.video.poster}
+                playsInline
+                controls={!!item.video.poster}
+                className="w-full transition group-hover:scale-105"
+              />
+            </a>
+          ) : (
+            <div className="overflow-hidden rounded-xl border border-[#1C1B1A]/10 shadow-sm">
+              <video
+                src={item.video.src}
+                poster={item.video.poster}
+                autoPlay={!item.video.poster}
+                loop={!item.video.poster}
+                muted={!item.video.poster}
+                playsInline
+                controls={!!item.video.poster}
+                className="w-full"
+              />
+            </div>
+          )}
           <span className="mt-2 block text-sm font-medium text-[#1C1B1A]/80">{item.video.alt}</span>
         </div>
       )}
