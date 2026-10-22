@@ -208,8 +208,8 @@ export default function AboutPage() {
         <SectionLabel>Writing</SectionLabel>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">
           I started loving writing in college. I had all sorts of writing-related campus jobs and
-          later started a travel blog. Now I mostly write on LinkedIn, and every year I write and
-          mail a Christmas letter that I cherish to my friends and family.
+          later started a travel blog. Now I mostly write on LinkedIn, and every year I write a
+          Christmas letter that I cherish and mail it to my friends and family.
         </p>
         <div className="mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
           <a
