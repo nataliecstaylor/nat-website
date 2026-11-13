@@ -62,13 +62,16 @@ function LightboxArrow({ direction, onClick }: { direction: "prev" | "next"; onC
   );
 }
 
-function SectionLabel({ children }: { children: React.ReactNode }) {
+function SectionLabel({ id, children }: { id: string; children: React.ReactNode }) {
   return (
     <h2
+      id={id}
       className="mt-16 text-2xl text-[#1C1B1A] first:mt-0"
       style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.01em" }}
     >
-      {children}
+      <a href={`#${id}`} className="hover:opacity-70">
+        {children}
+      </a>
     </h2>
   );
 }
@@ -126,7 +129,7 @@ export default function AboutPage() {
       </motion.p>
 
       <div className="mt-16">
-        <SectionLabel>Dancing</SectionLabel>
+        <SectionLabel id="dancing">Dancing</SectionLabel>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">
           In my heyday, I danced with my university&apos;s touring ballet company and then
           professionally with SALT Contemporary Dance. Now I just try to get to a ballet class
@@ -145,7 +148,7 @@ export default function AboutPage() {
           ))}
         </div>
 
-        <SectionLabel>Hosting</SectionLabel>
+        <SectionLabel id="hosting">Hosting</SectionLabel>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">
           Whether I&apos;m hosting weekly pizza nights, 5 live-in au pairs, or{" "}
           <a
@@ -171,7 +174,7 @@ export default function AboutPage() {
           ))}
         </div>
 
-        <SectionLabel>Making Pizza</SectionLabel>
+        <SectionLabel id="making-pizza">Making Pizza</SectionLabel>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">
           I&apos;ve been making pizza with my husband for nearly a decade and love the constant
           pursuit of improvement. We&apos;re currently growing our pizza popup business, called{" "}
@@ -213,7 +216,7 @@ export default function AboutPage() {
           </a>
         </div>
 
-        <SectionLabel>Writing</SectionLabel>
+        <SectionLabel id="writing">Writing</SectionLabel>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">
           I started loving writing in college. I had all sorts of writing-related campus jobs and
           later started a travel blog. Now I mostly write on LinkedIn, and every year I write a
