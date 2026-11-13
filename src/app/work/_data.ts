@@ -30,6 +30,7 @@ export type Company = {
   intro: string;
   categories?: Category[];
   bullets?: string[];
+  bulletLinks?: { text: string; href: string }[];
   photos?: string[];
 };
 
@@ -351,6 +352,7 @@ export const companies: Company[] = [
       "Promoted all performances. Wrote, designed, edited, and oversaw all print and digital marketing materials",
       "Built SALT's social presence from 0-2k followers on Meta and YouTube",
     ],
+    bulletLinks: [{ text: "SALT's social presence", href: "https://www.instagram.com/saltdance/" }],
     photos: [
       "/content/salt-work/salt-media-kit-1.jpg",
       "/content/salt-work/salt-media-kit-2.jpg",

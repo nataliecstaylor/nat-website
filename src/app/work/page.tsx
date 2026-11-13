@@ -706,7 +706,27 @@ export default function WorkPage() {
                       {company.bullets.map((b) => (
                         <li key={b} className="flex gap-3 text-base leading-relaxed text-[#1C1B1A]/75">
                           <span style={{ color: ACCENT_TEXT }}>—</span>
-                          {b}
+                          <span>
+                            {(() => {
+                              const link = company.bulletLinks?.find((l) => b.includes(l.text));
+                              if (!link) return b;
+                              const idx = b.indexOf(link.text);
+                              return (
+                                <>
+                                  {b.slice(0, idx)}
+                                  <a
+                                    href={link.href}
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="underline decoration-1 underline-offset-2 hover:opacity-70"
+                                  >
+                                    {link.text}
+                                  </a>
+                                  {b.slice(idx + link.text.length)}
+                                </>
+                              );
+                            })()}
+                          </span>
                         </li>
                       ))}
                     </ul>
