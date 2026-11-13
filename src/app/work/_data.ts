@@ -19,6 +19,7 @@ export type WorkItem = {
   links?: { href: string; label: string; sublabel?: string }[];
   bulletCards?: string[];
   hidden?: boolean;
+  anchorLink?: boolean;
   mediaLayout?: "side";
 };
 
@@ -261,6 +262,7 @@ export const companies: Company[] = [
           {
             id: "retreats",
             label: "Company retreats",
+            anchorLink: true,
             description:
               "As our remote company grew, I advocated for and planned two full-company offsites. I believe people work better when they care about the people they work with, and I believe in building the company culture I want at work: fun, connected, and purposeful.",
             imageCarousel: true,

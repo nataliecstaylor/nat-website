@@ -230,7 +230,13 @@ function ItemBlock({ item, openLightbox }: { item: WorkItem; openLightbox: (c: L
         className="text-2xl text-[#1C1B1A]"
         style={{ fontFamily: "var(--font-display)", fontWeight: 800, letterSpacing: "-0.01em" }}
       >
-        {item.label}
+        {item.anchorLink ? (
+          <a href={`#${item.id}`} className="hover:opacity-70">
+            {item.label}
+          </a>
+        ) : (
+          item.label
+        )}
       </h4>
 
       <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">{item.description}</p>
