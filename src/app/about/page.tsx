@@ -147,8 +147,16 @@ export default function AboutPage() {
 
         <SectionLabel>Hosting</SectionLabel>
         <p className="mt-3 max-w-xl text-base leading-relaxed text-[#1C1B1A]/75">
-          Whether I&apos;m hosting weekly pizza nights, 5 live-in au pairs, or the nearly 200
-          Airbnb guests in our homes, hosting is one of my greatest joys.
+          Whether I&apos;m hosting weekly pizza nights, 5 live-in au pairs, or{" "}
+          <a
+            href="https://www.airbnb.com/users/profile/1462522454541080016"
+            target="_blank"
+            rel="noreferrer"
+            className="underline decoration-1 underline-offset-2 hover:opacity-70"
+          >
+            the nearly 200 Airbnb guests in our homes
+          </a>
+          , hosting is one of my greatest joys.
         </p>
         <div className="mt-6 grid max-w-2xl grid-cols-2 gap-3">
           {hostPhotos.map((img, i) => (
