@@ -515,7 +515,12 @@ function CompanyCategories({
                     className="text-sm uppercase tracking-[0.08em] text-[#1C1B1A]"
                     style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
                   >
-                    {active.label}
+                    <a
+                      href={`#${active.id}`}
+                      className="underline decoration-[#1C1B1A]/0 decoration-1 underline-offset-4 transition hover:decoration-[#1C1B1A]/60"
+                    >
+                      {active.label}
+                    </a>
                   </h3>
                 </motion.div>
               </AnimatePresence>
@@ -544,12 +549,13 @@ function CompanyCategories({
               {category.label && (
                 <>
                   <span className="text-[#1C1B1A]/20">/</span>
-                  <span
-                    className="text-xs uppercase tracking-[0.08em] text-[#1C1B1A]/70"
+                  <a
+                    href={`#${category.id}`}
+                    className="text-xs uppercase tracking-[0.08em] text-[#1C1B1A]/70 underline decoration-[#1C1B1A]/0 decoration-1 underline-offset-4 transition hover:decoration-[#1C1B1A]/60"
                     style={{ fontFamily: "var(--font-display)", fontWeight: 800 }}
                   >
                     {category.label}
-                  </span>
+                  </a>
                 </>
               )}
             </div>
