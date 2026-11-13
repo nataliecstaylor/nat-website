@@ -305,6 +305,7 @@ export const companies: Company[] = [
           {
             id: "website",
             label: "Website",
+            anchorLink: true,
             description:
               "In my first few months, the theme I heard from both the team and customers was that T3 was a much cooler brand than our marketing reflected. Shortly after, I presented the business case for why we should invest in a website redesign. With a lean team of contractors and internal stakeholders, I led the site's messaging updates and redesign, ensuring the company's leadership team was thrilled with the final product.",
             result:
